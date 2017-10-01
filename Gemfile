@@ -36,6 +36,7 @@ gem 'capistrano', '~> 3.4.0'
 gem 'capistrano-rails'
 gem 'capistrano-rvm'
 gem 'capistrano-sidekiq'
+gem 'nio4r', '~> 2.1.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
