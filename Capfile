@@ -11,7 +11,7 @@ require 'capistrano/rails'
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 require 'capistrano/sidekiq'
-require "whenever/capistrano"
+# require 'whenever/capistrano'
 
 # Include tasks from other gems included in your Gemfile
 #
