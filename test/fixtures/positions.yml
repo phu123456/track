@@ -3,13 +3,13 @@
 one:
   latitude: 1.5
   longitude: 1.5
-  speed: 
+  speed: 1
   imei: MyText
   period: 2017-10-02
 
 two:
   latitude: 1.5
   longitude: 1.5
-  speed: 
+  speed: 1
   imei: MyText
   period: 2017-10-02
