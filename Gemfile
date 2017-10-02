@@ -32,9 +32,11 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrBPMSUPERWHEELSypt', '~> 3.1.7'
-gem 'capistrano'
+gem 'capistrano', '~> 3.4.1'
 gem 'capistrano-rails'
+gem 'capistrano-bundler', '>= 1.1.0'
 gem 'capistrano-rvm'
+
 gem 'capistrano-sidekiq'
 gem 'nio4r', '~> 2.1.0'
 gem 'listen', '>= 3.0.5', '< 3.2'
