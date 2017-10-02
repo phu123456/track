@@ -2,7 +2,7 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 25
-  username: postgres
+  username: slurpe3
   password: 18752333
   port: 5432
   reconnect: true
