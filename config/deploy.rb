@@ -4,7 +4,7 @@ lock '3.4.1'
 set :application, 'track'
 set :repo_url, 'https://github.com/phu123456/track.git'
 set :rvm_ruby_version, '2.4.1@track'
-set :deploy_to, '/home/slurpe/track'
+set :deploy_to, '/home/slurpe3/track'
 set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 set :keep_releases, 3
