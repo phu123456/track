@@ -7,6 +7,13 @@ class PositionsController < ApplicationController
     @positions = Position.all
   end
 
+  def test
+    @location = Position.last(1)
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @location }
+    end
+  end
   # GET /positions/1
   # GET /positions/1.json
   def show
