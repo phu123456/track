@@ -9,7 +9,8 @@
       <th>Longitude</th>
       <th>Speed</th>
       <th>Imei</th>
-      <th>Period</th>
+      <th>Time</th>
+      <th>Date</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -21,7 +22,8 @@
         <td><%= position.longitude %></td>
         <td><%= position.speed %></td>
         <td><%= position.imei %></td>
-        <td><%= position.period %></td>
+        <td><%= position.period.try(:strftime, "%H %M %S") %></td>
+        <td><%= position.period.try(:strftime, "%d/%m/%Y") %></td>
         <td><%= link_to 'Show', position %></td>
         <td><%= link_to 'Edit', edit_position_path(position) %></td>
         <td><%= link_to 'Destroy', position, method: :delete, data: { confirm: 'Are you sure?' } %></td>
