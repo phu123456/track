@@ -22,8 +22,8 @@
         <td><%= position.longitude %></td>
         <td><%= position.speed %></td>
         <td><%= position.imei %></td>
-        <td><%= position.period.try(:strftime, "%H %M %S") %></td>
-        <td><%= position.period.try(:strftime, "%d/%m/%Y") %></td>
+        <td><%= position.created_at.try(:strftime, "%H:%M"+" %p") %></td>
+        <td><%= position.created_at.try(:strftime, "%d/%m/%Y") %></td>
         <td><%= link_to 'Show', position %></td>
         <td><%= link_to 'Edit', edit_position_path(position) %></td>
         <td><%= link_to 'Destroy', position, method: :delete, data: { confirm: 'Are you sure?' } %></td>
