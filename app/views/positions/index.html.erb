@@ -1,16 +1,48 @@
-<!-- <script>
-      setInterval( function(){
-          $.ajax({
-            type:"GET",
-            url:"/positions/marker",
-            dataType:"json",
-            success: function(markers){
-              console.log(markers)
-            }
-          });
-      }, 5000 );
-</script> -->
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
 
-<div id="map_wrapper">
-    <div id="map_canvas" class="mapping"></div>
+    window.onload = function () {
+        LoadMap();
+    };
+    var markersArray = [];
+    var map;
+    function LoadMap() {
+        var mapOptions = {
+            center: new google.maps.LatLng(13.7929991,100.3169478),
+            zoom: 14,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+    };
+
+    setInterval(function(){
+      console.log("ss")
+      for (var i = 0; i < markersArray.length; i++ ) {
+        markersArray[i].setMap(null);
+      }
+      markersArray.length = 0;
+      $.ajax({
+        type:"GET",
+        url:"/positions/marker",
+        dataType:"json",
+        success: function(data){
+          var markers = data
+          for( i = 0; i < markers.length; i++ ) {
+            var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+            marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: markers[i][0]
+            });
+            markersArray.push(marker);
+          }
+        }
+      });
+    }, 7000 );
+
+
+
+</script>
+
+<div id="dvMap" style="width: 400px; height: 500px">
 </div>
