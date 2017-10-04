@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
+  resources :vehicles
   resources :positions do
     collection do
-      get 'test'
+      get 'marker'
     end
   end
   root to: "positions#index"

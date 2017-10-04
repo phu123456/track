@@ -7,11 +7,20 @@ class PositionsController < ApplicationController
     @positions = Position.all
   end
 
-  def test
-    @location = Position.last(1)
+  def marker
+    len = Vehicle.all.size
+    allVehicelPos = Array.new
+    for i in 1..len
+      plate = Vehicle.all.find(i).plate
+      imei = Vehicle.all.find(i).imei
+      position = Position.all.where(imei: imei).last
+      ary = Array.new
+      ary.push(plate, position.latitude, position.longitude)
+      allVehicelPos.push(ary)
+    end
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @location }
+      format.json { render json: allVehicelPos }
     end
   end
   # GET /positions/1

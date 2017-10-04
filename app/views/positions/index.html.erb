@@ -1,62 +1,16 @@
-<!DOCTYPE html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Move a Mark on a Map</title>
-    <style>
-      html, body, #map-canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
-      }
-    </style>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWztycDtE59JoabzKmnPHJXkDNekRjtGg"></script>
-    <script>
-      var x = -25.363;
-      var y = 128.044;
-      var center = new google.maps.LatLng(x,y);
-      function initialize() {
-        var mapOptions = {
-          zoom: 9,
-          center: center,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-        map = new google.maps.Map(document.getElementById('map-canvas'),
-                                      mapOptions);
-        var image = 'http://www.apponic.com/data/softimg/mac/audio/audio-editors/tux-guitar-79268-icon.jpeg';
-              marker = new google.maps.Marker({
-            position: center,
-            map: map,
-            icon: image
-        });
-              moveMarker( marker );
-      }
-      function moveMarker( marker ) {
+<!-- <script>
+      setInterval( function(){
+          $.ajax({
+            type:"GET",
+            url:"/positions/marker",
+            dataType:"json",
+            success: function(markers){
+              console.log(markers)
+            }
+          });
+      }, 5000 );
+</script> -->
 
-          //delayed so you can see it move
-          setInterval( function(){
-              $.ajax({
-                type:"GET",
-                url:"/positions/test",
-                dataType:"json",
-                success: function(data){
-                  console.log(data[0].latitude, data[0].longitude)
-                  x = data[0].latitude
-                  y = data[0].longitude
-                }
-              });
-              center = new google.maps.LatLng(x,y);
-              marker.setPosition( center );
-              // map.panTo( center );
-
-          }, 500 );
-      };
-      google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-  </head>
-  <body>
-    <div id="map-canvas"></div>
-  </body>
-</html>
+<div id="map_wrapper">
+    <div id="map_canvas" class="mapping"></div>
+</div>
