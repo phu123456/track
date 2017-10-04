@@ -68,7 +68,7 @@ function initMap() {
         success: function(data){
           var markers = data
           for( i = 0; i < markers.length; i++ ) {
-              // console.log(markers)
+              console.log(markers)
               var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
               // bounds.extend(position);
               marker = new google.maps.Marker({
