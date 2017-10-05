@@ -30,7 +30,7 @@
     };
 
     setInterval(function(){
-      console.log("ss")
+
       for (var i = 0; i < markersArray.length; i++ ) {
         markersArray[i].setMap(null);
       }
@@ -54,7 +54,7 @@
           }
         }
       });
-    }, 30000 );
+    }, 10000 );
 
 
 $(document).ready(function() {
