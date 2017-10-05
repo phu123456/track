@@ -7,6 +7,15 @@ class VehiclesController < ApplicationController
     @vehicles = Vehicle.all
   end
 
+  def speed
+    serial = Vehicle.where(id: params[:vehicle_id]).first.imei
+    date = Position.where(imei: serial).first.created_at.to_time
+    raise speed.to_json
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: speed }
+    end
+  end
   # GET /vehicles/1
   # GET /vehicles/1.json
   def show

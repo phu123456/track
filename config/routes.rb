@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :vehicles
+  resources :vehicles do
+    collection do
+      get 'speed'
+    end
+  end
   resources :positions do
     collection do
       get 'marker'
