@@ -5,17 +5,19 @@ class PositionsController < ApplicationController
   # GET /positions.json
   def index
     @positions = Position.all
+    @vehicles = Vehicle.all
   end
 
   def marker
     len = Vehicle.all.size
     allVehicelPos = Array.new
     for i in 1..len
+      id = Vehicle.all.find(i).id
       plate = Vehicle.all.find(i).plate
       imei = Vehicle.all.find(i).imei
       position = Position.all.where(imei: imei).last
       ary = Array.new
-      ary.push(plate, position.latitude, position.longitude)
+      ary.push(id, plate, position.latitude, position.longitude)
       allVehicelPos.push(ary)
     end
     respond_to do |format|
