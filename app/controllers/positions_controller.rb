@@ -10,7 +10,7 @@ class PositionsController < ApplicationController
 
   def marker
     len = Vehicle.all.size
-    allVehicelPos = Array.new
+    allVehiclePos = Array.new
     for i in 1..len
       id = Vehicle.all.find(i).id
       plate = Vehicle.all.find(i).plate
@@ -18,11 +18,11 @@ class PositionsController < ApplicationController
       position = Position.all.where(imei: imei).last
       ary = Array.new
       ary.push(id, plate, position.latitude, position.longitude)
-      allVehicelPos.push(ary)
+      allVehiclePos.push(ary)
     end
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: allVehicelPos }
+      format.json { render json: allVehiclePos }
     end
   end
   # GET /positions/1
