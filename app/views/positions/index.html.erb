@@ -128,6 +128,7 @@
   var isPaused = false;
   var time = 0;
   var flightPath;
+  var flightPathArray = [];
   $(".clear-marker").click(function(e) {
     var startDate = document.getElementById("startDate").value
     var endDate = document.getElementById("endDate").value
@@ -146,7 +147,7 @@
       dataType:"json",
       success: function(data){
         var pathCoordinates = data
-        console.log(data[2])
+        console.log(data[1], (data[0]).length)
         flightPath = new google.maps.Polyline({
           path: pathCoordinates[0],
           geodesic: true,
@@ -155,6 +156,7 @@
           strokeWeight: 2
         });
         flightPath.setMap(map);
+        flightPathArray.push(flightPath);
       }
     });
   });
@@ -196,7 +198,7 @@
       markersArray.length = 0;
       placeMarker()
     }
-  }, 1000 );
+  }, 16000 );
 
   function placeMarker() {
     $.ajax({
@@ -222,8 +224,10 @@
   }
 
   function removeLine() {
-     flightPath.setMap(null)
-     flightPath = 0;
+
+     for (var i = 0; i < flightPathArray.length; i++ ) {
+       flightPathArray[i].setMap(null);
+     }
    }
 
   $(document).ready(function() {
