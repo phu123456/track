@@ -20,10 +20,10 @@ class PositionsController < ApplicationController
     distanceAry = Array.new
 
     #get location
-    # for i in 1..len
-    #   dict = {lat: positions.find(i).latitude, lng: positions.find(i).longitude}
-    #   coordinateAry.push(dict)
-    # end
+    for i in 1..len
+      dict = {lat: positions.find(i).latitude, lng: positions.find(i).longitude}
+      coordinateAry.push(dict)
+    end
     #calculate distance between two location
     # for i in 0..len-2
     #   start_point = coordinateAry[i][:lat], coordinateAry[i][:lng]
@@ -34,7 +34,7 @@ class PositionsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: positions }
+      format.json { render json: coordinateAry }
     end
   end
 
