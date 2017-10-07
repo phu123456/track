@@ -14,6 +14,8 @@ class PositionsController < ApplicationController
     end_date = params[:endDate]
     imei = Vehicle.all.where(id: vehicle_id)[0].imei
     positions = Position.all.where("created_at BETWEEN ? AND ?", start_date, end_date).where(imei: imei)
+    speed = Position.all.where("created_at BETWEEN ? AND ?", start_date, end_date).pluck(:speed)
+    # puts speed.pluck(:speed)
     len = positions.all.size
     # ary = Array.new
     coordinateAry = Array.new
@@ -23,7 +25,6 @@ class PositionsController < ApplicationController
     for i in 0..len-1
       dict = {lat: positions[i].latitude, lng: positions[i].longitude}
       coordinateAry.push(dict)
-      puts coordinateAry
     end
     #calculate distance between two location
     for i in 0..len-2
@@ -36,7 +37,7 @@ class PositionsController < ApplicationController
     total_distance = distanceAry.inject(0){|sum,x| sum + x }
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: [coordinateAry, total_distance] }
+      format.json { render json: [coordinateAry, total_distance, speed] }
     end
   end
 
