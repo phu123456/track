@@ -25,16 +25,16 @@ class PositionsController < ApplicationController
       coordinateAry.push(dict)
     end
     #calculate distance between two location
-    for i in 0..len-2
-      start_point = coordinateAry[i][:lat], coordinateAry[i][:lng]
-      end_point = coordinateAry[i+1][:lat], coordinateAry[i+1][:lng]
-      distance = Geocoder::Calculations.distance_between(start_point, end_point, :units => :km)
-      distanceAry.push(distance)
-    end
+    # for i in 0..len-2
+    #   start_point = coordinateAry[i][:lat], coordinateAry[i][:lng]
+    #   end_point = coordinateAry[i+1][:lat], coordinateAry[i+1][:lng]
+    #   distance = Geocoder::Calculations.distance_between(start_point, end_point, :units => :km)
+    #   distanceAry.push(distance)
+    # end
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: [coordinateAry, distanceAry] }
+      format.json { render json: coordinateAry }
     end
   end
 
