@@ -14,27 +14,27 @@ class PositionsController < ApplicationController
     end_date = params[:endDate]
     imei = Vehicle.all.where(id: vehicle_id)[0].imei
     positions = Position.all.where("created_at BETWEEN ? AND ?", start_date, end_date).where(imei: imei)
-    # len = positions.all.size
-    # ary = Array.new
-    # coordinateAry = Array.new
-    # distanceAry = Array.new
+    len = positions.all.size
+    ary = Array.new
+    coordinateAry = Array.new
+    distanceAry = Array.new
 
     #get location
-    # for i in 1..len
-    #   dict = {lat: positions.find(i).latitude, lng: positions.find(i).longitude}
-    #   coordinateAry.push(dict)
-    # end
+    for i in 1..len
+      dict = {lat: positions.find(i).latitude, lng: positions.find(i).longitude}
+      coordinateAry.push(dict)
+    end
     #calculate distance between two location
-    # for i in 0..len-2
-    #   start_point = coordinateAry[i][:lat], coordinateAry[i][:lng]
-    #   end_point = coordinateAry[i+1][:lat], coordinateAry[i+1][:lng]
-    #   distance = Geocoder::Calculations.distance_between(start_point, end_point, :units => :km)
-    #   distanceAry.push(distance)
-    # end
+    for i in 0..len-2
+      start_point = coordinateAry[i][:lat], coordinateAry[i][:lng]
+      end_point = coordinateAry[i+1][:lat], coordinateAry[i+1][:lng]
+      distance = Geocoder::Calculations.distance_between(start_point, end_point, :units => :km)
+      distanceAry.push(distance)
+    end
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: positions }
+      format.json { render json: [coordinateAry, distanceAry] }
     end
   end
 
