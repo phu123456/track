@@ -19,7 +19,6 @@ class PositionsController < ApplicationController
     coordinateAry = Array.new
     distanceAry = Array.new
 
-
     dict = {lat: positions[0].latitude, lng: positions[0].longitude}
 
     #get location
@@ -36,9 +35,10 @@ class PositionsController < ApplicationController
       distanceAry.push(distance)
     end
 
+    total_distance = distanceAry.inject(0){|sum,x| sum + x }
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: [coordinateAry, distanceAry] }
+      format.json { render json: [coordinateAry, distanceAry, total_distance] }
     end
   end
 
