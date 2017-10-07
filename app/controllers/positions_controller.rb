@@ -19,11 +19,12 @@ class PositionsController < ApplicationController
     coordinateAry = Array.new
     distanceAry = Array.new
 
+
     # dict = {lat: positions.find(1).latitude, lng: positions.find(1).longitude}
 
     #get location
-    for i in 1..len
-      dict = {lat: positions.find(i).latitude, lng: positions.find(i).longitude}
+    for i in 0..len
+      dict = {lat: positions[i].latitude, lng: positions[i].longitude}
       coordinateAry.push(dict)
     end
     #calculate distance between two location
