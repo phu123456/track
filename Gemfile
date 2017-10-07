@@ -40,6 +40,7 @@ gem 'capistrano-rvm'
 gem 'capistrano-sidekiq'
 gem 'nio4r', '~> 2.1.0'
 gem 'listen', '>= 3.0.5', '< 3.2'
+gem 'geocoder'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

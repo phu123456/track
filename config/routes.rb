@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :positions do
     collection do
       get 'marker'
+      get 'routes'
     end
   end
   root to: "positions#index"

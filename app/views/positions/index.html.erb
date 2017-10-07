@@ -4,7 +4,8 @@
 </script> -->
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
@@ -53,6 +54,7 @@
 				<div id="main">
 					<div id="sidebar" align="center">
             <div align="center"><font>ค้นหาทะเบียนรถ</font></div>
+            <h1 id="txt">Seconds: 0</h1>
             <div align="center">
               <select id="plate"style="width:115px;" class="js-example-basic-single" name="state">
                 <% @vehicles.each do |vehicle| %>
@@ -61,6 +63,16 @@
               </select>
               &nbsp
               <button onclick="vehicleSearch()" class="search-button">ค้นหา</button>
+              <br>
+              <input type="datetime-local" id="startDate" >
+              <br>
+              <font align="center">ถึง</font>
+              <br>
+              <input id="endDate" type="datetime-local" >
+              <br>
+              <button class="search-button clear-marker">ประวัติ</button>
+              &nbsp
+              <button class="search-button normal-mode">กลับ</button>
             </div>
 						<ul class="linkedList">
 							<li class="first">
@@ -85,49 +97,7 @@
 						<div id="box1">
               <div id="dvMap" style="width: 754px; height: 530px">
               </div>
-							<!-- <img class="left" width="130" height="160" alt="" /> -->
 						</div>
-						<!-- <div id="box2">
-							<h3>
-								Primis dolor fringilla porta
-							</h3>
-							<ul class="imageList">
-								<li class="first">
-									<img class="left" width="80" height="80" alt="" /> <span>Quis faucibus mauris quis consectetur lobortis parturient sit turpis scelerisque neque aliquet.</span>
-								</li>
-								<li>
-									<img class="left" width="80" height="80" alt="" /> <span>Lobortis malesuada penatibus porta varius ligula blandit sit dolor mattis morbi ullamcorper posuere tempus.</span>
-								</li>
-								<li class="last">
-									<img class="left" width="80" height="80" alt="" /> <span>Diam nunc turpis placerat imperdiet ac cras ac sociis aliquam sed lacinia augue suspendisse.</span>
-								</li>
-							</ul>
-						</div> -->
-						<!-- <div id="box3">
-							<h3>
-								Magnis felis
-							</h3>
-							<p>
-								Vulputate magna nibh augue. Rutrum nibh sodales porta etiam.
-							</p>
-							<ul class="linkedList">
-								<li class="first">
-									<a href="#">Lobortis fringilla dictum cras</a>
-								</li>
-								<li>
-									<a href="#">Erat primis accumsan facilisis</a>
-								</li>
-								<li>
-									<a href="#">Laoreet in in magna</a>
-								</li>
-								<li>
-									<a href="#">Porta a vulputate placerat</a>
-								</li>
-								<li class="last">
-									<a href="#">Neque rhoncus rhoncus iaculis</a>
-								</li>
-							</ul>
-						</div> -->
 						<br class="clear" />
 					</div>
 					<br class="clear" />
@@ -154,28 +124,85 @@
     }
   }
 
+  //โหมดดูประวัติ
+  var output = $('#txt');
+  var isPaused = false;
+  var time = 0;
+  $(".clear-marker").click(function(e) {
+    var startDate = document.getElementById("startDate").value
+    var endDate = document.getElementById("endDate").value
+    vehicle_id = document.getElementById("plate").value
+    e.preventDefault();
+    isPaused = true;
+    clearMarker()
+    $.ajax({
+      type:"GET",
+      url:"/positions/routes",
+      data: {
+        id: vehicle_id,
+        startDate: startDate,
+        endDate: endDate
+      },
+      dataType:"json",
+      success: function(data){
+        var pathCoordinates = data
+        console.log(data)
+        // var flightPlanCoordinates = [
+        //   {lat: 37.772, lng: -122.214},
+        //   {lat: 21.291, lng: -157.821},
+        //   {lat: -18.142, lng: 178.431},
+        //   {lat: -27.467, lng: 153.027}
+        // ];
+        var flightPath = new google.maps.Polyline({
+          path: pathCoordinates[0],
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
+      }
+    });
+  });
+
+  $(".normal-mode").click(function(e) {
+    isPaused = false;
+  });
+
+
   window.onload = function () {
       LoadMap();
   };
   var markersArray = [];
   var map;
   function LoadMap() {
-      var mapOptions = {
-          center: new google.maps.LatLng(14.5829178, 100.8755719),
-          zoom: 6,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
-      placeMarker()
+    var mapOptions = {
+        center: new google.maps.LatLng(14.5829178, 100.8755719),
+        zoom: 6,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+    placeMarker()
   };
 
-  setInterval(function(){
+  console.log(map)
+
+  function clearMarker() {
     for (var i = 0; i < markersArray.length; i++ ) {
       markersArray[i].setMap(null);
     }
-    markersArray.length = 0;
-    placeMarker()
-  }, 10000 );
+  }
+
+  var t = window.setInterval(function(){
+    if(!isPaused) {
+      time++;
+      output.text("Seconds: " + time);
+      clearMarker()
+      markersArray.length = 0;
+      placeMarker()
+    }
+  }, 1000 );
 
   function placeMarker() {
     $.ajax({
@@ -183,6 +210,7 @@
       url:"/positions/marker",
       dataType:"json",
       success: function(data){
+        console.log(data)
         var markers = data
         for( i = 0; i < markers.length; i++ ) {
           var position = new google.maps.LatLng(markers[i][2], markers[i][3]);
@@ -198,6 +226,7 @@
       }
     });
   }
+
 
   $(document).ready(function() {
     $('.js-example-basic-single').select2();
