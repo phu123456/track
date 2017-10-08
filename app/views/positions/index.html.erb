@@ -150,11 +150,16 @@
         console.log(data[1], (data[0]).length, data[2])
         flightPath = new google.maps.Polyline({
           path: pathCoordinates[0],
+          icons: [{
+            icon: lineSymbol,
+            offset: '50%'
+          }],
           geodesic: true,
           strokeColor: '#FF0000',
           strokeOpacity: 1.0,
           strokeWeight: 2
         });
+        animateCircle(flightPath);
         flightPath.setMap(map);
         flightPathArray.push(flightPath);
       }
@@ -229,6 +234,24 @@
        flightPathArray[i].setMap(null);
      }
    }
+
+   var lineSymbol = {
+     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+     scale: 5,
+     strokeWeight:2,
+     strokeColor: '#393'
+   };
+
+   function animateCircle(line) {
+        var count = 0;
+        window.setInterval(function() {
+          count = (count + 1) % 200;
+
+          var icons = line.get('icons');
+          icons[0].offset = (count / 2) + '%';
+          line.set('icons', icons);
+      }, 20);
+    }
 
   $(document).ready(function() {
     $('.js-example-basic-single').select2();
