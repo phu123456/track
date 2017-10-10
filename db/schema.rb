@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171005175412) do
+ActiveRecord::Schema.define(version: 20171010155358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20171005175412) do
     t.text "imei"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "distance"
   end
 
 end
