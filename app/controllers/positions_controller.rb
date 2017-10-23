@@ -9,39 +9,11 @@ class PositionsController < ApplicationController
   end
 
   def routes
-    vehicle_id = params[:id]
-    start_date = params[:startDate]
-    end_date = params[:endDate]
-    imei = Vehicle.all.where(id: vehicle_id)[0].imei
-    positions = Position.all.where("created_at BETWEEN ? AND ?", start_date, end_date).where(imei: imei)
-    speed = positions.pluck(:speed)
-    date = positions.pluck(:created_at)
-    len = positions.all.size
-    graph = Array.new
-    for i in 0..len-1
-      input = {"year": i,"value": speed[i]}
-      graph.push(input)
-    end
-
-    coordinateAry = Array.new
-    distanceAry = Array.new
-
-    for i in 0..len-1
-      dict = {lat: positions[i].latitude, lng: positions[i].longitude}
-      coordinateAry.push(dict)
-    end
-    #calculate distance between two location
-    for i in 0..len-2
-      start_point = coordinateAry[i][:lat], coordinateAry[i][:lng]
-      end_point = coordinateAry[i+1][:lat], coordinateAry[i+1][:lng]
-      distance = Geocoder::Calculations.distance_between(start_point, end_point, :units => :km)
-      distanceAry.push(distance)
-    end
-
-    total_distance = distanceAry.inject(0){|sum,x| sum + x }
+    paths = Position.getPath(params[:id], params[:startDate], params[:endDate])
+    #sent all_vehicles back to ajax call
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: [coordinateAry, total_distance, speed, graph] }
+      format.json { render json: paths }
     end
   end
 

@@ -49,6 +49,7 @@ var output = $('#txt');
       },
       dataType:"json",
       success: function(data){
+        console.log("---here---")
         console.log(data)
         var pathCoordinates = data
         console.log(data[1], (data[0]).length, data[2])
