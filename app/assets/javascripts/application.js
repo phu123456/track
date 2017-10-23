@@ -89,7 +89,6 @@ var output = $('#txt');
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
-    console.log("fucko ff")
     placeMarker()
   };
 
