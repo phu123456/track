@@ -1,28 +1,6 @@
-<!-- [{ "year": "1987", "value": 0.179 }] -->
+<h1>Editing Position</h1>
 
-<script>
-  $.ajax({
-    type:"GET",
-    url:"/vehicles/speed",
-    data: { vehicle_id: 1 },
-    dataType:"json",
-    success: function(data){
-      console.log(data)
-    }
-  });
-</script>
+<%= render 'form', position: @position %>
 
-
-
-<!-- $.ajax({
-  type:"GET",
-  url:"/positions/speed",
-  dataType:"json",
-  success: function(data){
-    console.log(data)
-  }
-}); -->
-
-data: {
-  vehicle_id: 4
-},
+<%= link_to 'Show', @position %> |
+<%= link_to 'Back', positions_path %>

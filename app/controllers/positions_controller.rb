@@ -8,41 +8,7 @@ class PositionsController < ApplicationController
     @vehicles = Vehicle.all
   end
 
-  def routes
-    vehicle_id = params[:id]
-    start_date = params[:startDate]
-    end_date = params[:endDate]
-    imei = Vehicle.all.where(id: vehicle_id)[0].imei
-    positions = Position.all.where("created_at BETWEEN ? AND ?", start_date, end_date).where(imei: imei)
-    speed = Position.all.where("created_at BETWEEN ? AND ?", start_date, end_date).pluck(:speed)
-    # puts speed.pluck(:speed)
-    len = positions.all.size
-    # ary = Array.new
-    coordinateAry = Array.new
-    distanceAry = Array.new
-
-    #get location
-    for i in 0..len-1
-      dict = {lat: positions[i].latitude, lng: positions[i].longitude}
-      coordinateAry.push(dict)
-    end
-    #calculate distance between two location
-    for i in 0..len-2
-      start_point = coordinateAry[i][:lat], coordinateAry[i][:lng]
-      end_point = coordinateAry[i+1][:lat], coordinateAry[i+1][:lng]
-      distance = Geocoder::Calculations.distance_between(start_point, end_point, :units => :km)
-      distanceAry.push(distance)
-    end
-
-    total_distance = distanceAry.inject(0){|sum,x| sum + x }
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: [coordinateAry, total_distance, speed] }
-    end
-  end
-
   def marker
-
     len = Vehicle.all.size
     allVehiclePos = Array.new
     for i in 1..len

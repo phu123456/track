@@ -1,12 +1,10 @@
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <!-- <script type="text/javascript">
     $('select').select2();
 </script> -->
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+    <head>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
         <meta name="keywords" content="" />
@@ -24,7 +22,6 @@
 					<div id="logo">
 						<h1>
 							<a href="#">Coffeelike</a>
-              <a href="#">Coffeelike</a>
 						</h1>
 					</div>
 					<div id="nav">
@@ -54,7 +51,6 @@
 				<div id="main">
 					<div id="sidebar" align="center">
             <div align="center"><font>ค้นหาทะเบียนรถ</font></div>
-            <h1 id="txt">Seconds: 0</h1>
             <div align="center">
               <select id="plate"style="width:115px;" class="js-example-basic-single" name="state">
                 <% @vehicles.each do |vehicle| %>
@@ -63,16 +59,6 @@
               </select>
               &nbsp
               <button onclick="vehicleSearch()" class="search-button">ค้นหา</button>
-              <br>
-              <input type="datetime-local" id="startDate" >
-              <br>
-              <font align="center">ถึง</font>
-              <br>
-              <input id="endDate" type="datetime-local" >
-              <br>
-              <button class="search-button clear-marker" >ประวัติ</button>
-              &nbsp
-              <button class="search-button normal-mode" onclick="removeLine();" >กลับ</button>
             </div>
 						<ul class="linkedList">
 							<li class="first">
@@ -86,7 +72,14 @@
                         <th colspan="3"></th>
                       </tr>
                     </thead>
+
                     <tbody>
+                      <% @vehicles.each do |vehicle| %>
+                        <tr>
+                          <td><font color="black"><%= vehicle.plate %></font></td>
+                          <td><font color="black"><%= vehicle.imei %></font></td>
+                        </tr>
+                      <% end %>
                     </tbody>
                   </table>
                 </div>
@@ -97,6 +90,59 @@
 						<div id="box1">
               <div id="dvMap" style="width: 754px; height: 530px">
               </div>
+							<img class="left" width="130" height="160" alt="" />
+							<p>
+								This is <strong>Coffeelike</strong>, a two column CSS template by
+								<a href="http://templated.co" rel="nofollow">TEMPLATED</a> with photos from
+								<a href="http://www.pdphoto.org/">PDPhoto</a>. It's released (for free) under the
+								<a href="http://templated.co/license/">Creative Commons Attribution license</a>,
+								so feel free to use it for any personal or commercial work (just give us credit for it).
+								Hit up our <a href="http://templated.co">website</a> for more awesomely
+								cool free templates, and follow us on <a href="http://twitter.com/templatedco">Twitter</a>
+								(<a href="http://twitter.com/templatedco">@templatedco</a>) for updates, announcements, and other
+								mildly interesting ramblings.
+							</p>
+						</div>
+						<div id="box2">
+							<h3>
+								Primis dolor fringilla porta
+							</h3>
+							<ul class="imageList">
+								<li class="first">
+									<img class="left" width="80" height="80" alt="" /> <span>Quis faucibus mauris quis consectetur lobortis parturient sit turpis scelerisque neque aliquet.</span>
+								</li>
+								<li>
+									<img class="left" width="80" height="80" alt="" /> <span>Lobortis malesuada penatibus porta varius ligula blandit sit dolor mattis morbi ullamcorper posuere tempus.</span>
+								</li>
+								<li class="last">
+									<img class="left" width="80" height="80" alt="" /> <span>Diam nunc turpis placerat imperdiet ac cras ac sociis aliquam sed lacinia augue suspendisse.</span>
+								</li>
+							</ul>
+						</div>
+						<div id="box3">
+							<h3>
+								Magnis felis
+							</h3>
+							<p>
+								Vulputate magna nibh augue. Rutrum nibh sodales porta etiam.
+							</p>
+							<ul class="linkedList">
+								<li class="first">
+									<a href="#">Lobortis fringilla dictum cras</a>
+								</li>
+								<li>
+									<a href="#">Erat primis accumsan facilisis</a>
+								</li>
+								<li>
+									<a href="#">Laoreet in in magna</a>
+								</li>
+								<li>
+									<a href="#">Porta a vulputate placerat</a>
+								</li>
+								<li class="last">
+									<a href="#">Neque rhoncus rhoncus iaculis</a>
+								</li>
+							</ul>
 						</div>
 						<br class="clear" />
 					</div>
@@ -111,7 +157,6 @@
 </html>
 
 <script>
-
   function vehicleSearch() {
     vehecle_id = document.getElementById("plate").value
     for (i = 0; i < markersArray.length; i++) {
@@ -122,142 +167,9 @@
       } else
          console.log("")
     }
+
+
+    // console.log(markersArray[0].name[0])
+    // vehecle_id = document.getElementById("plate").value
   }
-
-  //โหมดดูประวัติ
-  var output = $('#txt');
-  var isPaused = false;
-  var time = 0;
-  var flightPath;
-  var flightPathArray = [];
-  $(".clear-marker").click(function(e) {
-    var startDate = document.getElementById("startDate").value
-    var endDate = document.getElementById("endDate").value
-    vehicle_id = document.getElementById("plate").value
-    e.preventDefault();
-    isPaused = true;
-    clearMarker()
-    $.ajax({
-      type:"GET",
-      url:"/positions/routes",
-      data: {
-        id: vehicle_id,
-        startDate: startDate,
-        endDate: endDate
-      },
-      dataType:"json",
-      success: function(data){
-        var pathCoordinates = data
-        console.log(data[1], (data[0]).length, data[2])
-        flightPath = new google.maps.Polyline({
-          path: pathCoordinates[0],
-          icons: [{
-            icon: lineSymbol,
-            offset: '50%'
-          }],
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-        animateCircle(flightPath);
-        flightPath.setMap(map);
-        flightPathArray.push(flightPath);
-      }
-    });
-  });
-
-  $(".normal-mode").click(function(e) {
-    isPaused = false;
-  });
-
-
-  window.onload = function () {
-      LoadMap();
-  };
-
-
-
-
-  var markersArray = [];
-  var map;
-  function LoadMap() {
-    var mapOptions = {
-        center: new google.maps.LatLng(14.5829178, 100.8755719),
-        zoom: 6,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
-    placeMarker()
-  };
-
-  console.log(map)
-
-  function clearMarker() {
-    for (var i = 0; i < markersArray.length; i++ ) {
-      markersArray[i].setMap(null);
-    }
-  }
-
-  var t = window.setInterval(function(){
-    if(!isPaused) {
-      time++;
-      output.text("Seconds: " + time);
-      clearMarker()
-      markersArray.length = 0;
-      placeMarker()
-    }
-  }, 16000 );
-
-  function placeMarker() {
-    $.ajax({
-      type:"GET",
-      url:"/positions/marker",
-      dataType:"json",
-      success: function(data){
-        // console.log(data[2])
-        var markers = data
-        for( i = 0; i < markers.length; i++ ) {
-          var position = new google.maps.LatLng(markers[i][2], markers[i][3]);
-          marker = new google.maps.Marker({
-              position: position,
-              name: [markers[i][0], markers[i][1]],
-              icon: "http://maps.google.com/mapfiles/kml/shapes/truck.png",
-              // label: {text: markers[i][0], color: "red"},
-              map: map,
-          });
-          markersArray.push(marker);
-        }
-      }
-    });
-  }
-
-  function removeLine() {
-
-     for (var i = 0; i < flightPathArray.length; i++ ) {
-       flightPathArray[i].setMap(null);
-     }
-   }
-
-   var lineSymbol = {
-     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-     scale: 5,
-     strokeWeight:2,
-     strokeColor: '#393',
-   };
-
-   function animateCircle(line) {
-        var count = 0;
-        window.setInterval(function() {
-          count = (count + 1) % 200;
-
-          var icons = line.get('icons');
-          icons[0].offset = (count / 2) + '%';
-          line.set('icons', icons);
-      }, 20);
-    }
-
-  $(document).ready(function() {
-    $('.js-example-basic-single').select2();
-  });
 </script>
