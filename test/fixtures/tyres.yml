@@ -1,0 +1,32 @@
+# == Schema Information
+#
+# Table name: tyres
+#
+#  id             :integer          not null, primary key
+#  brand          :string
+#  serial         :text
+#  start_distance :decimal(, )
+#  total_distance :decimal(, )
+#  status         :string
+#  vehicle_id     :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  brand: MyString
+  serial: MyText
+  start_distance: 9.99
+  total_distance: 9.99
+  status: MyString
+  truck: one
+
+two:
+  brand: MyString
+  serial: MyText
+  start_distance: 9.99
+  total_distance: 9.99
+  status: MyString
+  truck: two

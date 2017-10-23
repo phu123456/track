@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: vehicles
+#
+#  id         :integer          not null, primary key
+#  plate      :text
+#  imei       :text
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  distance   :decimal(, )
+#
+
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:

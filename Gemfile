@@ -15,6 +15,8 @@ gem 'rails', '~> 5.1.4'
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
+
+gem 'bootstrap', '~> 4.0.0.beta'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -39,8 +41,8 @@ gem 'capistrano-rvm'
 
 gem 'capistrano-sidekiq'
 gem 'nio4r', '~> 2.1.0'
+gem 'annotate'
 gem 'listen', '>= 3.0.5', '< 3.2'
-gem 'geocoder'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
