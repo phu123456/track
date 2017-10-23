@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Tyres</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Brand</th>
+      <th>Serial</th>
+      <th>Start distance</th>
+      <th>Total distance</th>
+      <th>Status</th>
+      <th>Truck</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tyres.each do |tyre| %>
+      <tr>
+        <td><%= tyre.brand %></td>
+        <td><%= tyre.serial %></td>
+        <td><%= tyre.start_distance %></td>
+        <td><%= tyre.total_distance %></td>
+        <td><%= tyre.status %></td>
+        <td><%= tyre.truck %></td>
+        <td><%= link_to 'Show', tyre %></td>
+        <td><%= link_to 'Edit', edit_tyre_path(tyre) %></td>
+        <td><%= link_to 'Destroy', tyre, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tyre', new_tyre_path %>

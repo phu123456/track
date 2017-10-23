@@ -2,18 +2,18 @@
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
  *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
  *
  * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
  *
  *= require_tree .
  *= require_self
  */
-
+ @import "bootstrap";
 
  .search-button {
    right: 4px;
@@ -54,7 +54,6 @@
 }
 
 a {
-	color: #1495ff;
 	text-decoration: underline;
 }
 
@@ -66,8 +65,7 @@ body {
 	font-size: 12pt;
 	line-height: 1.75em;
 	font-family: Georgia, serif;
-	background: #ad8667 url('images/bg.jpg');
-	color: #ebe1d9;
+	color: #000000;
 }
 
 br.clear {

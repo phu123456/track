@@ -1,0 +1,47 @@
+<%= form_with(model: tyre, local: true) do |form| %>
+  <% if tyre.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(tyre.errors.count, "error") %> prohibited this tyre from being saved:</h2>
+
+      <ul>
+      <% tyre.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :brand %>
+    <%= form.text_field :brand, id: :tyre_brand %>
+  </div>
+
+  <div class="field">
+    <%= form.label :serial %>
+    <%= form.text_area :serial, id: :tyre_serial %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_distance %>
+    <%= form.text_field :start_distance, id: :tyre_start_distance %>
+  </div>
+
+  <div class="field">
+    <%= form.label :total_distance %>
+    <%= form.text_field :total_distance, id: :tyre_total_distance %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status, id: :tyre_status %>
+  </div>
+
+  <div class="field">
+    <%= form.label :truck_id %>
+    <%= form.text_field :truck_id, id: :tyre_truck_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
