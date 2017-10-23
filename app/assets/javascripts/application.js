@@ -49,6 +49,7 @@ var output = $('#txt');
       },
       dataType:"json",
       success: function(data){
+        console.log(data)
         var pathCoordinates = data
         console.log(data[1], (data[0]).length, data[2])
         flightPath = new google.maps.Polyline({
@@ -115,11 +116,8 @@ var output = $('#txt');
       url:"/positions/marker",
       dataType:"json",
       success: function(data){
-        console.log("55555")
-
         var markers = data
         for( i = 0; i < markers.length; i++ ) {
-          console.log("5550505")
           var position = new google.maps.LatLng(markers[i][2], markers[i][3]);
           marker = new google.maps.Marker({
               position: position,
