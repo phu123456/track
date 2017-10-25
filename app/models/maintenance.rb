@@ -2,7 +2,6 @@ class Maintenance < ApplicationRecord
   belongs_to :vehicle
 
   def self.percentage(id)
-    # maintenance = Maintenance.find(id)
     numer = Maintenance.find(id).current_distance - Maintenance.find(id).start_distance + Maintenance.find(id).manually_distance
     denom = Service.find(Maintenance.find(id).service_id).distance_due
     puts numer
@@ -21,8 +20,7 @@ class Maintenance < ApplicationRecord
   end
 
   def percentage(id)
-    # maintenance = Maintenance.find(id)
-    numer = Maintenance.find(id).current_distance - Maintenance.find(id).start_distance + Maintenance.find(id).manually_distance
+    numer = (Maintenance.find(id).current_distance) - (Maintenance.find(id).start_distance) + (Maintenance.find(id).manually_distance)
     denom = Service.find(Maintenance.find(id).service_id).distance_due
     puts numer
     puts denom

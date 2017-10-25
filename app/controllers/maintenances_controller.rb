@@ -34,14 +34,19 @@ class MaintenancesController < ApplicationController
   # POST /maintenances.json
   def create
     @maintenance = Maintenance.new(maintenance_params)
-    respond_to do |format|
-      if @maintenance.save
-        format.html { redirect_to @maintenance, notice: 'Maintenance was successfully created.' }
-        format.json { render :show, status: :created, location: @maintenance }
-      else
-        format.html { render :new }
-        format.json { render json: @maintenance.errors, status: :unprocessable_entity }
+
+    if Maintenance.where(vehicle_id: @maintenance.vehicle_id).where(service_id: @maintenance.service_id).empty?
+      respond_to do |format|
+        if @maintenance.save
+          format.html { redirect_to @maintenance, notice: 'Maintenance was successfully created.' }
+          format.json { render :show, status: :created, location: @maintenance }
+        else
+          format.html { render :new }
+          format.json { render json: @maintenance.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      raise 'this truck already exist'
     end
   end
 
