@@ -12,13 +12,13 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :type %>
-    <%= form.text_field :type, id: :service_type %>
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :service_name %>
   </div>
 
   <div class="field">
     <%= form.label :distance_due %>
-    <%= form.text_field :distance_due, id: :service_distance_due %>
+    <%= form.number_field :distance_due, id: :service_distance_due %>
   </div>
 
   <div class="actions">

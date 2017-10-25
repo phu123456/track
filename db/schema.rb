@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171025121016) do
+ActiveRecord::Schema.define(version: 20171025130030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,9 +22,9 @@ ActiveRecord::Schema.define(version: 20171025121016) do
 
   create_table "maintenances", force: :cascade do |t|
     t.integer "service_id"
-    t.decimal "start_distance"
-    t.decimal "current_distance"
-    t.decimal "manually_distance"
+    t.integer "start_distance"
+    t.integer "current_distance"
+    t.integer "manually_distance"
     t.bigint "vehicle_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 20171025121016) do
   end
 
   create_table "services", force: :cascade do |t|
-    t.string "type"
-    t.decimal "distance_due"
+    t.string "name"
+    t.integer "distance_due"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

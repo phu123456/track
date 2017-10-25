@@ -1,2 +1,2 @@
-json.extract! service, :id, :type, :distance_due, :created_at, :updated_at
+json.extract! service, :id, :name, :distance_due, :created_at, :updated_at
 json.url service_url(service, format: :json)
