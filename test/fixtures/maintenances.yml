@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  service_id: 1
+  start_distance: 1
+  current_distance: 1
+  manually_distance: 1
+  vehicle: one
+
+two:
+  service_id: 1
+  start_distance: 1
+  current_distance: 1
+  manually_distance: 1
+  vehicle: two

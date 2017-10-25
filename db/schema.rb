@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171012140919) do
+ActiveRecord::Schema.define(version: 20171025122217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,6 +18,17 @@ ActiveRecord::Schema.define(version: 20171012140919) do
   create_table "is_calculates", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "maintenances", force: :cascade do |t|
+    t.integer "service_id"
+    t.integer "start_distance"
+    t.integer "current_distance"
+    t.integer "manually_distance"
+    t.bigint "vehicle_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_id"], name: "index_maintenances_on_vehicle_id"
   end
 
   create_table "positions", force: :cascade do |t|
@@ -30,6 +41,13 @@ ActiveRecord::Schema.define(version: 20171012140919) do
     t.datetime "updated_at", null: false
     t.integer "totalDistance"
     t.integer "isCalculate_id"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string "name"
+    t.integer "distance_due"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tires", force: :cascade do |t|
@@ -63,5 +81,6 @@ ActiveRecord::Schema.define(version: 20171012140919) do
     t.decimal "distance"
   end
 
+  add_foreign_key "maintenances", "vehicles"
   add_foreign_key "tyres", "vehicles"
 end
