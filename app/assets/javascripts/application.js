@@ -112,11 +112,13 @@ var output = $('#txt');
   }, 16000 );
 
   function placeMarker() {
+    console.log("sssssssssss")
     $.ajax({
       type:"GET",
       url:"/positions/marker",
       dataType:"json",
       success: function(data){
+        console.log(data)
         var markers = data
         for( i = 0; i < markers.length; i++ ) {
           var position = new google.maps.LatLng(markers[i][2], markers[i][3]);
