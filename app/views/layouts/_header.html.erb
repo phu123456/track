@@ -6,16 +6,16 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" onclick="reload()" href="<%= root_path %>">Home <span class="sr-only"></span></a>
+          <li class="nav-item" id="menu-id">
+            <a class="nav-link" href="<%= root_path %>">Home <span class="sr-only"></span></a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id="menu-id">
             <a class="nav-link" href="<%= tyres_path %>">Tyres</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id="menu-id">
             <a class="nav-link" href="<%= maintenances_path %>">Maintenance</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id="menu-id">
             <a class="nav-link" href="#">Help</a>
           </li>
         </ul>
@@ -25,8 +25,9 @@
         </form>
       </div>
     </nav>
-<!-- <script>
-  function reload(){
-    location.reload();
-  }
-</script> -->
+<script>
+  $(".nav-item").click(function() {
+    $(".nav-item").removeClass("active");
+    $(this).parent().addClass("active")
+  });
+</script>
