@@ -1,5 +1,5 @@
 class MaintenancesController < ApplicationController
-  before_action :set_maintenance, only: [:show, :edit, :update, :destroy]
+  before_action :set_maintenance, only: [:show, :edit, :update, :destroy, :reset]
 
   # GET /maintenances
   # GET /maintenances.json
@@ -10,6 +10,15 @@ class MaintenancesController < ApplicationController
   # GET /maintenances/1
   # GET /maintenances/1.json
   def show
+  end
+
+  def reset
+    Maintenance.update(params[:id], :start_distance => Maintenance.find(params[:id]).current_distance, :manually_distance => 0)
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: [Maintenance.percentage(params[:id]), Maintenance.getStatus(params[:id])] }
+    end
   end
 
   # GET /maintenances/new
@@ -25,7 +34,6 @@ class MaintenancesController < ApplicationController
   # POST /maintenances.json
   def create
     @maintenance = Maintenance.new(maintenance_params)
-
     respond_to do |format|
       if @maintenance.save
         format.html { redirect_to @maintenance, notice: 'Maintenance was successfully created.' }

@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= form.label :service_id %>
-    <%= form.number_field :service_id, id: :maintenance_service_id %>
+    <%= form.select(:service_id, Service.all.map{|service| [service.name, service.id]}) %>
   </div>
 
   <div class="field">
@@ -33,7 +33,7 @@
 
   <div class="field">
     <%= form.label :vehicle_id %>
-    <%= form.text_field :vehicle_id, id: :maintenance_vehicle_id %>
+    <%= form.select(:vehicle_id, Vehicle.all.map{|vehicle| [vehicle.plate, vehicle.id]}) %>
   </div>
 
   <div class="actions">
