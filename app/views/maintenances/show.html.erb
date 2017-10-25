@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Service:</strong>
+  <%= @maintenance.service_id %>
+</p>
+
+<p>
+  <strong>Start distance:</strong>
+  <%= @maintenance.start_distance %>
+</p>
+
+<p>
+  <strong>Current distance:</strong>
+  <%= @maintenance.current_distance %>
+</p>
+
+<p>
+  <strong>Manually distance:</strong>
+  <%= @maintenance.manually_distance %>
+</p>
+
+<p>
+  <strong>Vehicle:</strong>
+  <%= @maintenance.vehicle %>
+</p>
+
+<%= link_to 'Edit', edit_maintenance_path(@maintenance) %> |
+<%= link_to 'Back', maintenances_path %>

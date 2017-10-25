@@ -1,5 +1,7 @@
 
 Rails.application.routes.draw do
+  resources :services
+  resources :maintenances
   resources :tyres
   resources :vehicles do
   collection do
