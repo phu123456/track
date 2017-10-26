@@ -14,5 +14,14 @@
 #
 
 class Tyre < ApplicationRecord
-  belongs_to :vehicle
+  belongs_to :vehicle, optional: true
+
+  def self.isEmpty(id)
+    if self.where(vehicle_id: id).nil?.!
+      @project = Vehicle.find(id)
+      return @project.plate
+    else
+      return "null"
+    end
+  end
 end

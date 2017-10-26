@@ -38,7 +38,7 @@
 
   <div class="field">
     <%= form.label :vehicle_id %>
-    <%= form.select(:vehicle_id, Vehicle.all.map{|vehicle| [vehicle.plate, vehicle.id]}) %>
+    <%= form.select(:vehicle_id, Vehicle.all.map{|vehicle| [vehicle.plate, vehicle.id]}, {:include_blank => 'new tyre'}) %>
   </div>
 
   <div class="field">
