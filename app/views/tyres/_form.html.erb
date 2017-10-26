@@ -37,8 +37,13 @@
   </div>
 
   <div class="field">
-    <%= form.label :truck_id %>
-    <%= form.text_field :truck_id, id: :tyre_truck_id %>
+    <%= form.label :vehicle_id %>
+    <%= form.select(:vehicle_id, Vehicle.all.map{|vehicle| [vehicle.plate, vehicle.id]}) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :position %>
+    <%= form.text_field :position, id: :tyre_position %>
   </div>
 
   <div class="actions">

@@ -1,14 +1,29 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Plate:</strong>
-  <%= @vehicle.plate %>
-</p>
-
-<p>
-  <strong>Imei:</strong>
-  <%= @vehicle.imei %>
-</p>
+<table class="my_table table" style="width: 75%" id="myTable">
+  <thead>
+    <tr>
+      <th>Service</th>
+      <th>Imei</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% Maintenance.where(vehicle_id: @vehicle.id).each do |maintenance| %>
+      <tr>
+        <td><%= Service.find(maintenance.service_id).name %></td>
+        <td width="45%" id="progressBar<%= maintenance.id %>">
+          <div class="progress <%= maintenance.percentage(maintenance.id)%>">
+            <div class="progress-bar <%=maintenance.getStatus(maintenance.id)%>" role="progressbar" style="width: <%= maintenance.percentage(maintenance.id)%>%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+              <font style="color:black;"> <%= maintenance.percentage(maintenance.id)%>% </font>
+            </div>
+          </div>
+        </td>
+        <td>reset</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <%= link_to 'Edit', edit_vehicle_path(@vehicle) %> |
 <%= link_to 'Back', vehicles_path %>

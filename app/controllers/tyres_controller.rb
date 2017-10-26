@@ -69,6 +69,6 @@ class TyresController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tyre_params
-      params.require(:tyre).permit(:brand, :serial, :start_distance, :total_distance, :status, :truck_id)
+      params.require(:tyre).permit(:brand, :serial, :start_distance, :total_distance, :status, :vehicle_id, :position)
     end
 end
