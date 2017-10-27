@@ -24,7 +24,7 @@ var category = "4Wheels.svg"
 var current_selection;
 function showCategory(element) {
   var category = element.value.replace(/[-\-]/g,"")
-  document.getElementById('svgImg').innerHTML = '<object data="/assets/' + category +'" type="image/svg+xml" id="svg"></object>'
+  document.getElementById('svgImg').innerHTML = '<object data="/assets/images/' + category +'" type="image/svg+xml" id="svg"></object>'
   var mySVG = document.getElementById("svg");
   var svgDoc;
   mySVG.addEventListener("load",function() {
@@ -44,18 +44,4 @@ function showCategory(element) {
        }
   }, false);
 }
-
-// document.getElementById('svgImg').innerHTML = '<object data="/assets/' + category +'" type="image/svg+xml" id="svg"></object>'
-// console.log("11")
-  // $(window).load(function () {
-      //alert("Document loaded, including graphics and embedded documents (like SVG)");
-      //get the inner DOM of alpha.svg
-
-      //get the inner element by id
-
-
-  // });
-
-// console.log(a)
-// document.getElementById("truck").innerHTML =
 </script>
