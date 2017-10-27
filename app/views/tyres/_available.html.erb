@@ -1,0 +1,61 @@
+
+<br><br><br>
+<div class="center">
+  <select onchange="showCategory(this)">
+    <option disabled selected value> -- select vehicle -- </option>
+    <%= Vehicle.where("vehicles.plate <> ''").each do |vehicle| %>
+        <option id="<%= vehicle.id %>" value="<%= vehicle.category %>"><%= vehicle.plate %> </option>
+    <% end %>
+
+  </select>
+</div>
+
+<div id="svgImg"></div>
+
+<style>
+.center {
+    margin: auto;
+    text-align: center;
+}
+</style>
+<script>
+
+var category = "4Wheels.svg"
+var current_selection;
+function showCategory(element) {
+  var category = element.value.replace(/[-\-]/g,"")
+  document.getElementById('svgImg').innerHTML = '<object data="/assets/' + category +'" type="image/svg+xml" id="svg"></object>'
+  var mySVG = document.getElementById("svg");
+  var svgDoc;
+  mySVG.addEventListener("load",function() {
+       svgDoc = mySVG.contentDocument;
+       var delta = svgDoc.getElementsByClassName("wheel");
+       function selectedWheel() {
+         for (var i = 0; i < delta.length; i++) {
+           svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
+         }
+         svgDoc.getElementById(this.id).style.setProperty("fill", "black", "");
+         current_selection = this.id
+         console.log(current_selection)
+       }
+       for (var i = 0; i < delta.length; i++) {
+         svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
+         delta[i].addEventListener('click', selectedWheel, false);
+       }
+  }, false);
+}
+
+// document.getElementById('svgImg').innerHTML = '<object data="/assets/' + category +'" type="image/svg+xml" id="svg"></object>'
+// console.log("11")
+  // $(window).load(function () {
+      //alert("Document loaded, including graphics and embedded documents (like SVG)");
+      //get the inner DOM of alpha.svg
+
+      //get the inner element by id
+
+
+  // });
+
+// console.log(a)
+// document.getElementById("truck").innerHTML =
+</script>

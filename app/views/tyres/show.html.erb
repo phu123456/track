@@ -1,6 +1,10 @@
-<p id="notice"><%= notice %></p>
+<% if @tyre.vehicle_id.blank? %>
+<%= render 'available' %>
+<% else %>
+<%= render 'used' %>
+<% end %>
 
-<p>
+<!-- <p>
   <strong>Brand:</strong>
   <%= @tyre.brand %>
 </p>
@@ -25,10 +29,6 @@
   <%= @tyre.status %>
 </p>
 
-<!-- <p>
-  <strong>Truck:</strong>
-  <%= @tyre.truck %>
-</p> -->
 
 <%= link_to 'Edit', edit_tyre_path(@tyre) %> |
-<%= link_to 'Back', tyres_path %>
+<%= link_to 'Back', tyres_path %> -->
