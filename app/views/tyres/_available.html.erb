@@ -10,7 +10,7 @@
   </select>
 </div>
 
-<div id="svgImg"></div>
+<div id="svgImg" align="center"></div>
 
 <style>
 .center {
@@ -22,11 +22,20 @@
 
 var category = "4Wheels.svg"
 var current_selection;
+
+category_dict={
+     "sleehW4":"<%= asset_path('4Wheels.svg') %>",
+     "sleehW6":"<%= asset_path('6Wheels.svg') %>",
+     "imeSsleehW8":"<%= asset_path('8WheelsSemi.svg') %>",
+     "sleehW10":"<%= asset_path('10Wheels.svg') %>",
+     "imeSsleehW21":"<%= asset_path('12WheelsSemi.svg') %>",
+     "reliarTsleehW21":"<%= asset_path('12WheelsTrailer.svg') %>"
+};
+
 function showCategory(element) {
-  var category = element.value.replace(/[-\-]/g,"")+".svg"
-  console.log('<object data="/assets/' + category + '?cache=none" type="image/svg+xml" id="svg"></object>')
-  // document.getElementById('svgImg').innerHTML = '<%= image_tag("4Wheels.svg") %>'
-  document.getElementById('svgImg').innerHTML = '<object data="/assets/' + category + '?cache=none" type="image/svg+xml" id="svg"></object>'
+  var category = element.value.replace(/[-\-]/g,"").split("").reverse().join("")
+  console.log('<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg"></object>')
+  document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=600px; width=550px;></object>'
   var mySVG = document.getElementById("svg");
   var svgDoc;
   mySVG.addEventListener("load",function() {
