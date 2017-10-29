@@ -79,7 +79,7 @@
           </ul> -->
         </nav>
 <main class="col-sm-6 ml-sm-auto col-md-8 pt-3" role="main">
-    <div id="dvMap" style="width: 770px; height: 520px">
+  <div id="dvMap" style="width: 770px; height: 520px"></div>
 
     <!-- <h2>Section title</h2>
     <div class="table-responsive">
@@ -223,9 +223,15 @@
 <script src="../../../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
 
 <script>
-window.onload = function () {
-    LoadMap();
-};
+// window.onload = function () {
+//     LoadMap();
+// };
+$(document).ready(function() {
+  LoadMap()
+});
+
+
+
 function vehicleSearch() {
   vehicle_id = document.getElementById("plate").value
   for (i = 0; i < markersArray.length; i++) {
@@ -295,7 +301,6 @@ var output = $('#txt');
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
-
     placeMarker()
   };
 
