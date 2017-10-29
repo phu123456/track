@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 
-<table>
+<table class="table my_table">
   <thead>
     <tr>
       <th>Plate</th>
@@ -18,7 +18,7 @@
         <td><%= vehicle.plate %></td>
         <td><%= vehicle.imei %></td>
         <td><%= vehicle.distance %></td>
-        <td><%= vehicle.category %></td>
+        <td><button onclick="categoryModal(this)" type="button" class="my_btn" data-toggle="modal" data-target="#myModal" value="<%= vehicle.category %>"><%= vehicle.category %></button></td>
         <td><%= link_to 'Show', vehicle %></td>
         <td><%= link_to 'Edit', edit_vehicle_path(vehicle) %></td>
         <td><%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -30,3 +30,52 @@
 <br>
 
 <%= link_to 'New Vehicle', new_vehicle_path %>
+<style>
+  .my_table {
+      width: 85%;
+  }
+</style>
+
+<style>
+.my_btn {
+      width: 55%;
+  }
+</style>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="svgImg" align="center"><div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+category_dict={
+     "sleehW4":"<%= asset_path('4Wheels.svg') %>",
+     "sleehW6":"<%= asset_path('6Wheels.svg') %>",
+     "imeSsleehW8":"<%= asset_path('8WheelsSemi.svg') %>",
+     "sleehW10":"<%= asset_path('10Wheels.svg') %>",
+     "imeSsleehW21":"<%= asset_path('12WheelsSemi.svg') %>",
+     "reliarTsleehW21":"<%= asset_path('12WheelsTrailer.svg') %>"
+};
+
+  function categoryModal(obj) {
+    var category = obj.value.replace(/[-\-]/g,"").split("").reverse().join("")
+    console.log(category)
+    document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=300px; width=450px;></object>'
+  };
+</script>

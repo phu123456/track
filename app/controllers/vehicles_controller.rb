@@ -55,6 +55,7 @@ class VehiclesController < ApplicationController
   # DELETE /vehicles/1.json
   def destroy
     @vehicle.destroy
+    raise "haha"
     respond_to do |format|
       format.html { redirect_to vehicles_url, notice: 'Vehicle was successfully destroyed.' }
       format.json { head :no_content }

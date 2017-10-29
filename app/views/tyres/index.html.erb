@@ -1,15 +1,29 @@
 <p id="notice"><%= notice %></p>
 
 <div align="center">
-  <input class="btn btn-primary active" type="button" value="In Used" id="in-used">
-  <input class="btn btn-success" type="submit" value="Un Use" id="un-use">
+  <input class="btn btn-primary active" type="button" value="Currently Used" id="in-used">
+  <input class="btn btn-success" type="submit" value="Available" id="un-use">
   <input class="btn btn-danger" type="submit" value="Destroyed">
 </div>
 <br>
 
+<style>
+  .btn {
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 5px;
+      width:20%;
+  }
+
+  th
+  {
+    color:white;
+  }
+</style>
+
 <table class="table my_table in-used-table">
   <thead>
-    <tr>
+    <tr bgcolor="#006dcc">
       <th>Brand</th>
       <th>Serial</th>
       <th>Start distance</th>
@@ -41,7 +55,7 @@
 
 <table style="display:none" class="table my_table un-use-table">
   <thead>
-    <tr>
+    <tr bgcolor="#5cb85c">
       <th>Brand</th>
       <th>Serial</th>
       <th>Start distance</th>
@@ -73,11 +87,6 @@
 
 <%= link_to 'New Tyre', new_tyre_path %>
 
-<style>
-  .my_table {
-      width: 85%;
-  }
-</style>
 
 <script>
   $('.btn').click(function () {
@@ -100,3 +109,8 @@
   });
 
 </script>
+<style>
+  .my_table {
+      width: 85%;
+  }
+</style>
