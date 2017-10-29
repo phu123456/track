@@ -10,7 +10,7 @@
   <button type="button" id="attach">Save</button
 </div>
 
-<div id="svgImg" align="center"></div>
+<div class="divSvg" id="svgImg" align="center" ></div>
 
 <style>
 .center {
@@ -22,7 +22,7 @@
 
 var category = "4Wheels.svg"
 var current_selection;
-var current_vehicle_id
+var current_vehicle_id;
 
 category_dict={
      "sleehW4":"<%= asset_path('4Wheels.svg') %>",
@@ -32,21 +32,15 @@ category_dict={
      "imeSsleehW21":"<%= asset_path('12WheelsSemi.svg') %>",
      "reliarTsleehW21":"<%= asset_path('12WheelsTrailer.svg') %>"
 };
-function wait(ms){
-   var start = new Date().getTime();
-   var end = start;
-   while(end < start + ms) {
-     end = new Date().getTime();
-  }
-}
+
+
+
 $("#my_select").change(function() {
-  current_vehicle_id = $(this).children(":selected").attr("id");
-  var category = $(this).children(":selected").attr("value").replace(/[-\-]/g,"").split("").reverse().join("")
-  console.log('<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg"></object>')
-  document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=600px; width=550px;></object>'
-  getTyresPosition(current_vehicle_id)
-  wait(50);
-  getTyresPosition(current_vehicle_id)
+      $(".divSvg").hide();
+      current_vehicle_id = $(this).children(":selected").attr("id");
+      var category = $(this).children(":selected").attr("value").replace(/[-\-]/g,"").split("").reverse().join("")
+      document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=600px; width=550px;  display: none;></object>'
+      getTyresPosition(current_vehicle_id)
 });
 
 function addListener(data) {
@@ -56,6 +50,14 @@ function addListener(data) {
   mySVG.addEventListener("load",function() {
        svgDoc = mySVG.contentDocument;
        var delta = svgDoc.getElementsByClassName("wheel");
+       function selectedWheel() {
+         for (var i = 0; i < new_delta.length; i++) {
+           svgDoc.getElementById(new_delta[i].id).style.setProperty("fill", "white", "");
+         }
+         svgDoc.getElementById(this.id).style.setProperty("fill", "green", "");
+         current_selection = this.id
+       }
+
        for (var i = 0; i < delta.length; i++) {
          if (data.includes(svgDoc.getElementById(delta[i].id).id)) {
            delta[i].addEventListener('click', takenWheel, false);
@@ -66,15 +68,8 @@ function addListener(data) {
            new_delta.push(delta[i]);
          }
        }
-       function selectedWheel() {
-         for (var i = 0; i < new_delta.length; i++) {
-           svgDoc.getElementById(new_delta[i].id).style.setProperty("fill", "white", "");
-         }
-         svgDoc.getElementById(this.id).style.setProperty("fill", "green", "");
-         current_selection = this.id
-       }
-
   }, false);
+  $(".divSvg").show();
 }
 
 function takenWheel() {
