@@ -1,18 +1,16 @@
 
 <br><br><br>
 <div class="center">
-  <select onchange="showCategory(this)">
+  <select id ="my_select">
     <option disabled selected value> -- select vehicle -- </option>
     <%= Vehicle.where("vehicles.plate <> ''").each do |vehicle| %>
         <option id="<%= vehicle.id %>" value="<%= vehicle.category %>"><%= vehicle.plate %> </option>
     <% end %>
-
   </select>
+  <button type="button" id="attach">Save</button
 </div>
 
-<div id="svgImg" align="center">
-  <object data="<%= asset_path('4Wheels.svg') %>" type="image/svg+xml" id="svg" height=600px; width=550px;></object>
-</div>
+<div id="svgImg" align="center"></div>
 
 <style>
 .center {
@@ -24,6 +22,7 @@
 
 var category = "4Wheels.svg"
 var current_selection;
+var current_vehicle_id
 
 category_dict={
      "sleehW4":"<%= asset_path('4Wheels.svg') %>",
@@ -34,8 +33,9 @@ category_dict={
      "reliarTsleehW21":"<%= asset_path('12WheelsTrailer.svg') %>"
 };
 
-function showCategory(element) {
-  var category = element.value.replace(/[-\-]/g,"").split("").reverse().join("")
+$("#my_select").change(function() {
+  current_vehicle_id = $(this).children(":selected").attr("id");
+  var category = $(this).children(":selected").attr("value").replace(/[-\-]/g,"").split("").reverse().join("")
   console.log('<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg"></object>')
   document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=600px; width=550px;></object>'
   var mySVG = document.getElementById("svg");
@@ -50,11 +50,29 @@ function showCategory(element) {
          svgDoc.getElementById(this.id).style.setProperty("fill", "black", "");
          current_selection = this.id
          console.log(current_selection)
+         console.log(current_vehicle_id)
        }
        for (var i = 0; i < delta.length; i++) {
          svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
          delta[i].addEventListener('click', selectedWheel, false);
        }
   }, false);
-}
+});
+
+$("#attach").click(function() {
+  $.ajax({
+    type:"GET",
+    url:"/tyres/attach",
+    data: {
+      tyre_id: <%= @tyre.id.to_json %>,
+      vehicle_id: current_vehicle_id,
+      position: current_selection
+    },
+    dataType:"json",
+    success: function(data){
+      console.log("done")
+    }
+  })
+});
+
 </script>

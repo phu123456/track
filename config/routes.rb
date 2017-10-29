@@ -2,8 +2,12 @@
 Rails.application.routes.draw do
   resources :services
   # resources :maintenances
-  resources :tyres
-
+  resources :tyres do
+    collection do
+      get 'attach'
+      get 'current'
+    end
+  end
   resources :maintenances do
     collection do
       get 'reset'

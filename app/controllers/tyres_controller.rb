@@ -12,6 +12,23 @@ class TyresController < ApplicationController
   def show
   end
 
+  #attach tyre to vehicle
+  def attach
+    @tyre = Tyre.find(params[:tyre_id])
+    @tyre.update_attribute(:vehicle_id, params[:vehicle_id])
+    @tyre.update_attribute(:position, params[:position])
+  end
+
+  #get all tyre position and display
+  def current
+      all_tyre_positions = Tyre.where(vehicle_id: params[:current_vehicle_id]).pluck(:position)
+      respond_to do |format|
+        format.html
+        format.json { render json: all_tyre_positions }
+      end
+  end
+
+
   # GET /tyres/new
   def new
     @tyre = Tyre.new
