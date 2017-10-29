@@ -32,32 +32,54 @@ category_dict={
      "imeSsleehW21":"<%= asset_path('12WheelsSemi.svg') %>",
      "reliarTsleehW21":"<%= asset_path('12WheelsTrailer.svg') %>"
 };
-
+function wait(ms){
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms) {
+     end = new Date().getTime();
+  }
+}
 $("#my_select").change(function() {
   current_vehicle_id = $(this).children(":selected").attr("id");
   var category = $(this).children(":selected").attr("value").replace(/[-\-]/g,"").split("").reverse().join("")
   console.log('<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg"></object>')
   document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=600px; width=550px;></object>'
+  getTyresPosition(current_vehicle_id)
+  wait(50);
+  getTyresPosition(current_vehicle_id)
+});
+
+function addListener(data) {
   var mySVG = document.getElementById("svg");
   var svgDoc;
+  var new_delta = [];
   mySVG.addEventListener("load",function() {
        svgDoc = mySVG.contentDocument;
        var delta = svgDoc.getElementsByClassName("wheel");
-       function selectedWheel() {
-         for (var i = 0; i < delta.length; i++) {
-           svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
-         }
-         svgDoc.getElementById(this.id).style.setProperty("fill", "black", "");
-         current_selection = this.id
-         console.log(current_selection)
-         console.log(current_vehicle_id)
-       }
        for (var i = 0; i < delta.length; i++) {
-         svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
-         delta[i].addEventListener('click', selectedWheel, false);
+         if (data.includes(svgDoc.getElementById(delta[i].id).id)) {
+           delta[i].addEventListener('click', takenWheel, false);
+         }
+         else {
+           svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
+           delta[i].addEventListener('click', selectedWheel, false);
+           new_delta.push(delta[i]);
+         }
        }
+       function selectedWheel() {
+         for (var i = 0; i < new_delta.length; i++) {
+           svgDoc.getElementById(new_delta[i].id).style.setProperty("fill", "white", "");
+         }
+         svgDoc.getElementById(this.id).style.setProperty("fill", "green", "");
+         current_selection = this.id
+       }
+
   }, false);
-});
+}
+
+function takenWheel() {
+  alert("this positon is not available")
+}
 
 $("#attach").click(function() {
   $.ajax({
@@ -74,5 +96,19 @@ $("#attach").click(function() {
     }
   })
 });
+
+function getTyresPosition(vehicle_id) {
+  $.ajax({
+    type:"GET",
+    url:"/tyres/current",
+    data: {
+      current_vehicle_id: vehicle_id
+    },
+    dataType:"json",
+    success: function(data){
+      addListener(data)
+    }
+  })
+};
 
 </script>

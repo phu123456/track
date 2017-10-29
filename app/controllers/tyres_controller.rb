@@ -21,6 +21,7 @@ class TyresController < ApplicationController
 
   #get all tyre position and display
   def current
+    puts params[:current_vehicle_id].to_json
       all_tyre_positions = Tyre.where(vehicle_id: params[:current_vehicle_id]).pluck(:position)
       respond_to do |format|
         format.html
