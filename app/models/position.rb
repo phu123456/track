@@ -19,16 +19,14 @@ class Position < ApplicationRecord
   def self.getPositions()
     len = Vehicle.all.size
     allVehiclePos = Array.new
-
     for i in 0..len-1
       id = Vehicle.all[i].id
       plate = Vehicle.all[i].plate
       imei = Vehicle.all[i].imei
-      position = self.all.where(imei: imei).last
+      position = Position.all.where(imei: imei).last
+      # puts position
       ary = Array.new
-      puts "haha"
       if position.nil?
-        return allVehiclePos
       else
         ary.push(id, plate, position.latitude, position.longitude)
         allVehiclePos.push(ary)
