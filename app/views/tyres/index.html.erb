@@ -1,13 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<div align="center">
-  <input class="btn btn-primary active" type="button" value="Currently Used" id="in-used">
-  <input class="btn btn-success" type="submit" value="Available" id="un-use">
-  <input class="btn btn-danger" type="submit" value="Destroyed">
-</div>
-<br>
-
 <style>
+  .table {
+      width: 85%;
+  }
+
   .btn {
       padding: 10px 20px;
       font-size: 18px;
@@ -21,16 +18,24 @@
   }
 </style>
 
-<table class="table my_table in-used-table">
+<div align="center">
+  <input class="btn btn-primary active" type="button" value="Currently Used" id="in-used">
+  <input class="btn btn-success" type="submit" value="Available" id="un-use">
+  <input class="btn btn-danger" type="submit" value="Destroyed">
+</div>
+<br>
+
+
+<table class="table in-used-table my_table" id="myTable">
   <thead>
     <tr bgcolor="#006dcc">
-      <th>Brand</th>
-      <th>Serial</th>
-      <th>Start distance</th>
-      <th>Total distance</th>
-      <th>Status</th>
-      <th>Vehicle</th>
-      <th>Position</th>
+      <th onclick="sortTable(0)">Brand</th>
+      <th onclick="sortTable(1)">Serial</th>
+      <th onclick="sortTable(2)">Start distance</th>
+      <th onclick="sortTable(3)">Total distance</th>
+      <th onclick="sortTable(4)">Status</th>
+      <th onclick="sortTable(5)">Vehicle</th>
+      <th onclick="sortTable(6)">Position</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -109,8 +114,3 @@
   });
 
 </script>
-<style>
-  .my_table {
-      width: 85%;
-  }
-</style>

@@ -18,7 +18,7 @@
         <td><%= vehicle.plate %></td>
         <td><%= vehicle.imei %></td>
         <td><%= vehicle.distance %></td>
-        <td><button onclick="categoryModal(this)" type="button" class="my_btn" data-toggle="modal" data-target="#myModal" value="<%= vehicle.category %>"><%= vehicle.category %></button></td>
+        <td><button onclick="categoryModal(this)" id="<%= vehicle.id %>" type="button" class="my_btn" data-toggle="modal" data-target="#myModal" value="<%= vehicle.category %>"><%= vehicle.category %></button></td>
         <td><%= link_to 'Show', vehicle %></td>
         <td><%= link_to 'Edit', edit_vehicle_path(vehicle) %></td>
         <td><%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -74,8 +74,9 @@ category_dict={
 };
 
   function categoryModal(obj) {
+    console.log(obj.id)
     var category = obj.value.replace(/[-\-]/g,"").split("").reverse().join("")
-    console.log(category)
     document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=300px; width=450px;></object>'
+
   };
 </script>
