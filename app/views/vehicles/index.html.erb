@@ -74,9 +74,81 @@ category_dict={
 };
 
   function categoryModal(obj) {
-    console.log(obj.id)
     var category = obj.value.replace(/[-\-]/g,"").split("").reverse().join("")
-    document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=300px; width=450px;></object>'
-
+    console.log(category)
+    document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=300px; width=450px; display: none;></object>'
+    getWheels(obj)
   };
+
+  function assignWheels(data) {
+    var mySVG = document.getElementById("svg");
+    var svgDoc;
+    // var new_delta = [];
+    mySVG.addEventListener("load",function() {
+         svgDoc = mySVG.contentDocument;
+         var delta = svgDoc.getElementsByClassName("wheel");
+         var positions = [];
+         for (var i = 0; i < data.length; i++) {
+           positions.push(data[i].position)
+         }
+         function selectedWheel() {
+           for (var i = 0; i < data.length; i++) {
+             if (data[i].position == this.id) {
+                document.location.href = "/tyres/" + data[i].id;
+             } else {
+                console.log(data[i].position, this.id)
+             }
+           }
+          //  document.location.href = newUrl;
+         }
+
+         function colorChangeTo() {
+           this.style.setProperty("fill", "green", "");
+         }
+
+         function colorChangeBack() {
+           this.style.setProperty("fill", "black", "");
+         }
+
+         function noWheel() {
+           alert("No tyre belong to this position!")
+         }
+
+         for (var i = 0; i < delta.length; i++) {
+           if (positions.includes(svgDoc.getElementById(delta[i].id).id)) {
+              delta[i].addEventListener('click', selectedWheel, false);
+              delta[i].addEventListener('mouseover', colorChangeTo, false);
+              delta[i].addEventListener('mouseout', colorChangeBack, false);
+              svgDoc.getElementById(delta[i].id).style.cursor = "pointer";
+           }  else {
+              svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
+              delta[i].addEventListener('click', noWheel, false);
+           }
+         }
+    //        if (data.includes(svgDoc.getElementById(delta[i].id).id)) {
+    //          delta[i].addEventListener('click', takenWheel, false);
+    //        }
+    //        else {
+    //          svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
+    //          delta[i].addEventListener('click', selectedWheel, false);
+    //          new_delta.push(delta[i]);
+    //        }
+    //      }
+    }, false);
+    $(".divSvg").show();
+  }
+
+  function getWheels(obj) {
+    $.ajax({
+      type:"GET",
+      url:"/vehicles/category",
+      data: {
+        current_vehicle_id: obj.id
+      },
+      dataType:"json",
+      success: function(data){
+        assignWheels(data)
+      }
+    })
+  }
 </script>

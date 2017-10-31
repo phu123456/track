@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :vehicles do
     collection do
       get 'speed'
+      get 'category'
     end
   end
 

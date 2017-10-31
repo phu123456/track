@@ -12,6 +12,14 @@ class VehiclesController < ApplicationController
   def show
   end
 
+  def category
+    all_tyre = Tyre.where(vehicle_id: params[:current_vehicle_id])
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: all_tyre }
+    end
+  end
+
   # GET /vehicles/new
   def new
     @vehicle = Vehicle.new
@@ -55,7 +63,6 @@ class VehiclesController < ApplicationController
   # DELETE /vehicles/1.json
   def destroy
     @vehicle.destroy
-    raise "haha"
     respond_to do |format|
       format.html { redirect_to vehicles_url, notice: 'Vehicle was successfully destroyed.' }
       format.json { head :no_content }
