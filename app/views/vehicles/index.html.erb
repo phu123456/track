@@ -65,16 +65,16 @@
 
 <script>
 category_dict={
-     "sleehW4":"<%= asset_path('4Wheels.svg') %>",
-     "sleehW6":"<%= asset_path('6Wheels.svg') %>",
-     "imeSsleehW8":"<%= asset_path('8WheelsSemi.svg') %>",
-     "sleehW10":"<%= asset_path('10Wheels.svg') %>",
-     "imeSsleehW21":"<%= asset_path('12WheelsSemi.svg') %>",
-     "reliarTsleehW21":"<%= asset_path('12WheelsTrailer.svg') %>"
+     "4Wheels":"<%= asset_path('4Wheels.svg') %>",
+     "6Wheels":"<%= asset_path('6Wheels.svg') %>",
+     "8WheelsSemi":"<%= asset_path('8WheelsSemi.svg') %>",
+     "10Wheels":"<%= asset_path('10Wheels.svg') %>",
+     "12WheelsSemi":"<%= asset_path('12WheelsSemi.svg') %>",
+     "12WheelsTrailer":"<%= asset_path('12WheelsTrailer.svg') %>"
 };
 
   function categoryModal(obj) {
-    var category = obj.value.replace(/[-\-]/g,"").split("").reverse().join("")
+    var category = obj.value.replace(/[-\-]/g,"")
     console.log(category)
     document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=300px; width=450px; display: none;></object>'
     getWheels(obj)
@@ -85,55 +85,45 @@ category_dict={
     var svgDoc;
     // var new_delta = [];
     mySVG.addEventListener("load",function() {
-         svgDoc = mySVG.contentDocument;
-         var delta = svgDoc.getElementsByClassName("wheel");
-         var positions = [];
-         for (var i = 0; i < data.length; i++) {
-           positions.push(data[i].position)
-         }
-         function selectedWheel() {
-           for (var i = 0; i < data.length; i++) {
-             if (data[i].position == this.id) {
-                document.location.href = "/tyres/" + data[i].id;
-             } else {
-                console.log(data[i].position, this.id)
-             }
-           }
-          //  document.location.href = newUrl;
-         }
+      svgDoc = mySVG.contentDocument;
+      var delta = svgDoc.getElementsByClassName("wheel");
+      var positions = [];
+      for (var i = 0; i < data.length; i++) {
+        positions.push(data[i].position)
+      }
+      function selectedWheel() {
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].position == this.id) {
+             document.location.href = "/tyres/" + data[i].id;
+          } else {
+             console.log(data[i].position, this.id)
+          }
+        }
+      }
 
-         function colorChangeTo() {
-           this.style.setProperty("fill", "green", "");
-         }
+      function colorChangeTo() {
+        this.style.setProperty("fill", "green", "");
+      }
 
-         function colorChangeBack() {
-           this.style.setProperty("fill", "black", "");
-         }
+      function colorChangeBack() {
+        this.style.setProperty("fill", "black", "");
+      }
 
-         function noWheel() {
-           alert("No tyre belong to this position!")
-         }
+      function noWheel() {
+        alert("No tyre belong to this position!")
+      }
 
-         for (var i = 0; i < delta.length; i++) {
-           if (positions.includes(svgDoc.getElementById(delta[i].id).id)) {
-              delta[i].addEventListener('click', selectedWheel, false);
-              delta[i].addEventListener('mouseover', colorChangeTo, false);
-              delta[i].addEventListener('mouseout', colorChangeBack, false);
-              svgDoc.getElementById(delta[i].id).style.cursor = "pointer";
-           }  else {
-              svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
-              delta[i].addEventListener('click', noWheel, false);
-           }
-         }
-    //        if (data.includes(svgDoc.getElementById(delta[i].id).id)) {
-    //          delta[i].addEventListener('click', takenWheel, false);
-    //        }
-    //        else {
-    //          svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
-    //          delta[i].addEventListener('click', selectedWheel, false);
-    //          new_delta.push(delta[i]);
-    //        }
-    //      }
+      for (var i = 0; i < delta.length; i++) {
+        if (positions.includes(svgDoc.getElementById(delta[i].id).id)) {
+           delta[i].addEventListener('click', selectedWheel, false);
+           delta[i].addEventListener('mouseover', colorChangeTo, false);
+           delta[i].addEventListener('mouseout', colorChangeBack, false);
+           svgDoc.getElementById(delta[i].id).style.cursor = "pointer";
+        }  else {
+           svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
+           delta[i].addEventListener('click', noWheel, false);
+        }
+      }
     }, false);
     $(".divSvg").show();
   }

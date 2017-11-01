@@ -25,12 +25,12 @@ var current_selection;
 var current_vehicle_id;
 
 category_dict={
-     "sleehW4":"<%= asset_path('4Wheels.svg') %>",
-     "sleehW6":"<%= asset_path('6Wheels.svg') %>",
-     "imeSsleehW8":"<%= asset_path('8WheelsSemi.svg') %>",
-     "sleehW10":"<%= asset_path('10Wheels.svg') %>",
-     "imeSsleehW21":"<%= asset_path('12WheelsSemi.svg') %>",
-     "reliarTsleehW21":"<%= asset_path('12WheelsTrailer.svg') %>"
+     "4Wheels":"<%= asset_path('4Wheels.svg') %>",
+     "6Wheels":"<%= asset_path('6Wheels.svg') %>",
+     "8WheelsSemi":"<%= asset_path('8WheelsSemi.svg') %>",
+     "10Wheels":"<%= asset_path('10Wheels.svg') %>",
+     "12WheelsSemi":"<%= asset_path('12WheelsSemi.svg') %>",
+     "12WheelsTrailer":"<%= asset_path('12WheelsTrailer.svg') %>"
 };
 
 
@@ -38,7 +38,7 @@ category_dict={
 $("#my_select").change(function() {
       $(".divSvg").hide();
       current_vehicle_id = $(this).children(":selected").attr("id");
-      var category = $(this).children(":selected").attr("value").replace(/[-\-]/g,"").split("").reverse().join("")
+      var category = $(this).children(":selected").attr("value").replace(/[-\-]/g,"")
       document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=600px; width=550px;  display: none;></object>'
       getTyresPosition(current_vehicle_id)
 });

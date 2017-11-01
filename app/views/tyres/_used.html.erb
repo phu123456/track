@@ -1,1 +1,15 @@
-hehe
+<div id="svgImg">
+<object data="<%= asset_path('4Wheels.svg')%>" type="image/svg+xml" id="svg" height=600px; width=550px;></object>
+</div>
+<script>
+  var a = [];
+  var path = "'<%= Vehicle.find(@tyre.vehicle_id).category %>'.replace(/[-\-]/g,"") + '.svg'"
+  console.log(path)
+  a.push('<')
+  a.push("%= asset_path(")
+  a.push(path)
+  a.push(')%>')
+  a = a.join("")
+  console.log(a)
+    document.getElementById('svgImg').innerHTML = '<object data="' + a + '" type="image/svg+xml" id="svg" height=600px; width=550px;></object>'
+</script>
