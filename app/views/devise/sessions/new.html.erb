@@ -11,7 +11,7 @@
   <title>Random Login Form</title>
 
 
- <style>
+ <style scoped>
       /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
  @import url(https://fonts.googleapis.com/css?family=Exo:100,200,400);
 	@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400,300);
@@ -82,7 +82,7 @@
 		z-index: 2;
 	}
 
-	.login input[type=email_]{
+	.login input[type=email]{
 		width: 250px;
 		height: 30px;
 		background: transparent;
@@ -95,7 +95,7 @@
 		padding: 4px;
 	}
 
-	.login input[type=password_]{
+	.login input[type=password]{
 		width: 250px;
 		height: 30px;
 		background: transparent;
@@ -132,12 +132,12 @@
 		opacity: 0.6;
 	}
 
-	.login input[type=email_]:focus{
+	.login input[type=email]:focus{
 		outline: none;
 		border: 1px solid rgba(255,255,255,0.9);
 	}
 
-	.login input[type=password_]:focus{
+	.login input[type=password]:focus{
 		outline: none;
 		border: 1px solid rgba(255,255,255,0.9);
 	}
@@ -168,10 +168,13 @@
 		<br>
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   		<div class="login">
-  				<input type="email_" id="user_email" placeholder="username" name="user[email]"><br>
-  				<input type="password_" id="user_password" placeholder="password" name="user[password]"><br>
+  				<input type="email" placeholder="username" name="user[email]"><br>
+  				<input type="password" placeholder="password" name="user[password]"><br>
   				<input type="submit" name="commit" value="Login">
   		</div>
+      <div class="devise-links">
+        <%= render "devise/shared/links" %>
+      </div>
     <% end %>
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
