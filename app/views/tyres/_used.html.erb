@@ -1,15 +1,54 @@
-<div id="svgImg">
-<object data="<%= asset_path('4Wheels.svg')%>" type="image/svg+xml" id="svg" height=600px; width=550px;></object>
+<table>
+  <tr>
+    <th>Brand</th>
+    <th>Serial</th>
+    <th>Total Distance Used</th>
+    <th>Current Vehicle</th>
+  </tr>
+
+  <tr>
+    <th><%= @tyre.brand %></th>
+    <th><%= @tyre.serial %></th>
+    <th><%= @tyre.total_distance %></th>
+    <th><%= Vehicle.find(@tyre.vehicle_id).plate %></th>
+  </tr>
+</table>
+<div>
+  Change Tyre Status To
+  <button type="button">Available<button>
+  <button type="button">Drestoryed<button>
 </div>
+
+<div id="svgImg" align="center"><div>
+
 <script>
-  var a = [];
-  var path = "'<%= Vehicle.find(@tyre.vehicle_id).category %>'.replace(/[-\-]/g,"") + '.svg'"
-  console.log(path)
-  a.push('<')
-  a.push("%= asset_path(")
-  a.push(path)
-  a.push(')%>')
-  a = a.join("")
-  console.log(a)
-    document.getElementById('svgImg').innerHTML = '<object data="' + a + '" type="image/svg+xml" id="svg" height=600px; width=550px;></object>'
+category_dict={
+     "4Wheels":"<%= asset_path('4Wheels.svg') %>",
+     "6Wheels":"<%= asset_path('6Wheels.svg') %>",
+     "8WheelsSemi":"<%= asset_path('8WheelsSemi.svg') %>",
+     "10Wheels":"<%= asset_path('10Wheels.svg') %>",
+     "12WheelsSemi":"<%= asset_path('12WheelsSemi.svg') %>",
+     "12WheelsTrailer":"<%= asset_path('12WheelsTrailer.svg') %>"
+};
+
+path = category_dict["<%= Vehicle.find(@tyre.vehicle_id).category %>".replace(/[-\-]/g,"")]
+document.getElementById('svgImg').innerHTML = '<object data="' + path + '" type="image/svg+xml" id="svg" height=350px; width=550px;></object>'
+tyre = "<%= Tyre.find(@tyre.id).position %>"
+
+
+showCurrent(tyre)
+
+function showCurrent(tyre) {
+  var mySVG = document.getElementById("svg");
+  var svgDoc;
+  mySVG.addEventListener("load",function() {
+       svgDoc = mySVG.contentDocument;
+       var delta = svgDoc.getElementsByClassName("wheel");
+       for (var i = 0; i < delta.length; i++) {
+         if (tyre != svgDoc.getElementById(delta[i].id).id)
+            svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
+       }
+  })
+}
+
 </script>
