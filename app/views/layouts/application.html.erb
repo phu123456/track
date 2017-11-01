@@ -34,7 +34,7 @@
   </head>
 
   <body>
-    <%= render 'layouts/header' %>
+    <%= render 'layouts/header' unless @user %>
     <%= yield %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 

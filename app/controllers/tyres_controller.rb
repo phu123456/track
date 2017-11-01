@@ -1,6 +1,6 @@
 class TyresController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_tyre, only: [:show, :edit, :update, :destroy]
-
   # GET /tyres
   # GET /tyres.json
   def index
