@@ -16,24 +16,22 @@
 
 class Position < ApplicationRecord
 
-  def self.getProvince(vehicle_id)
-    imei = Vehicle.find(vehicle_id).imei
-    position = Position.all.where(imei: imei).last
-    if position.nil?
-      return "unknown"
-    else
-      lat = position.latitude.to_s
-      lng = position.longitude.to_s
-      address = Geocoder.search(lat + "," + lng)[1].try(:formatted_addres)
-      puts "0000----0000"
-      puts address
-      if !address.nil?
-        Geocoder.search(lat + "," + lng)[1].try(:formatted_addres).split(',')[2].gsub!(/[^A-Za-z]/, '')
-      else
-        return "unknown"
-      end
-    end
-  end
+  # def self.getProvince(vehicle_id)
+  #   imei = Vehicle.find(vehicle_id).imei
+  #   position = Position.all.where(imei: imei).last
+  #   if position.nil?
+  #     return "unknown"
+  #   else
+  #     lat = position.latitude.to_s
+  #     lng = position.longitude.to_s
+  #     address = Geocoder.search(lat + "," + lng)[1].try(:formatted_addres)
+  #     if !address.nil?
+  #       address.split(',')[2].gsub!(/[^A-Za-z]/, '')
+  #     else
+  #       return "unknown"
+  #     end
+  #   end
+  # end
 
   def self.getPositions()
     len = Vehicle.all.size

@@ -46,14 +46,19 @@
     overflow: auto;
     height: 300px;
   }
+
+   .aaa {
+    height:25px;
+    width: 100%;
+  }
 </style>
 
 <head>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 </head>
-<div class="container-fluid">
-      <div class="row">
-        <nav class="col-sm-3 col-md-4 d-none d-sm-block bg-light pt-3">
+<div class="aaa">
+      <div class="row pt-3">
+        <nav class="col-sm-3 col-md-4  d-none d-sm-block bg-light" >
 
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item">
@@ -71,13 +76,13 @@
                   <thead>
                       <tr align="center">
                           <th> Plate </th>
-                          <th> Location </th>
+                          <!-- <th> Location </th> -->
                           <th> Status </th>
 
                       </tr>
                       <tr align="center">
                           <th><input type="text" id="plate-search" size="9" style="height:23px;"></th>
-                          <th><input type="text" id="province-search" size="13" style="height:23px;"></th>
+                          <!-- <th><input type="text" id="province-search" size="13" style="height:23px;"></th> -->
                           <th><select id="selectBox" onchange="changeFunc();">
                               <option selected value="saab">All</option>
                               <option value="mercedes">Moving</option>
@@ -90,7 +95,6 @@
                     <% @vehicles.each do |vehicle| %>
                     <tr style="background-color: white; border-bottom: 1px solid black;" align="center" >
                       <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;" onclick="vehicleSearch(this)" id="<%= vehicle.id %>"></i> <%= vehicle.plate %></td>
-                      <td><%= Position.getProvince(vehicle.id) %> </td>
                       <td class="status stationary"></td>
                     </tr>
                   <% end %>
@@ -128,8 +132,8 @@
 
 
 </nav>
-<main class="col-sm-6 ml-sm-auto col-md-8 pt-3" role="main">
-  <div id="dvMap" style="width: 770px; height: 520px"></div>
+<main class="col-sm-6 ml-sm-auto col-md-8" role="main">
+  <div id="dvMap" style="width: 100%; height: 100%"></div>
   </main>
 </div>
 </div>
