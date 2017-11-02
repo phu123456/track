@@ -98,12 +98,13 @@
                   <thead class="example-thead">
                       <tr align="center">
                           <th> Plate </th>
-                          <!-- <th> Location </th> -->
+                          <th> Last Update </th>
                           <th> Status </th>
                       </tr>
                       <tr align="center">
                           <th><input type="text" id="plate-search" size="9" style="height:23px;"></th>
                           <!-- <th><input type="text" id="province-search" size="13" style="height:23px;"></th> -->
+                          <th>
                           <th><select id="selectBox" onchange="changeFunc();">
                               <option selected value="saab">All</option>
                               <option value="mercedes">Moving</option>
@@ -116,6 +117,7 @@
                     <% @vehicles.each do |vehicle| %>
                     <tr style="background-color: white; border-bottom: 1px solid black;" align="center" >
                       <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;" onclick="vehicleSearch(this)" id="<%= vehicle.id %>"></i> <%= vehicle.plate %></td>
+                      <td><%= Position.where(imei: vehicle.imei).last.try(:created_at) %></td>
                       <td class="status stationary"></td>
                     </tr>
                   <% end %>
@@ -185,7 +187,7 @@ function vehicleSearch(obj) {
   for (i = 0; i < markersArray.length; i++) {
     if (markersArray[i].name[0] == vehicle_id) {
         map.setZoom(13);
-        map.setCenter(markersArray[i].getPosition());        
+        map.setCenter(markersArray[i].getPosition());
     }
   }
 }
