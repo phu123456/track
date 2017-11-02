@@ -18,15 +18,17 @@ class Position < ApplicationRecord
 
   def self.getProvince(vehicle_id)
     imei = Vehicle.find(vehicle_id).imei
-    puts "-----------------"
     position = Position.all.where(imei: imei).last
     if position.nil?
-      return "unknow"
+      return "unknown"
     else
       lat = position.latitude.to_s
       lng = position.longitude.to_s
-      puts Geocoder.search(lat + "," + lng)[1].formatted_address
-      Geocoder.search(lat + "," + lng)[1].formatted_address.split(',')[2].gsub!(/[^A-Za-z]/, '')
+      if !Geocoder.search(lat + "," + lng)[1].formatted_address.nil?
+        Geocoder.search(lat + "," + lng)[1].formatted_address.split(',')[2].gsub!(/[^A-Za-z]/, '')
+      else
+        return "unknown"
+      end
     end
   end
 

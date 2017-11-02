@@ -21,11 +21,11 @@ class PositionsController < ApplicationController
   def marker
     all_vehicles = Position.getPositions()
 
-    len = all_vehicles.size
-    addresses = Array.new
-    for i in 0..len-1
-      addresses.push(Geocoder.search(all_vehicles[0][2].to_s + "," + all_vehicles[0][3].to_s)[1].formatted_address.split(','))
-    end
+    # len = all_vehicles.size
+    # addresses = Array.new
+    # for i in 0..len-1
+    #   addresses.push(Geocoder.search(all_vehicles[0][2].to_s + "," + all_vehicles[0][3].to_s)[1].formatted_address.split(','))
+    # end
 
     # puts all_vehicles[0][2]
     #sent all_vehicles back to ajax call
