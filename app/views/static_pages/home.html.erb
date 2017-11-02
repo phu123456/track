@@ -29,6 +29,7 @@
       border-collapse: collapse;
       margin: 0 auto;
       border: 2px solid black;
+      width: auto;
   }
   thead {
       background-color: #333;
@@ -48,18 +49,16 @@
   }
 
    .aaa {
-    height:25px;
-    width: 100%;
+    height : 90vh;
   }
 </style>
 
 <head>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 </head>
-<div class="aaa">
-      <div class="row pt-3">
-        <nav class="col-sm-3 col-md-4  d-none d-sm-block bg-light" >
-
+<div class="container-fluid">
+      <div class="row pt-3 aaa">
+        <nav class="col-sm-3 col-md-4 d-none d-sm-block bg-light" >
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item">
                 <a class="nav-link active normal-mode" id="real-time-tab" onclick="removeLine();" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Real Time</a>
