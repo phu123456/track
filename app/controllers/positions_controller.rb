@@ -31,7 +31,7 @@ class PositionsController < ApplicationController
     #sent all_vehicles back to ajax call
     respond_to do |format|
       format.html
-      format.json { render json: [all_vehicles, addresses]}
+      format.json { render json: all_vehicles}
     end
   end
   # GET /positions/1
