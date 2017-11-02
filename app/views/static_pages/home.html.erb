@@ -91,7 +91,7 @@
                   <tbody class="data-table">
                     <% @vehicles.each do |vehicle| %>
                     <tr style="background-color: white; border-bottom: 1px solid black;" align="center" >
-                      <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;"></i> <%= vehicle.plate %></td>
+                      <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;" onclick="vehicleSearch(this)" id="<%= vehicle.id %>"></i> <%= vehicle.plate %></td>
                       <td>กรุงเทพมหานคร</td>
                       <td class="status stationary"></td>
                     </tr>
@@ -151,20 +151,19 @@
 // };
 $(document).ready(function() {
   LoadMap()
+  $('.fa-search').css( 'cursor', 'pointer' );
 });
 
 // document.getElementsByClassName("status").removeClass("stationary");
 // document.getElementsByClassName("status").classList.add("moving2");
 
-function vehicleSearch() {
-  vehicle_id = document.getElementById("plate").value
+function vehicleSearch(obj) {
+  vehicle_id = obj.id
   for (i = 0; i < markersArray.length; i++) {
     if (markersArray[i].name[0] == vehicle_id) {
         map.setZoom(13);
         map.setCenter(markersArray[i].getPosition());
-
-    } else
-       console.log("")
+    }
   }
 }
 var output = $('#txt');
