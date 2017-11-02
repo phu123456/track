@@ -25,13 +25,14 @@
   }
 
 
-  table {
+  .example-table {
       border-collapse: collapse;
       margin: 0 auto;
       border: 2px solid black;
       width: auto;
+
   }
-  thead {
+  .example-thead {
       background-color: #333;
       color: #fff;
   }
@@ -43,14 +44,20 @@
       width: 125px;
       box-sizing: border-box;
   }
-  tbody {
+  .tbody {
     overflow: auto;
-    height: 300px;
+    height: 50vh;
   }
-
    .aaa {
     height : 90vh;
   }
+
+  .following {
+      height: auto;
+      color: #ccc;
+      border-bottom: 1px solid grey;
+  }
+
 </style>
 
 <head>
@@ -69,15 +76,30 @@
             </ul>
 
             <div id="real-time">
+              <div class="following">
+                <table class="table-top">
+                      <tr align="center">
+                          <th>Plate</th>
+                          <th colspan="3">Location</th>
+                          <th>Speed</th>
+                      </tr>
+                      <tr align="center">
+                          <td>-</td>
+                          <td></td>
+                          <td>-</td>
+                          <td></td>
+                          <td>-</td>
+                      </tr>
+                </table>
+              </div>
             <br>
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
               <table class="example-table">
-                  <thead>
+                  <thead class="example-thead">
                       <tr align="center">
                           <th> Plate </th>
                           <!-- <th> Location </th> -->
                           <th> Status </th>
-
                       </tr>
                       <tr align="center">
                           <th><input type="text" id="plate-search" size="9" style="height:23px;"></th>
@@ -90,7 +112,7 @@
                           </th>
                       </tr>
                   </thead>
-                  <tbody class="data-table">
+                  <tbody class="data-table tbody">
                     <% @vehicles.each do |vehicle| %>
                     <tr style="background-color: white; border-bottom: 1px solid black;" align="center" >
                       <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;" onclick="vehicleSearch(this)" id="<%= vehicle.id %>"></i> <%= vehicle.plate %></td>
@@ -163,7 +185,7 @@ function vehicleSearch(obj) {
   for (i = 0; i < markersArray.length; i++) {
     if (markersArray[i].name[0] == vehicle_id) {
         map.setZoom(13);
-        map.setCenter(markersArray[i].getPosition());
+        map.setCenter(markersArray[i].getPosition());        
     }
   }
 }
