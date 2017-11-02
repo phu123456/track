@@ -1,4 +1,3 @@
-
 <style>
   .stationary {
     background-image:
@@ -92,7 +91,7 @@
                     <% @vehicles.each do |vehicle| %>
                     <tr style="background-color: white; border-bottom: 1px solid black;" align="center" >
                       <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;" onclick="vehicleSearch(this)" id="<%= vehicle.id %>"></i> <%= vehicle.plate %></td>
-                      <td>กรุงเทพมหานคร</td>
+                      <td><%= Position.getProvince(vehicle.id) %> </td>
                       <td class="status stationary"></td>
                     </tr>
                   <% end %>

@@ -1,8 +1,35 @@
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" id="home-tab" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Home</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="profile-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-  </li>
-</ul>
+<p id="notice"><%= notice %></p>
+<table class="my_table table" style="width: 85%" id="myTable">
+  <thead>
+    <tr>
+      <th onclick="sortTable(0)">Vehicle <i class="fa fa-sort" style="font-size:17px;color"></i></th>
+      <th onclick="sortTable(1)">Service <i class="fa fa-sort" style="font-size:17px;color"></i></th></th>
+      <th onclick="sortTable(2)">Maintenance Due <i class="fa fa-sort" style="font-size:17px;color"></i></th></th>
+      <th colspan="4">Option</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @maintenances.each do |maintenance| %>
+      <tr>
+        <td><%= Vehicle.find(maintenance.vehicle_id).plate %></td>
+        <td><%= Service.find(maintenance.service_id).name %></td>
+        <td width="45%" id="progressBar<%= maintenance.id %>">
+          <div class="progress <%= maintenance.percentage(maintenance.id)%>">
+            <div class="progress-bar <%=maintenance.getStatus(maintenance.id)%>" role="progressbar" style="width: <%= maintenance.percentage(maintenance.id)%>%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+              <font style="color:black;"> <%= maintenance.percentage(maintenance.id)%>% </font>
+            </div>
+          </div>
+        </td>
+        <td><button class="reset" id="<%= maintenance.id %>">Reset</button></td>
+        <!-- <td><%= link_to 'Show', maintenance %></td> -->
+        <td><%= link_to 'Edit', edit_maintenance_path(maintenance) %></td>
+        <td><%= link_to 'Destroy', maintenance, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Maintenance', new_maintenance_path %>
