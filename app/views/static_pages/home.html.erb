@@ -1,214 +1,137 @@
+
+<style>
+  .stationary {
+    background-image:
+      radial-gradient(
+        circle,
+        #fd2c2c, #b41212 12px, transparent 12px
+      );
+  }
+
+  .moving1 {
+    background-image:
+      radial-gradient(
+        circle,
+        #00ff00, green 12px, transparent 13px
+      );
+  }
+
+  .moving2 {
+    background-image:
+      radial-gradient(
+        circle,
+        #90ff58, #4ad205 12px, transparent 13px
+      );
+  }
+
+  body {
+      font-family: sans-serif;
+      font-size: 0.9em;
+  }
+  table {
+      border-collapse: collapse;
+      margin: 0 auto;
+      border: 2px solid black;
+  }
+  thead {
+      background-color: #333;
+      color: #fff;
+  }
+  thead,tbody {
+      display: block;
+  }
+  th,td {
+      padding: 4px;
+      width: 125px;
+      box-sizing: border-box;
+  }
+  tbody {
+    overflow: auto;
+    height: 300px;
+  }
+</style>
 <head>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 </head>
 <div class="container-fluid">
       <div class="row">
-        <nav class="col-sm-3 col-md-4 d-none d-sm-block bg-light sidebar">
-          <select id="plate"style="width:115px;" class="js-example-basic-single" name="state">
-              <% @vehicles.each do |vehicle| %>
-                <option value="<%= vehicle.id %>"> <%= vehicle.plate %> </option>
-              <% end %>
-            </select>
-            <button onclick="vehicleSearch()" class="search-button">Search</button>
-            <input type="datetime-local" id="startDate" >
-            <br>
-            <font align="center">ถึง</font>
-            <br>
-            <input id="endDate" type="datetime-local" >
-            <br>
-            <button class="search-button clear-marker" >Clear Markers</button>
-            <button class="search-button normal-mode" onclick="removeLine();" >Normal Mode</button>
+        <nav class="col-sm-3 col-md-4 d-none d-sm-block bg-light pt-3">
 
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Plate</th>
-                  <th>ID</th>
-                </tr>
-              </thead>
-              <tbody>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active normal-mode" id="real-time-tab" onclick="removeLine();" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Real Time</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="history-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">History</a>
+              </li>
+            </ul>
+
+            <div id="real-time">
+            <br>
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+              <table class="example-table">
+                  <thead>
+                      <tr align="center">
+                          <th> Plate </th>
+                          <th> Location </th>
+                          <th> Status </th>
+
+                      </tr>
+                      <tr align="center">
+                          <th><input type="text" id="plate-search" size="9" style="height:23px;"></th>
+                          <th><input type="text" id="province-search" size="13" style="height:23px;"></th>
+                          <th><select id="selectBox" onchange="changeFunc();">
+                              <option selected value="saab">All</option>
+                              <option value="mercedes">Moving</option>
+                              <option value="audi">Stationary</option>
+                            </select>
+                          </th>
+                      </tr>
+                  </thead>
+                  <tbody class="data-table">
+                    <% @vehicles.each do |vehicle| %>
+                    <tr style="background-color: white; border-bottom: 1px solid black;" align="center" >
+                      <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;"></i> <%= vehicle.plate %></td>
+                      <td>กรุงเทพมหานคร</td>
+                      <td class="status stationary"></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+
+
+
+
+
+
+      <!-- <div class="history">
+        haha
+      </div> -->
+
+      <div id="history" style="display:none;">
+        <br>
+            <select id="plate"style="width:115px;" class="js-example-basic-single" name="state">
                 <% @vehicles.each do |vehicle| %>
-                <tr>
-                  <td><%= vehicle.plate %></td>
-                  <td><%= vehicle.imei %></td>
-                <tr>
-              </tbody>
-              <% end %>
-            </table>
+                  <option value="<%= vehicle.id %>"> <%= vehicle.plate %> </option>
+                <% end %>
+              </select>
+              <button onclick="vehicleSearch()" class="search-button">Search</button>
+              <input type="datetime-local" id="startDate" >
+              <br>
+              <font align="center">ถึง</font>
+              <br>
+              <input id="endDate" type="datetime-local" >
+            <br>
+          <button class="search-button clear-marker" >Clear Markers</button>
+        <button class="search-button normal-mode" onclick="removeLine();" >Normal Mode</button>
+      </div>
 
-          <!-- <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Overview <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Reports</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Analytics</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Export</a>
-            </li>
-          </ul>
 
-          <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-              <a class="nav-link" href="#">Nav item</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Nav item again</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">One more nav</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Another nav item</a>
-            </li>
-          </ul>
 
-          <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-              <a class="nav-link" href="#">Nav item again</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">One more nav</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Another nav item</a>
-            </li>
-          </ul> -->
-        </nav>
+</nav>
 <main class="col-sm-6 ml-sm-auto col-md-8 pt-3" role="main">
   <div id="dvMap" style="width: 770px; height: 520px"></div>
-
-    <!-- <h2>Section title</h2>
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Header</th>
-            <th>Header</th>
-            <th>Header</th>
-            <th>Header</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1,001</td>
-            <td>Lorem</td>
-            <td>ipsum</td>
-            <td>dolor</td>
-            <td>sit</td>
-          </tr>
-          <tr>
-            <td>1,002</td>
-            <td>amet</td>
-            <td>consectetur</td>
-            <td>adipiscing</td>
-            <td>elit</td>
-          </tr>
-          <tr>
-            <td>1,003</td>
-            <td>Integer</td>
-            <td>nec</td>
-            <td>odio</td>
-            <td>Praesent</td>
-          </tr>
-          <tr>
-            <td>1,003</td>
-            <td>libero</td>
-            <td>Sed</td>
-            <td>cursus</td>
-            <td>ante</td>
-          </tr>
-          <tr>
-            <td>1,004</td>
-            <td>dapibus</td>
-            <td>diam</td>
-            <td>Sed</td>
-            <td>nisi</td>
-          </tr>
-          <tr>
-            <td>1,005</td>
-            <td>Nulla</td>
-            <td>quis</td>
-            <td>sem</td>
-            <td>at</td>
-          </tr>
-          <tr>
-            <td>1,006</td>
-            <td>nibh</td>
-            <td>elementum</td>
-            <td>imperdiet</td>
-            <td>Duis</td>
-          </tr>
-          <tr>
-            <td>1,007</td>
-            <td>sagittis</td>
-            <td>ipsum</td>
-            <td>Praesent</td>
-            <td>mauris</td>
-          </tr>
-          <tr>
-            <td>1,008</td>
-            <td>Fusce</td>
-            <td>nec</td>
-            <td>tellus</td>
-            <td>sed</td>
-          </tr>
-          <tr>
-            <td>1,009</td>
-            <td>augue</td>
-            <td>semper</td>
-            <td>porta</td>
-            <td>Mauris</td>
-          </tr>
-          <tr>
-            <td>1,010</td>
-            <td>massa</td>
-            <td>Vestibulum</td>
-            <td>lacinia</td>
-            <td>arcu</td>
-          </tr>
-          <tr>
-            <td>1,011</td>
-            <td>eget</td>
-            <td>nulla</td>
-            <td>Class</td>
-            <td>aptent</td>
-          </tr>
-          <tr>
-            <td>1,012</td>
-            <td>taciti</td>
-            <td>sociosqu</td>
-            <td>ad</td>
-            <td>litora</td>
-          </tr>
-          <tr>
-            <td>1,013</td>
-            <td>torquent</td>
-            <td>per</td>
-            <td>conubia</td>
-            <td>nostra</td>
-          </tr>
-          <tr>
-            <td>1,014</td>
-            <td>per</td>
-            <td>inceptos</td>
-            <td>himenaeos</td>
-            <td>Curabitur</td>
-          </tr>
-          <tr>
-            <td>1,015</td>
-            <td>sodales</td>
-            <td>ligula</td>
-            <td>in</td>
-            <td>libero</td>
-          </tr>
-        </tbody>
-      </table> -->
-    <!-- </div> -->
   </main>
 </div>
 </div>
@@ -224,13 +147,14 @@
 
 <script>
 // window.onload = function () {
-//     LoadMap();
+//   LoadMap()
 // };
 $(document).ready(function() {
   LoadMap()
 });
 
-
+// document.getElementsByClassName("status").removeClass("stationary");
+// document.getElementsByClassName("status").classList.add("moving2");
 
 function vehicleSearch() {
   vehicle_id = document.getElementById("plate").value
@@ -369,5 +293,42 @@ var output = $('#txt');
           line.set('icons', icons);
       }, 20);
     }
+
+    $('#real-time-tab').click(function() {
+      $("#history").hide();
+      $("#real-time").show();
+    })
+
+    $('#history-tab').click(function() {
+      $("#real-time").hide();
+      $("#history").show();
+    })
+
+    $("#plate-search").keyup(function() {
+      var value = this.value;
+      $(".data-table").find("tr").each(function(index) {
+          if (index === -1) return;
+          var id = $(this).find("td").first().text();
+          $(this).toggle(id.indexOf(value) !== -1);
+      });
+    });
+
+    $("#province-search").keyup(function() {
+      var value = this.value;
+      $(".data-table").find("tr").each(function(index) {
+          if (index === -1) return;
+          var id = $(this).find("td")[1].innerText;
+          $(this).toggle(id.indexOf(value) !== -1);
+      });
+    });
+
+  //   function changeFunc() {
+  //   var selectBox = document.getElementById("selectBox");
+  //   var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+  //   alert(selectedValue);
+  //  }
+  //   $("#province-search").keyup(function() {
+   //
+  //   });
 
 </script>

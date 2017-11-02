@@ -6,7 +6,7 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="<%= root_path %>">Home <span class="sr-only"></span></a>
           </li>
           <li class="nav-item">
@@ -37,3 +37,13 @@
         <% end %>
       </div>
     </nav>
+
+    <!-- <script>
+
+
+      $('li').click(function() {
+        $(this).children().removeClass('active');
+        $('li').removeClass('active');
+        console.log($(this).parent())
+      });
+    </script> -->
