@@ -24,11 +24,11 @@ class Position < ApplicationRecord
     else
       lat = position.latitude.to_s
       lng = position.longitude.to_s
-      if !Geocoder.search(lat + "," + lng)[1].formatted_address.nil?
-        Geocoder.search(lat + "," + lng)[1].formatted_address.split(',')[2].gsub!(/[^A-Za-z]/, '')
-      else
-        return "unknown"
-      end
+      # if !Geocoder.search(lat + "," + lng)[1].formatted_address.nil?
+      Geocoder.search(lat + "," + lng)[1].try(:formatted_address).split(',')[2].gsub!(/[^A-Za-z]/, '')
+      # else
+        # return "unknown"
+      # end
     end
   end
 
