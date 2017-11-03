@@ -34,7 +34,20 @@ class MaintenancesController < ApplicationController
   # POST /maintenances
   # POST /maintenances.json
   def create
-    @maintenance = Maintenance.new(maintenance_params)
+    # @maintenance = Maintenance.new(maintenance_params)
+    distance = Vehicle.find(maintenance_params[:vehicle_id]).distance
+    manually_distance = 0
+    if (maintenance_params[:manually_distance].blank?)
+      manually_distance = 0
+    else
+      manually_distance = maintenance_params[:manually_distance]
+    end
+    @maintenance = Maintenance.new(service_id: maintenance_params[:service_id],
+                                   start_distance: distance,
+                                   current_distance: distance,
+                                   manually_distance: manually_distance,
+                                   vehicle_id: maintenance_params[:vehicle_id]
+                                 )
 
     if Maintenance.where(vehicle_id: @maintenance.vehicle_id).where(service_id: @maintenance.service_id).empty?
       respond_to do |format|
@@ -47,7 +60,7 @@ class MaintenancesController < ApplicationController
         end
       end
     else
-      raise 'this truck already exist'
+      raise "no!"
     end
   end
 

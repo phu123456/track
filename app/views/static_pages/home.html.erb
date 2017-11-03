@@ -179,18 +179,78 @@ $(document).ready(function() {
   $('.fa-search').css( 'cursor', 'pointer' );
 });
 
+var current_vehicle_marker_id;
 // document.getElementsByClassName("status").removeClass("stationary");
 // document.getElementsByClassName("status").classList.add("moving2");
 
 function vehicleSearch(obj) {
   vehicle_id = obj.id
-  for (i = 0; i < markersArray.length; i++) {
-    if (markersArray[i].name[0] == vehicle_id) {
-        map.setZoom(13);
-        map.setCenter(markersArray[i].getPosition());
-    }
-  }
+  current_vehicle_marker_id = vehicle_id
+  info_ary = getMarkerInfo(vehicle_id)
+
 }
+function getMarkerInfo(vehicle_id) {
+  $.ajax({
+    type:"GET",
+    url:"/positions/info",
+    data: {
+      vehicle_id: vehicle_id
+    },
+    dataType:"json",
+    success: function(data){
+      for (i = 0; i < markersArray.length; i++) {
+        if (markersArray[i].name[0] == vehicle_id) {
+            map.setZoom(13);
+            map.setCenter(markersArray[i].getPosition());
+            // console.log("one")
+            // document.getElementById('marker-info').innerHTML = ""
+            var contentString = '<div id="marker-info">Plate: ' + data[0] + '<br>Speed: ' +
+                                        data[1] + '<br>Sub-district: ' +
+                                        data[2][0] + '<br>District: ' +
+                                        data[2][1] + '<br>Province: ' +
+                                        data[2][2] +
+                                '</div>'
+            var infowindow = new google.maps.InfoWindow({
+              content: contentString
+            });
+            infowindow.open(map, markersArray[i]);
+            console.log(document.getElementById('marker-info'))
+            // console.log("<%= Position.getAddress(1) %>")
+        }
+      }
+    }
+  })
+}
+
+function getMarkerInfoNoZoom(vehicle_id) {
+  $.ajax({
+    type:"GET",
+    url:"/positions/info",
+    data: {
+      vehicle_id: vehicle_id
+    },
+    dataType:"json",
+    success: function(data){
+      for (i = 0; i < markersArray.length; i++) {
+        if (markersArray[i].name[0] == vehicle_id) {
+            // console.log("two")
+            var contentString = '<div id="marker-info">Plate: ' + data[0] + '<br>Speed: ' +
+                                        data[1] + '<br>Sub-district: ' +
+                                        data[2][0] + '<br>District: ' +
+                                        data[2][1] + '<br>Province: ' +
+                                        data[2][2] +
+                                '</div>'
+            var infowindow = new google.maps.InfoWindow({
+              content: contentString
+            });
+            infowindow.open(map, markersArray[i]);
+            // console.log("<%= Position.getAddress(1) %>")
+        }
+      }
+    }
+  })
+}
+
 var output = $('#txt');
   var isPaused = false;
   var time = 0;
@@ -288,6 +348,9 @@ var output = $('#txt');
               map: map,
           });
           markersArray.push(marker);
+          }
+          if (typeof current_vehicle_marker_id != 'undefined') {
+            getMarkerInfoNoZoom(current_vehicle_marker_id)
         }
       }
     });

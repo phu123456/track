@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     collection do
       get 'marker'
       get 'routes'
+      get 'info'
     end
   end
   root to: "static_pages#home"

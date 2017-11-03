@@ -16,7 +16,7 @@
     <%= form.select(:service_id, Service.all.map{|service| [service.name, service.id]}) %>
   </div>
 
-  <div class="field">
+  <!-- <div class="field">
     <%= form.label :start_distance %>
     <%= form.number_field :start_distance, id: :maintenance_start_distance %>
   </div>
@@ -24,7 +24,7 @@
   <div class="field">
     <%= form.label :current_distance %>
     <%= form.number_field :current_distance, id: :maintenance_current_distance %>
-  </div>
+  </div> -->
 
   <div class="field">
     <%= form.label :manually_distance %>

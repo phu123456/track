@@ -34,6 +34,14 @@ class PositionsController < ApplicationController
       format.json { render json: all_vehicles}
     end
   end
+
+  def info
+    ret = Position.getAddress(params[:vehicle_id])
+    respond_to do |format|
+      format.html
+      format.json { render json: ret }
+    end
+  end
   # GET /positions/1
   # GET /positions/1.json
   def show
@@ -63,6 +71,7 @@ class PositionsController < ApplicationController
       end
     end
   end
+
 
   # PATCH/PUT /positions/1
   # PATCH/PUT /positions/1.json

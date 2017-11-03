@@ -19,16 +19,20 @@ class Position < ApplicationRecord
   def self.getAddress(vehicle_id)
     imei = Vehicle.find(vehicle_id).imei
     position = Position.all.where(imei: imei).last
+    # puts "noooooo"
+    # puts position
     if position.nil?
-      return "unknown"
+      return "unknown1"
     else
       lat = position.latitude.to_s
       lng = position.longitude.to_s
-      address = Geocoder.search(lat + "," + lng)[1].try(:formatted_addres)
+      address = Geocoder.search(lat + "," + lng)[1].try(:formatted_address)
+      # puts "---yes---"
+      # puts Geocoder.search(lat + "," + lng)[1].try(:formatted_address)
         if !address.nil?
-          address
+          return Vehicle.find(vehicle_id).plate ,position.speed, address.split(",")
         else
-          return "unknown"
+          return "unknown2"
         end
     end
   end
