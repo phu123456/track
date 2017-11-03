@@ -214,7 +214,6 @@ function getMarkerInfo(vehicle_id) {
               content: contentString
             });
             infowindow.open(map, markersArray[i]);
-            console.log(document.getElementById('marker-info'))
             // console.log("<%= Position.getAddress(1) %>")
         }
       }
@@ -382,11 +381,13 @@ var output = $('#txt');
     }
 
     $('#real-time-tab').click(function() {
+      placeMarker()
       $("#history").hide();
       $("#real-time").show();
     })
 
     $('#history-tab').click(function() {
+      clearMarker()
       $("#real-time").hide();
       $("#history").show();
     })
