@@ -52,13 +52,29 @@
     height : 90vh;
   }
 
-  .following {
+  .underline {
       height: auto;
       color: #ccc;
-      border-bottom: 1px solid grey;
+      border-bottom: 1px solid black;
+  }
+
+  .btn-history {
+      padding: 6px 9px;
+      font-size: 15px;
+      border-radius: 5px;
+      width:18%;
+  }
+
+  .btn-confirm {
+      padding: 6px 9px;
+      font-size: 17px;
+      border-radius: 5px;
+      width:25%;
   }
 
 </style>
+<html>
+
 
 <head>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
@@ -71,12 +87,12 @@
                 <a class="nav-link active normal-mode" id="real-time-tab" onclick="removeLine();" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Real Time</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="history-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">History</a>
+                <a class="nav-link clear-marker" id="history-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">History</a>
               </li>
             </ul>
 
             <div id="real-time">
-              <div class="following">
+              <div class="underline">
                 <table class="table-top">
                       <tr align="center">
                           <th>Plate</th>
@@ -134,22 +150,51 @@
         haha
       </div> -->
 
-      <div id="history" style="display:none;">
-        <br>
-            <select id="plate"style="width:115px;" class="js-example-basic-single" name="state">
-                <% @vehicles.each do |vehicle| %>
-                  <option value="<%= vehicle.id %>"> <%= vehicle.plate %> </option>
-                <% end %>
-              </select>
-              <button onclick="vehicleSearch()" class="search-button">Search</button>
-              <input type="datetime-local" id="startDate" >
-              <br>
+      <div id="history" style="display:none;" align="center">
+        <div class="underline" >
+          <br>
+          <font style="color:black">Choose Vehicle: </font>
+          <select id="plate"style="width:115px;" class="js-example-basic-single" name="state">
+              <% @vehicles.each do |vehicle| %>
+                <option value="<%= vehicle.id %>"> <%= vehicle.plate %> </option>
+              <% end %>
+            </select>
+          <br><br>
+        </div>
+
+        <div>
+          <br>
+          <button class="btn btn-danger btn-history" id="6hrs" type="button">6hrs</button>
+          <button class="btn btn-danger btn-history" id="12hrs" type="button">12hrs</button>
+          <button class="btn btn-primary btn-history" id="1day" type="button">1day</button>
+          <button class="btn btn-danger btn-history" id="2days" type="button">2days</button>
+          <br><br>
+        </div>
+
+        <div class="underline" >
+          <div class="checkbox">
+            <label style="color:black"><input type="checkbox" id="checkbox-status"> Seclect interval</label>
+          </div>
+
+          <div class="interval">
+            <font style="color:black">From: </font>
+            <input type="datetime-local" id="startDate" >
+            <br><br>
+            <font style="color:black">To: </font>
+            <input id="endDate" type="datetime-local" >
+            <br><br>
+          </div>
+        </div>
+              <!-- <button onclick="vehicleSearch()" class="search-button">Search</button> -->
+              <!-- <input type="datetime-local" id="startDate" > -->
+              <!-- <br>
               <font align="center">ถึง</font>
               <br>
-              <input id="endDate" type="datetime-local" >
+              <input id="endDate" type="datetime-local" > -->
             <br>
-          <button class="search-button clear-marker" >Clear Markers</button>
-        <button class="search-button normal-mode" onclick="removeLine();" >Normal Mode</button>
+            <button class="btn btn-success btn-confirm" type="button">Confirm</button>
+          <!-- <button class="search-button clear-marker" >Clear Markers</button>
+        <button class="search-button normal-mode" onclick="removeLine();" >Normal Mode</button> -->
       </div>
 
 
@@ -170,14 +215,50 @@
 <script src="../../../../dist/js/bootstrap-material-design.min.js"></script>
 <script src="../../../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
 
-<script>
+<script type="text/javascript">
 // window.onload = function () {
 //   LoadMap()
 // };
 $(document).ready(function() {
   LoadMap()
   $('.fa-search').css( 'cursor', 'pointer' );
+  $('.interval').hide();
+  // document.getElementById("endDate").disabled = true;
 });
+
+
+  $('#checkbox-status').change(function() {
+    if ($(this).is(':checked')) {
+      $('.btn-history').removeClass("btn-primary");
+      $('.btn-history').removeClass("btn-danger");
+      $('.btn-history').attr("disabled", true);
+      $('.interval').show();
+      // document.getElementById("startDate").disabled = false;
+      // document.getElementById("endDate").disabled = false;
+    } else {
+      $('.btn-history').addClass("btn-danger");
+      $('.btn-history').attr("disabled", false);
+      $('.interval').hide();
+    }
+  });
+
+  $('.btn-history').click(function() {
+    $(this).siblings().removeClass("btn-primary");
+    $(this).siblings().addClass("btn-danger");
+    $(this).removeClass("btn-danger");
+    $(this).addClass("btn-primary");
+  });
+
+  $('.btn-confirm').click(function() {
+    // var ts = Math.round(new Date().getTime() / 1000);
+    //
+    // var six_hour = ts - (6 * 3600);
+    // var twelve_hour = ts - (12 * 3600);
+    // var one_day = ts - (24 * 3600);
+    // var two_days = ts - (48 * 3600);
+    console.log(document.getElementsByClassName("btn-primary")[0].id)
+  });
+
 
 var current_vehicle_marker_id;
 // document.getElementsByClassName("status").removeClass("stationary");
@@ -255,6 +336,7 @@ var output = $('#txt');
   var time = 0;
   var flightPath;
   var flightPathArray = [];
+
   $(".clear-marker").click(function(e) {
     var startDate = document.getElementById("startDate").value
     var endDate = document.getElementById("endDate").value
@@ -409,6 +491,8 @@ var output = $('#txt');
           $(this).toggle(id.indexOf(value) !== -1);
       });
     });
+
+
 
   //   function changeFunc() {
   //   var selectBox = document.getElementById("selectBox");
