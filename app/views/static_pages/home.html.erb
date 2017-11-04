@@ -257,14 +257,13 @@ $(document).ready(function() {
       var endDate = document.getElementById("endDate").value
       showHistory(vehicle_id, startDate, endDate);
     } else {
-      console.log("<%= 6.hours.ago %>")
       history_dict = {
            "6hrs":"<%= 6.hours.ago %>",
            "12hours":"<%= 12.hours.ago %>",
            "1day":"<%= 1.day.ago %>",
            "2days":"<%= 1.days.ago %>",
       }
-      time = history_dict[document.getElementsByClassName("btn-history")[0].id]
+      time = history_dict[document.getElementsByClassName("btn-primary")[0].id]
       showHistory(vehicle_id, time,  "<%= Time.now %>");
     }
   });
