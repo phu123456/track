@@ -47,7 +47,7 @@ class Position < ApplicationRecord
       position = Position.all.where(imei: imei).last
       # puts position
       ary = Array.new
-      if position.nil?
+      if position.nil?.singularize.camelize.constantize
       else
         ary.push(id, plate, position.latitude, position.longitude)
         allVehiclePos.push(ary)
@@ -57,7 +57,11 @@ class Position < ApplicationRecord
   end
 
   def self.getPath(vehicle_id, start_date, end_date)
+    puts "--------yay------"
+    # puts 1.day.ago
+    puts start_date, end_date
     imei = Vehicle.all.where(id: vehicle_id)[0].imei
+
     positions = Position.all.where("created_at BETWEEN ? AND ?", start_date, end_date).where(imei: imei)
     speed, date, len, graph= positions.pluck(:speed), positions.pluck(:created_at), positions.all.size, Array.new
     coordinateAry = Array.new
@@ -82,7 +86,7 @@ class Position < ApplicationRecord
     end
     total_distance = distanceAry.inject(0){|sum,x| sum + x }
 
-    return [coordinateAry, total_distance, speed, graph]
+    return [coordinateAry, total_distance, speed]
   end
 
 end

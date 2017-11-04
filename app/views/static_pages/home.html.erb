@@ -154,7 +154,7 @@
         <div class="underline" >
           <br>
           <font style="color:black">Choose Vehicle: </font>
-          <select id="plate"style="width:115px;" class="js-example-basic-single" name="state">
+          <select id="plate" style="width:115px;" class="js-example-basic-single" name="state">
               <% @vehicles.each do |vehicle| %>
                 <option value="<%= vehicle.id %>"> <%= vehicle.plate %> </option>
               <% end %>
@@ -164,8 +164,8 @@
 
         <div>
           <br>
-          <button class="btn btn-danger btn-history" id="6hrs" type="button">6hrs</button>
-          <button class="btn btn-danger btn-history" id="12hrs" type="button">12hrs</button>
+          <button class="btn btn-danger btn-history" id="6hrs" type="button">6hr</button>
+          <button class="btn btn-danger btn-history" id="12hrs" type="button">12hr</button>
           <button class="btn btn-primary btn-history" id="1day" type="button">1day</button>
           <button class="btn btn-danger btn-history" id="2days" type="button">2days</button>
           <br><br>
@@ -250,13 +250,23 @@ $(document).ready(function() {
   });
 
   $('.btn-confirm').click(function() {
-    // var ts = Math.round(new Date().getTime() / 1000);
-    //
-    // var six_hour = ts - (6 * 3600);
-    // var twelve_hour = ts - (12 * 3600);
-    // var one_day = ts - (24 * 3600);
-    // var two_days = ts - (48 * 3600);
-    console.log(document.getElementsByClassName("btn-primary")[0].id)
+    var selectBox = document.getElementById("plate");
+    var vehicle_id = selectBox.options[selectBox.selectedIndex].value;
+    if ($('#checkbox-status').is(':checked')) {
+      var startDate = document.getElementById("startDate").value
+      var endDate = document.getElementById("endDate").value
+      showHistory(vehicle_id, startDate, endDate);
+    } else {
+      console.log("<%= 6.hours.ago %>")
+      history_dict = {
+           "6hrs":"<%= 6.hours.ago %>",
+           "12hours":"<%= 12.hours.ago %>",
+           "1day":"<%= 1.day.ago %>",
+           "2days":"<%= 1.days.ago %>",
+      }
+      time = history_dict[document.getElementsByClassName("btn-history")[0].id]
+      showHistory(vehicle_id, time,  "<%= Time.now %>");
+    }
   });
 
 
@@ -337,11 +347,8 @@ var output = $('#txt');
   var flightPath;
   var flightPathArray = [];
 
-  $(".clear-marker").click(function(e) {
-    var startDate = document.getElementById("startDate").value
-    var endDate = document.getElementById("endDate").value
-    vehicle_id = document.getElementById("plate").value
-    e.preventDefault();
+function showHistory(vehicle_id, start, end) {
+    // e.preventDefault();
     isPaused = true;
     clearMarker()
     $.ajax({
@@ -349,8 +356,8 @@ var output = $('#txt');
       url:"/positions/routes",
       data: {
         id: vehicle_id,
-        startDate: startDate,
-        endDate: endDate
+        startDate: start,
+        endDate: end
       },
       dataType:"json",
       success: function(data){
@@ -369,12 +376,12 @@ var output = $('#txt');
           strokeOpacity: 1.0,
           strokeWeight: 2
         });
-        animateCircle(flightPath);
+        // animateCircle(flightPath);
         flightPath.setMap(map);
         flightPathArray.push(flightPath);
       }
     });
-  });
+  };
 
   $(".normal-mode").click(function(e) {
     isPaused = false;

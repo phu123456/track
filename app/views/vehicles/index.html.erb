@@ -1,64 +1,144 @@
-<html>
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-
-<body>
+<p id="notice"><%= notice %></p>
 
 
+<table class="table my_table">
+  <thead>
+    <tr>
+      <th>Plate</th>
+      <th>Imei</th>
+      <th>Distance</th>
+      <th>Category</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
 
-<div class="container">
-    <div class='col-md-5'>
-        <div class="form-group">
-            <div class='input-group date' id='datetimepicker6'>
-                <input type='text' class="form-control" />
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-            </div>
-        </div>
+  <tbody>
+    <% @vehicles.each do |vehicle| %>
+      <tr>
+        <td><%= vehicle.plate %></td>
+        <td><%= vehicle.imei %></td>
+        <td><%= vehicle.distance %></td>
+        <td><button onclick="categoryModal(this)" id="<%= vehicle.id %>" type="button" class="my_btn" data-toggle="modal" data-target="#myModal" value="<%= vehicle.category %>"><%= vehicle.category %></button></td>
+        <td><%= link_to 'Show', vehicle %></td>
+        <td><%= link_to 'Edit', edit_vehicle_path(vehicle) %></td>
+        <td><%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Vehicle', new_vehicle_path %>
+<style>
+  .my_table {
+      width: 85%;
+  }
+</style>
+
+<style>
+.my_btn {
+      width: 55%;
+  }
+</style>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="svgImg" align="center"><div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
     </div>
-    <div class='col-md-5'>
-        <div class="form-group">
-            <div class='input-group date' id='datetimepicker7'>
-                <input type='text' class="form-control" />
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
-<script type="text/javascript">
-$(document).ready(function() {
-        $(function () {
-            $('#datetimepicker6').datetimepicker();
-            $('#datetimepicker7').datetimepicker({
-                useCurrent: false //Important! See issue #1075
-            });
-            $("#datetimepicker6").on("dp.change", function (e) {
-                $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-            });
-            $("#datetimepicker7").on("dp.change", function (e) {
-                $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
-            });
-        });
-    });
+
+<script>
+category_dict={
+     "4Wheels":"<%= asset_path('4Wheels.svg') %>",
+     "6Wheels":"<%= asset_path('6Wheels.svg') %>",
+     "8WheelsSemi":"<%= asset_path('8WheelsSemi.svg') %>",
+     "10Wheels":"<%= asset_path('10Wheels.svg') %>",
+     "12WheelsSemi":"<%= asset_path('12WheelsSemi.svg') %>",
+     "12WheelsTrailer":"<%= asset_path('12WheelsTrailer.svg') %>"
+};
+
+  function categoryModal(obj) {
+    var category = obj.value.replace(/[-\-]/g,"")
+    console.log(category)
+    document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=300px; width=450px; display: none;></object>'
+    getWheels(obj)
+  };
+
+  function assignWheels(data) {
+    var mySVG = document.getElementById("svg");
+    var svgDoc;
+    // var new_delta = [];
+    mySVG.addEventListener("load",function() {
+      svgDoc = mySVG.contentDocument;
+      var delta = svgDoc.getElementsByClassName("wheel");
+      var positions = [];
+      for (var i = 0; i < data.length; i++) {
+        positions.push(data[i].position)
+      }
+      function selectedWheel() {
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].position == this.id) {
+             document.location.href = "/tyres/" + data[i].id;
+          } else {
+             console.log(data[i].position, this.id)
+          }
+        }
+      }
+
+      function colorChangeTo() {
+        this.style.setProperty("fill", "green", "");
+      }
+
+      function colorChangeBack() {
+        this.style.setProperty("fill", "black", "");
+      }
+
+      function noWheel() {
+        alert("No tyre belong to this position!")
+      }
+
+      for (var i = 0; i < delta.length; i++) {
+        if (positions.includes(svgDoc.getElementById(delta[i].id).id)) {
+           delta[i].addEventListener('click', selectedWheel, false);
+           delta[i].addEventListener('mouseover', colorChangeTo, false);
+           delta[i].addEventListener('mouseout', colorChangeBack, false);
+           svgDoc.getElementById(delta[i].id).style.cursor = "pointer";
+        }  else {
+           svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
+           delta[i].addEventListener('click', noWheel, false);
+        }
+      }
+    }, false);
+    $(".divSvg").show();
+  }
+
+  function getWheels(obj) {
+    $.ajax({
+      type:"GET",
+      url:"/vehicles/category",
+      data: {
+        current_vehicle_id: obj.id
+      },
+      dataType:"json",
+      success: function(data){
+        assignWheels(data)
+      }
+    })
+  }
 </script>
-
-
-
-</body>
-
-
-</html>
