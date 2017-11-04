@@ -277,7 +277,6 @@ function vehicleSearch(obj) {
   vehicle_id = obj.id
   current_vehicle_marker_id = vehicle_id
   info_ary = getMarkerInfo(vehicle_id)
-
 }
 function getMarkerInfo(vehicle_id) {
   $.ajax({
@@ -469,13 +468,14 @@ function showHistory(vehicle_id, start, end) {
     }
 
     $('#real-time-tab').click(function() {
-      placeMarker()
+      isPaused = false;
       $("#history").hide();
       $("#real-time").show();
     })
 
     $('#history-tab').click(function() {
       clearMarker()
+      isPaused = true;
       $("#real-time").hide();
       $("#history").show();
     })
