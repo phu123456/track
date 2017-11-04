@@ -250,6 +250,7 @@ $(document).ready(function() {
   });
 
   $('.btn-confirm').click(function() {
+    clearMarker()
     var selectBox = document.getElementById("plate");
     var vehicle_id = selectBox.options[selectBox.selectedIndex].value;
     if ($('#checkbox-status').is(':checked')) {
