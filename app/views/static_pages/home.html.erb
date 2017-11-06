@@ -92,7 +92,7 @@
             </ul>
 
             <div id="real-time">
-              <div class="underline">
+              <!-- <div class="underline">
                 <table class="table-top">
                       <tr align="center">
                           <th>Plate</th>
@@ -107,7 +107,7 @@
                           <td>-</td>
                       </tr>
                 </table>
-              </div>
+              </div> -->
             <br>
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
               <table class="example-table">
@@ -133,7 +133,7 @@
                     <% @vehicles.each do |vehicle| %>
                     <tr style="background-color: white; border-bottom: 1px solid black;" align="center" >
                       <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;" onclick="vehicleSearch(this)" id="<%= vehicle.id %>"></i> <%= vehicle.plate %></td>
-                      <td><%= Position.where(imei: vehicle.imei).last.try(:created_at) %></td>
+                      <td><%= Position.getTime(vehicle.imei) %></td>
                       <td class="status stationary"></td>
                     </tr>
                   <% end %>
@@ -348,6 +348,7 @@ var output = $('#txt');
 
 function showHistory(vehicle_id, start, end) {
     // e.preventDefault();
+    // console.log(vehicle_id, start, end)
     isPaused = true;
     clearMarker()
     $.ajax({
@@ -360,24 +361,33 @@ function showHistory(vehicle_id, start, end) {
       },
       dataType:"json",
       success: function(data){
-        // console.log("---here---")
-        console.log(data)
-        var pathCoordinates = data
-        // console.log(data[1], (data[0]).length, data[2])
-        flightPath = new google.maps.Polyline({
-          path: pathCoordinates[0],
-          icons: [{
-            icon: lineSymbol,
-            offset: '50%'
-          }],
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-        // animateCircle(flightPath);
-        flightPath.setMap(map);
-        flightPathArray.push(flightPath);
+        // console.log(data[0].length)
+        for( i = 0; i < data[0].length; i++ ) {
+          var position = new google.maps.LatLng(data[0][i].lat, data[0][i].lng);
+          marker = new google.maps.Marker({
+              position: position,
+              icon: calDegree(data[0][i].lat, data[0][i].lng, data[0][i+1].lat, data[0][i+1].lng),
+              // label: {text: markers[i][0], color: "red"},
+              map: map,
+          });
+          markersArray.push(marker);
+        } console.log(marker)
+        // var pathCoordinates = data
+        // // console.log(data[1], (data[0]).length, data[2])
+        // flightPath = new google.maps.Polyline({
+        //   path: pathCoordinates[0],
+        //   // icons: [{
+        //   //   icon: lineSymbol,
+        //   //   offset: '50%'
+        //   // }],
+        //   geodesic: true,
+        //   strokeColor: '#FF0000',
+        //   strokeOpacity: 1.0,
+        //   strokeWeight: 2
+        // });
+        // // animateCircle(flightPath);
+        // flightPath.setMap(map);
+        // flightPathArray.push(flightPath);
       }
     });
   };
@@ -501,13 +511,30 @@ function showHistory(vehicle_id, start, end) {
 
 
 
-  //   function changeFunc() {
-  //   var selectBox = document.getElementById("selectBox");
-  //   var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-  //   alert(selectedValue);
-  //  }
-  //   $("#province-search").keyup(function() {
-   //
-  //   });
-
+    function calDegree(x1, y1, x2, y2) {
+      var p1 = {
+      	x: x1,
+      	y: y1
+      };
+      var p2 = {
+      	x: x2,
+      	y: y2
+      };
+      var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+      if ((-22.5 < angleDeg) && (angleDeg < 22.5)) {
+        return "<%= image_path 'green0.png' %>"
+      } else if ((22.5 < angleDeg) && (angleDeg < 67.5)) {
+        return "<%= image_path 'green45.png' %>"
+      } else if ((67.5 < angleDeg) && (angleDeg < 112.5)) {
+        return "<%= image_path 'green90.png' %>"
+      } else if ((112.5 < angleDeg) && (angleDeg < 157.5)) {
+        return "<%= image_path 'green135.png' %>"
+      } else if ((-67.5 < angleDeg) && (angleDeg < -22.5)) {
+        return "<%= image_path 'green-45.png' %>"
+      } else if ((-112.5 < angleDeg) && (angleDeg < -67.5)) {
+        return "<%= image_path 'green-90.png' %>"
+      } else if ((-157.5 < angleDeg) && (angleDeg < -112.5)) {
+        return "<%= image_path 'green-135.png' %>"
+      } else return "<%= image_path 'green180.png' %>"
+    }
 </script>

@@ -87,4 +87,13 @@ class Position < ApplicationRecord
     return [coordinateAry, total_distance, speed]
   end
 
+  def self.getTime(imei)
+    if !Position.where(imei: imei).last.try(:created_at).nil?
+      Position.where(imei: imei).last.try(:created_at).strftime("%I:%M %p")
+
+      # Time.now
+      # (Time.parse(Position.where(imei: imei).last.try(:created_at)) - Time.now) / 60
+
+    end
+  end
 end
