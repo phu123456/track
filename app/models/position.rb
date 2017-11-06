@@ -60,7 +60,7 @@ class Position < ApplicationRecord
 
     imei = Vehicle.all.where(id: vehicle_id)[0].imei
 
-    positions = Position.all.where("created_at BETWEEN ? AND ?", start_date, end_date).where(imei: imei)
+    positions = Position.all.where("created_at BETWEEN ? AND ?", start_date, end_date).where(imei: imei).where("speed != ?", 0.0)
     speed, date, len, graph= positions.pluck(:speed), positions.pluck(:created_at), positions.all.size, Array.new
     coordinateAry = Array.new
     distanceAry = Array.new

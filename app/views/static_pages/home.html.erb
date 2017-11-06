@@ -362,7 +362,7 @@ function showHistory(vehicle_id, start, end) {
       dataType:"json",
       success: function(data){
         // console.log(data[0].length)
-        for( i = 0; i < data[0].length; i++ ) {
+        for( i = 0; i < data[0].length; i += 5 ) {
           var position = new google.maps.LatLng(data[0][i].lat, data[0][i].lng);
           marker = new google.maps.Marker({
               position: position,
