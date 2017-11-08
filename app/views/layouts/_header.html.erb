@@ -1,22 +1,22 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="#">Logistic</a>
+      <a class="navbar-brand" style="color:white">Logistic</a>
       <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="<%= root_path %>">Home <span class="sr-only"></span></a>
+          <li class="nav-item root" id="root">
+            <a class="nav-link">Home<span class="sr-only"></span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="<%= vehicles_path %>">Vehicle</a>
+          <li class="nav-item vehicle" id="vehicle">
+            <a class="nav-link">Vehicle</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="<%= tyres_path %>">Tyres</a>
+          <li class="nav-item tyre" id="tyre">
+            <a class="nav-link">Tyres</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="<%= maintenances_path %>">Maintenances</a>
+          <li class="nav-item maintenance" id="maintenance">
+            <a class="nav-link">Maintenances</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">History</a>
@@ -38,12 +38,30 @@
       </div>
     </nav>
 
-    <!-- <script>
+    <script>
+      $('#root').click(function() {
+        window.location.assign('<%= root_path %>')
+      })
 
+      $('#vehicle').click(function() {
+        window.location.assign('<%= vehicles_path %>')
+      })
 
-      $('li').click(function() {
-        $(this).children().removeClass('active');
-        $('li').removeClass('active');
-        console.log($(this).parent())
-      });
-    </script> -->
+      $('#tyre').click(function() {
+        window.location.assign('<%= tyres_path %>')
+      })
+
+      $('#maintenance').click(function() {
+        window.location.assign('<%= maintenances_path %>')
+      })
+
+      $('#root').click(function() {
+        window.location.assign('<%= root_path %>')
+      })
+    </script>
+
+    <style>
+      .nav-item {
+        cursor: pointer;
+      }
+    </style>

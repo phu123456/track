@@ -16,6 +16,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+//= require bootstrap
+
 $(".reset").click(function() {
   id = this.id
   $.ajax({

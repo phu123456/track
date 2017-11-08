@@ -216,16 +216,15 @@
 <script src="../../../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
 
 <script type="text/javascript">
-// window.onload = function () {
-//   LoadMap()
-// };
-$(document).ready(function() {
+window.onload = function () {
   LoadMap()
   $('.fa-search').css( 'cursor', 'pointer' );
   $('.interval').hide();
-  // document.getElementById("endDate").disabled = true;
-});
+};
 
+$( document ).ready(function() {
+    $('.root').addClass('active');
+});
 
   $('#checkbox-status').change(function() {
     if ($(this).is(':checked')) {
