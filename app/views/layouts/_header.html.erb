@@ -22,18 +22,24 @@
             <a class="nav-link" href="#">History</a>
           </li>
         </ul>
-        <form class="form-inline mt-2 mt-md-0">
+        <!-- <form class="form-inline mt-2 mt-md-0">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        </form> -->
         <% if user_signed_in? %>
-          <li>
-          <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
-          </li>
+          <!-- <li> -->
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><i class="	fa fa-user-circle"> <%= current_user.email%></i>
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li align="center"><%= link_to('Logout', destroy_user_session_path, method: :delete) %></li>
+            </ul>
+          </div>
+          <!-- </li> -->
         <% else %>
-          <li>
+          <!-- <li> -->
           <%= link_to('Login', new_user_session_path)  %>
-          </li>
+          <!-- </li> -->
         <% end %>
       </div>
     </nav>
@@ -63,5 +69,10 @@
     <style>
       .nav-item {
         cursor: pointer;
+      }
+
+      a:link {
+          text-decoration:none;
+          color: black;
       }
     </style>

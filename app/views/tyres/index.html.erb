@@ -2,7 +2,7 @@
 
 <style>
   .table {
-      width: 85%;
+      width: 90%;
   }
 
   .btn-status {
@@ -31,11 +31,9 @@
     <tr bgcolor="#006dcc">
       <th onclick="sortTable(0)">Brand</th>
       <th onclick="sortTable(1)">Serial</th>
-      <th onclick="sortTable(2)">Start distance</th>
-      <th onclick="sortTable(3)">Total distance</th>
-      <th onclick="sortTable(4)">Status</th>
-      <th onclick="sortTable(5)">Vehicle</th>
-      <th onclick="sortTable(6)">Position</th>
+      <th onclick="sortTable(2)">Total distance</th>
+      <th onclick="sortTable(3)">Vehicle</th>
+      <th onclick="sortTable(4)">Position</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -45,9 +43,9 @@
       <tr class ="in-used-table">
         <td><%= tyre.brand %></td>
         <td><%= tyre.serial %></td>
-        <td><%= tyre.start_distance %></td>
+        <!-- <td><%= tyre.start_distance %></td> -->
         <td><%= tyre.total_distance %></td>
-        <td><%= tyre.status %></td>
+        <!-- <td><%= tyre.status %></td> -->
         <td><%= Vehicle.find(tyre.vehicle_id).plate %></td>
         <td><%= tyre.position %></td>
         <td><%= link_to 'Manage', tyre %></td>
@@ -64,7 +62,6 @@
       <th>Brand</th>
       <th>Serial</th>
       <th>Start distance</th>
-      <th>Total distance</th>
       <th>Status</th>
       <th>Vehicle</th>
       <th>Position</th>
