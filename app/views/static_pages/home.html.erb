@@ -40,13 +40,13 @@
       display: block;
   }
   th,td {
-      padding: 4px;
-      width: 125px;
+      padding: 3px;
+      width: 110px;
       box-sizing: border-box;
   }
   .tbody {
     overflow: auto;
-    height: 50vh;
+    height: 55vh;
   }
    .aaa {
     height : 90vh;
@@ -94,7 +94,7 @@
               </li>
             </ul>
 
-            <div id="real-time">
+            <div id="real-time" style="background-color: white; height: 84%;">
             <br>
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
               <table class="example-table">
@@ -105,7 +105,7 @@
                           <th> Status </th>
                       </tr>
                       <tr align="center">
-                          <th><input type="text" id="plate-search" size="9" style="height:23px;"></th>
+                          <th><input type="text" id="plate-search" size="9" style="height:23px; "></th>
                           <!-- <th><input type="text" id="province-search" size="13" style="height:23px;"></th> -->
                           <th>
                           <th><select id="selectBox" onchange="changeFunc();">
@@ -116,7 +116,7 @@
                           </th>
                       </tr>
                   </thead>
-                  <tbody class="data-table tbody" style="background-color: white;">
+                  <tbody class="data-table tbody">
                     <% @vehicles.each do |vehicle| %>
                     <tr class="v-search" style="border-bottom: 1px solid black;" align="center" onclick="vehicleSearch(this)" id="<%= vehicle.id %>">
                       <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;"></i> <%= vehicle.plate %></td>
@@ -137,7 +137,8 @@
         haha
       </div> -->
 
-      <div id="history" style="display:none;" align="center">
+      <div id="history" style="background-color: white; display:none; height: 84%;" align="center">
+        
         <div class="underline" >
           <br>
           <font style="color:black">Choose Vehicle: </font>
@@ -268,7 +269,7 @@ function vehicleSearch(obj) {
   for (i = 0; i < all_row.length; i++) {
     all_row[i].style = "border-bottom: 1px solid black;"
   }
-  document.getElementById(obj.id).setAttribute("style", "background-color: green; border-bottom: 1px solid black;");
+  document.getElementById(obj.id).setAttribute("style", "background-color: #10e209; border-bottom: 1px solid black;");
   $('.v-search').css( 'cursor', 'pointer' );
 }
 function getMarkerInfo(vehicle_id) {
