@@ -80,10 +80,11 @@
 <head>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 </head>
-<div class="loader loader-default is-active" data-text id="loader"></div>
-<div class="container-fluid">
+<div class="loader loader-default is-active" data-text id="loader" ></div>
+<div class="container-fluid" style="margin-left: 7.5px">
       <div class="row pt-3 aaa">
-        <nav class="col-sm-3 col-md-4 d-none d-sm-block bg-light" >
+        <nav class="col-sm-3 col-md-4 d-sm-block" style="background-color: #d0d3d8;">
+          <br>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item">
                 <a class="nav-link active normal-mode" id="real-time-tab" onclick="removeLine();" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Real Time</a>
@@ -94,22 +95,6 @@
             </ul>
 
             <div id="real-time">
-              <!-- <div class="underline">
-                <table class="table-top">
-                      <tr align="center">
-                          <th>Plate</th>
-                          <th colspan="3">Location</th>
-                          <th>Speed</th>
-                      </tr>
-                      <tr align="center">
-                          <td>-</td>
-                          <td></td>
-                          <td>-</td>
-                          <td></td>
-                          <td>-</td>
-                      </tr>
-                </table>
-              </div> -->
             <br>
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
               <table class="example-table">
@@ -133,8 +118,8 @@
                   </thead>
                   <tbody class="data-table tbody" style="background-color: white;">
                     <% @vehicles.each do |vehicle| %>
-                    <tr style="border-bottom: 1px solid black;" align="center" >
-                      <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;" onclick="vehicleSearch(this)" id="<%= vehicle.id %>"></i> <%= vehicle.plate %></td>
+                    <tr class="v-search" style="border-bottom: 1px solid black;" align="center" onclick="vehicleSearch(this)" id="<%= vehicle.id %>">
+                      <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;"></i> <%= vehicle.plate %></td>
                       <td><%= Position.getTime(vehicle.imei) %></td>
                       <td class="status stationary"></td>
                     </tr>
@@ -220,7 +205,7 @@
 <script type="text/javascript">
 window.onload = function () {
   LoadMap()
-  $('.fa-search').css( 'cursor', 'pointer' );
+  $('.v-search').css( 'cursor', 'pointer' );
   $('.interval').hide();
 };
 
@@ -279,6 +264,12 @@ function vehicleSearch(obj) {
   vehicle_id = obj.id
   current_vehicle_marker_id = vehicle_id
   info_ary = getMarkerInfo(vehicle_id)
+  all_row = document.getElementsByClassName('v-search')
+  for (i = 0; i < all_row.length; i++) {
+    all_row[i].style = "border-bottom: 1px solid black;"
+  }
+  document.getElementById(obj.id).setAttribute("style", "background-color: green; border-bottom: 1px solid black;");
+  $('.v-search').css( 'cursor', 'pointer' );
 }
 function getMarkerInfo(vehicle_id) {
   $.ajax({
@@ -363,32 +354,32 @@ function showHistory(vehicle_id, start, end) {
       dataType:"json",
       success: function(data){
         // console.log(data[0].length)
-        for( i = 0; i < data[0].length; i += 15 ) {
-          var position = new google.maps.LatLng(data[0][i].lat, data[0][i].lng);
-          marker = new google.maps.Marker({
-              position: position,
-              icon: calDegree(data[0][i].lat, data[0][i].lng, data[0][i+1].lat, data[0][i+1].lng),
-              // label: {text: markers[i][0], color: "red"},
-              map: map,
-          });
-          markersArray.push(marker);
-        } console.log(marker)
-        // var pathCoordinates = data
-        // // console.log(data[1], (data[0]).length, data[2])
-        // flightPath = new google.maps.Polyline({
-        //   path: pathCoordinates[0],
-        //   // icons: [{
-        //   //   icon: lineSymbol,
-        //   //   offset: '50%'
-        //   // }],
-        //   geodesic: true,
-        //   strokeColor: '#FF0000',
-        //   strokeOpacity: 1.0,
-        //   strokeWeight: 2
-        // });
-        // // animateCircle(flightPath);
-        // flightPath.setMap(map);
-        // flightPathArray.push(flightPath);
+        // for( i = 0; i < data[0].length; i += 15 ) {
+        //   var position = new google.maps.LatLng(data[0][i].lat, data[0][i].lng);
+        //   marker = new google.maps.Marker({
+        //       position: position,
+        //       icon: calDegree(data[0][i].lat, data[0][i].lng, data[0][i+1].lat, data[0][i+1].lng),
+        //       // label: {text: markers[i][0], color: "red"},
+        //       map: map,
+        //   });
+        //   markersArray.push(marker);
+        // } console.log(marker)
+        var pathCoordinates = data
+        // console.log(data[1], (data[0]).length, data[2])
+        flightPath = new google.maps.Polyline({
+          path: pathCoordinates[0],
+          // icons: [{
+          //   icon: lineSymbol,
+          //   offset: '50%'
+          // }],
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        // animateCircle(flightPath);
+        flightPath.setMap(map);
+        flightPathArray.push(flightPath);
       }
     });
   };
@@ -515,30 +506,30 @@ function showHistory(vehicle_id, start, end) {
 
 
 
-    function calDegree(x1, y1, x2, y2) {
-      var p1 = {
-      	x: x1,
-      	y: y1
-      };
-      var p2 = {
-      	x: x2,
-      	y: y2
-      };
-      var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
-      if ((-22.5 < angleDeg) && (angleDeg < 22.5)) {
-        return "<%= image_path 'green0.png' %>"
-      } else if ((22.5 < angleDeg) && (angleDeg < 67.5)) {
-        return "<%= image_path 'green45.png' %>"
-      } else if ((67.5 < angleDeg) && (angleDeg < 112.5)) {
-        return "<%= image_path 'green90.png' %>"
-      } else if ((112.5 < angleDeg) && (angleDeg < 157.5)) {
-        return "<%= image_path 'green135.png' %>"
-      } else if ((-67.5 < angleDeg) && (angleDeg < -22.5)) {
-        return "<%= image_path 'green-45.png' %>"
-      } else if ((-112.5 < angleDeg) && (angleDeg < -67.5)) {
-        return "<%= image_path 'green-90.png' %>"
-      } else if ((-157.5 < angleDeg) && (angleDeg < -112.5)) {
-        return "<%= image_path 'green-135.png' %>"
-      } else return "<%= image_path 'green180.png' %>"
-    }
+    // function calDegree(x1, y1, x2, y2) {
+    //   var p1 = {
+    //   	x: x1,
+    //   	y: y1
+    //   };
+    //   var p2 = {
+    //   	x: x2,
+    //   	y: y2
+    //   };
+    //   var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+    //   if ((-22.5 < angleDeg) && (angleDeg < 22.5)) {
+    //     return "<%= image_path 'green0.png' %>"
+    //   } else if ((22.5 < angleDeg) && (angleDeg < 67.5)) {
+    //     return "<%= image_path 'green45.png' %>"
+    //   } else if ((67.5 < angleDeg) && (angleDeg < 112.5)) {
+    //     return "<%= image_path 'green90.png' %>"
+    //   } else if ((112.5 < angleDeg) && (angleDeg < 157.5)) {
+    //     return "<%= image_path 'green135.png' %>"
+    //   } else if ((-67.5 < angleDeg) && (angleDeg < -22.5)) {
+    //     return "<%= image_path 'green-45.png' %>"
+    //   } else if ((-112.5 < angleDeg) && (angleDeg < -67.5)) {
+    //     return "<%= image_path 'green-90.png' %>"
+    //   } else if ((-157.5 < angleDeg) && (angleDeg < -112.5)) {
+    //     return "<%= image_path 'green-135.png' %>"
+    //   } else return "<%= image_path 'green180.png' %>"
+    // }
 </script>
