@@ -346,12 +346,12 @@ function showHistory(vehicle_id, start, end) {
         flightPath = new google.maps.Polyline({
           path: pathCoordinates[0],
           geodesic: true,
-          strokeColor: 'red',
+          strokeColor: 'black',
           strokeOpacity: 1.0,
           strokeWeight: 2,
           icons: [{
-              icon: {path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
-                     strokeColor: '#26b2c1'
+              icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                     strokeColor: 'red'
               },
               offset: '100%',
               repeat: '20px'
