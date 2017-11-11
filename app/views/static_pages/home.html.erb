@@ -128,17 +128,12 @@
               </table>
             </div>
 
-
-
-
-
-
       <!-- <div class="history">
         haha
       </div> -->
 
       <div id="history" style="background-color: white; display:none; height: 84%;" align="center">
-        
+
         <div class="underline" >
           <br>
           <font style="color:black">Choose Vehicle: </font>
@@ -194,15 +189,6 @@
 </div>
 </div>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-<!-- <script src="../../../../assets/js/vendor/popper.min.js"></script>
-<script src="../../../../dist/js/bootstrap-material-design.min.js"></script>
-<script src="../../../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
-
 <script type="text/javascript">
 window.onload = function () {
   LoadMap()
@@ -237,6 +223,7 @@ $( document ).ready(function() {
   });
 
   $('.btn-confirm').click(function() {
+    $('#loader').addClass('is-active');
     clearMarker()
     var selectBox = document.getElementById("plate");
     var vehicle_id = selectBox.options[selectBox.selectedIndex].value;
@@ -354,33 +341,18 @@ function showHistory(vehicle_id, start, end) {
       },
       dataType:"json",
       success: function(data){
-        // console.log(data[0].length)
-        // for( i = 0; i < data[0].length; i += 15 ) {
-        //   var position = new google.maps.LatLng(data[0][i].lat, data[0][i].lng);
-        //   marker = new google.maps.Marker({
-        //       position: position,
-        //       icon: calDegree(data[0][i].lat, data[0][i].lng, data[0][i+1].lat, data[0][i+1].lng),
-        //       // label: {text: markers[i][0], color: "red"},
-        //       map: map,
-        //   });
-        //   markersArray.push(marker);
-        // } console.log(marker)
+        console.log(data)
         var pathCoordinates = data
-        // console.log(data[1], (data[0]).length, data[2])
         flightPath = new google.maps.Polyline({
           path: pathCoordinates[0],
-          // icons: [{
-          //   icon: lineSymbol,
-          //   offset: '50%'
-          // }],
           geodesic: true,
           strokeColor: '#FF0000',
           strokeOpacity: 1.0,
           strokeWeight: 2
         });
-        // animateCircle(flightPath);
         flightPath.setMap(map);
         flightPathArray.push(flightPath);
+        $('#loader').removeClass('is-active');
       }
     });
   };
@@ -534,3 +506,7 @@ function showHistory(vehicle_id, start, end) {
     //   } else return "<%= image_path 'green180.png' %>"
     // }
 </script>
+
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery.min.js"><\/script>')</script>

@@ -6,9 +6,8 @@
     width: 35%;
     margin:0 auto;
   }
-
-
 </style>
+
 <br>
 <p style="font-size:25px" align="center">New Vehicle</p>
 <div class="center-box container">
@@ -50,7 +49,7 @@
     </div>
     <div align="center">
       <button type="button" id="modalTog" class="btn btn-primary" data-toggle="modal">Select Category</button>
-    </div>
+    </div><br>
     <div id="selected-category"></div>
     <div class="actions form-submit" align="center" style="display:none;">
       <button class="btn btn-success" type="submit" name="commit" value="Create Vehicle" data-disable-with="Create Vehicle">Comfirm<button>
@@ -64,36 +63,36 @@
     <div class="modal-content">
       <font align="center">Select Type</font>
       <div>
-        <table style="margin: 0px auto;" border="1" height="100%" width="80%">
+        <table style="margin: 0px auto;" border="1" height="110%" width="80%">
           <tr align="center">
-            <td>
-              <img src="<%= asset_path('4Wheels.svg') %>" height="100%" width="100%">
+            <td><br>
+              <img src="<%= asset_path('4Wheels.svg') %>" height="110%" width="100%">
               <button id="4-Wheels" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="4Wheels">Select</button>
             </td>
-            <td>
-              <img src="<%= asset_path('6Wheels.svg') %>" height="100%" width="100%">
+            <td><br>
+              <img src="<%= asset_path('6Wheels.svg') %>" height="110%" width="100%">
 
               <button id="6-Wheels" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="6Wheels">Select</button>
             </td>
           </tr>
           <tr align="center">
-            <td>
-              <img src="<%= asset_path('8WheelsSemi.svg') %>" height="100%" width="100%">
+            <td><br>
+              <img src="<%= asset_path('8WheelsSemi.svg') %>" height="110%" width="100%">
 
               <button id="8-Wheels-Semi" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="8WheelsSemi">Select</button></td>
-            <td>
-              <img src="<%= asset_path('10Wheels.svg') %>" height="100%" width="100%">
+            <td><br>
+              <img src="<%= asset_path('10Wheels.svg') %>" height="110%" width="100%">
 
               <button id="10-Wheels" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="10Wheels">Select</button>
             </td>
           </tr>
           <tr align="center">
-            <td>
-              <img src="<%= asset_path('12WheelsTrailer.svg') %>" height="100%" width="100%">
+            <td><br>
+              <img src="<%= asset_path('12WheelsTrailer.svg') %>" height="110%" width="100%">
               <button id="12-Wheels-Trailer" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="12WheelsTrailer">Select</button>
             </td>
-            <td>
-              <img src="<%= asset_path('12WheelsSemi.svg') %>" height="100%" width="100%">
+            <td><br>
+              <img src="<%= asset_path('12WheelsSemi.svg') %>" height="110%" width="100%">
               <button id="12-Wheels-Semi" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="12WheelsSemi">Select</button>
             </td>
           </tr>
