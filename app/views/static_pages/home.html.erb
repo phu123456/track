@@ -224,6 +224,7 @@ $( document ).ready(function() {
 
   $('.btn-confirm').click(function() {
     $('#loader').addClass('is-active');
+    removeLine()
     clearMarker()
     var selectBox = document.getElementById("plate");
     var vehicle_id = selectBox.options[selectBox.selectedIndex].value;
@@ -433,12 +434,12 @@ function showHistory(vehicle_id, start, end) {
      }
    }
 
-   var lineSymbol = {
-     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-     scale: 5,
-     strokeWeight:2,
-     strokeColor: '#393',
-   };
+  //  var lineSymbol = {
+  //    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+  //    scale: 5,
+  //    strokeWeight:2,
+  //    strokeColor: '#393',
+  //  };
 
    function animateCircle(line) {
         var count = 0;

@@ -1,5 +1,4 @@
 <p id="notice"><%= notice %></p>
-
 <style>
   .table {
       width: 90%;
@@ -21,7 +20,7 @@
 <div align="center">
   <input class="btn btn-primary active btn-status" type="button" value="Currently Used" id="in-used">
   <input class="btn btn-success btn-status" type="submit" value="Available" id="un-use">
-  <input class="btn btn-danger btn-status" type="submit" value="Destroyed">
+  <input class="btn btn-danger btn-status" type="submit" value="Destroyed" id="destroyed">
 </div>
 <br>
 
@@ -31,25 +30,24 @@
     <tr bgcolor="#006dcc">
       <th onclick="sortTable(0)">Brand</th>
       <th onclick="sortTable(1)">Serial</th>
-      <th onclick="sortTable(2)">Total distance</th>
-      <th onclick="sortTable(3)">Vehicle</th>
-      <th onclick="sortTable(4)">Position</th>
+      <th onclick="sortTable(2)">Status</th>
+      <th onclick="sortTable(3)">Total distance</th>
+      <th onclick="sortTable(4)">Vehicle</th>
+      <th onclick="sortTable(5)">Position</th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @tyres.where("tyres.vehicle_id IS NOT NULL").each do |tyre| %>
+    <% @tyres.where(status: "in used").each do |tyre| %>
       <tr class ="in-used-table">
         <td><%= tyre.brand %></td>
         <td><%= tyre.serial %></td>
-        <!-- <td><%= tyre.start_distance %></td> -->
-        <td><%= tyre.total_distance %></td>
-        <!-- <td><%= tyre.status %></td> -->
+        <td><%= tyre.status %></td>
+        <td><%= tyre.total_distance %> km</td>
         <td><%= Vehicle.find(tyre.vehicle_id).plate %></td>
         <td><%= tyre.position %></td>
         <td><%= link_to 'Manage', tyre %></td>
-        <td><%= link_to 'Edit', edit_tyre_path(tyre) %></td>
         <td><%= link_to 'Destroy', tyre, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -61,26 +59,44 @@
     <tr bgcolor="#5cb85c">
       <th>Brand</th>
       <th>Serial</th>
-      <th>Start distance</th>
       <th>Status</th>
-      <th>Vehicle</th>
-      <th>Position</th>
+      <th>Total Distance</th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @tyres.where("tyres.vehicle_id IS NULL").each do |tyre| %>
+    <% @tyres.where(status: "available").each do |tyre| %>
       <tr>
         <td><%= tyre.brand %></td>
         <td><%= tyre.serial %></td>
-        <td><%= tyre.start_distance %></td>
-        <td><%= tyre.total_distance %></td>
         <td><%= tyre.status %></td>
-        <td> - </td>
-        <td> - </td>
+        <td><%= tyre.total_distance %> km</td>
         <td><%= link_to 'Manage', tyre %></td>
-        <td><%= link_to 'Edit', edit_tyre_path(tyre) %></td>
+        <td><%= link_to 'Destroy', tyre, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<table style="display:none" class="table my_table destroyed-table">
+  <thead>
+    <tr bgcolor="red">
+      <th>Brand</th>
+      <th>Serial</th>
+      <th>Status</th>
+      <th>Total Distance</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tyres.where(status: "destroyed").each do |tyre| %>
+      <tr>
+        <td><%= tyre.brand %></td>
+        <td><%= tyre.serial %></td>
+        <td><%= tyre.status %></td>
+        <td><%= tyre.total_distance %> km</td>
         <td><%= link_to 'Destroy', tyre, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -103,16 +119,20 @@
 
   $('#in-used').click(function () {
     $(".un-use-table").css("display","none");
-    $(".drestroyed-table").css("display","none");
+    $(".destroyed-table").css("display","none");
     $(".in-used-table").removeAttr( 'style' );
-    // $(".in-used-table").css("width", 85%);
   });
 
   $('#un-use').click(function () {
     $(".in-used-table").css("display","none");
-    $(".drestroyed-table").css("display","none");
+    $(".destroyed-table").css("display","none");
     $(".un-use-table").removeAttr('style');
-    // $(".un-used-table").css("width", 85%);
+  });
+
+  $('#destroyed').click(function () {
+    $(".in-used-table").css("display","none");
+    $(".un-use-table").css("display","none");
+    $(".destroyed-table").removeAttr('style');
   });
 
 </script>

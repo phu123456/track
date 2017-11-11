@@ -1,52 +1,73 @@
-<%= form_with(model: tyre, local: true) do |form| %>
-  <% if tyre.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(tyre.errors.count, "error") %> prohibited this tyre from being saved:</h2>
+<br>
+<p align="center" style="font-size:155%;">Add New Tyre</p>
+<div class="center-box">
+  <%= form_with(model: tyre, local: true) do |form| %>
+    <% if tyre.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(tyre.errors.count, "error") %> prohibited this tyre from being saved:</h2>
 
-      <ul>
-      <% tyre.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+        <ul>
+        <% tyre.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <!-- <div align="center"> -->
+
+    <div class="col-md-12">
+      <br>
+      <div class="field">
+        <%= form.label :brand %>
+        <input id="tyre_brand" type="text" name="tyre[brand]" class="form-control" placeholder="tyre brand">
+      <div class="field">
+        <%= form.label :serial %>
+        <input id="tyre_serial" name="tyre[serial]" class="form-control" placeholder="serial number"></input>
+      </div>
+
+      <!-- <input id="vehicle_plate" name="vehicle[plate]" class="form-control" placeholder="license plate" ></input> -->
+
+
+      <div class="field">
+        <!-- <%= form.label :start_distance %> -->
+        <%= form.text_field :start_distance, id: :tyre_start_distance, :value => 0, hidden: true %>
+      </div>
+
+      <div class="field">
+        <!-- <%= form.label :total_distance %> -->
+        <%= form.text_field :total_distance, id: :tyre_total_distance, :value => 0, hidden: true %>
+      </div>
+
+      <div class="field">
+        <%= form.label :status %>
+        <input id="tyre_status" value="available" readonly="readonly" type="text" name="tyre[status]" class="form-control">
+      </div>
+
+      <!-- <div class="field">
+        <%= form.label :vehicle_id %>
+        <%= form.select(:vehicle_id, Vehicle.all.map{|vehicle| [vehicle.plate, vehicle.id]}, {:include_blank => 'new tyre'}) %>
+      </div>
+
+      <div class="field">
+        <%= form.label :position %>
+        <%= form.text_field :position, id: :tyre_position %>
+      </div> -->
+      <br>
+      <div class="actions" align="center" >
+        <!-- <%= form.submit %> -->
+        <button class="btn btn-success" type="submit" name="commit" value="Create Tyre" data-disable-with="Create Tyre">Confirm</button>
+      </div>
+      <br>
     </div>
+    <!-- </div> -->
   <% end %>
+</div>
 
-  <div class="field">
-    <%= form.label :brand %>
-    <%= form.text_field :brand, id: :tyre_brand %>
-  </div>
-
-  <div class="field">
-    <%= form.label :serial %>
-    <%= form.text_area :serial, id: :tyre_serial %>
-  </div>
-
-  <div class="field">
-    <%= form.label :start_distance %>
-    <%= form.text_field :start_distance, id: :tyre_start_distance %>
-  </div>
-
-  <div class="field">
-    <%= form.label :total_distance %>
-    <%= form.text_field :total_distance, id: :tyre_total_distance %>
-  </div>
-
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.text_field :status, id: :tyre_status %>
-  </div>
-
-  <div class="field">
-    <%= form.label :vehicle_id %>
-    <%= form.select(:vehicle_id, Vehicle.all.map{|vehicle| [vehicle.plate, vehicle.id]}, {:include_blank => 'new tyre'}) %>
-  </div>
-
-  <div class="field">
-    <%= form.label :position %>
-    <%= form.text_field :position, id: :tyre_position %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+<style>
+  .center-box {
+    border: black 2px solid;
+    height: auto;
+    width: 25%;
+    margin:0 auto;
+  }
+</style>

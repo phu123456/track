@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :tyres do
     collection do
       get 'attach'
+      get 'dettach'
+      get 'destroyed'
       get 'current'
     end
   end

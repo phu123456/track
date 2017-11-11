@@ -17,16 +17,30 @@ class TyresController < ApplicationController
     @tyre = Tyre.find(params[:tyre_id])
     @tyre.update_attribute(:vehicle_id, params[:vehicle_id])
     @tyre.update_attribute(:position, params[:position])
+    @tyre.update_attribute(:status, "in used")
+  end
+
+  def dettach
+    @tyre = Tyre.find(params[:tyre_id])
+    @tyre.update_attribute(:vehicle_id, "")
+    @tyre.update_attribute(:position, "")
+    @tyre.update_attribute(:status, "available")
+  end
+
+  def destroyed
+    @tyre = Tyre.find(params[:tyre_id])
+    @tyre.update_attribute(:vehicle_id, "")
+    @tyre.update_attribute(:position, "")
+    @tyre.update_attribute(:status, "destroyed")
   end
 
   #get all tyre position and display
   def current
-    puts params[:current_vehicle_id].to_json
-      all_tyre_positions = Tyre.where(vehicle_id: params[:current_vehicle_id]).pluck(:position)
-      respond_to do |format|
-        format.html
-        format.json { render json: all_tyre_positions }
-      end
+    all_tyre_positions = Tyre.where(vehicle_id: params[:current_vehicle_id]).pluck(:position)
+    respond_to do |format|
+      format.html
+      format.json { render json: all_tyre_positions }
+    end
   end
 
 
