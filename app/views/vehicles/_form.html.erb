@@ -9,8 +9,9 @@
 </style>
 
 <br>
-<p style="font-size:25px" align="center">New Vehicle</p>
+<p style="font-size:25px" align="center">Add Vehicle</p>
 <div class="center-box container">
+  <br>
   <%= form_with(model: vehicle, local: true) do |form| %>
     <% if vehicle.errors.any? %>
       <div id="error_explanation">

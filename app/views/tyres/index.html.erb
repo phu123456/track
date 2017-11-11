@@ -1,4 +1,8 @@
-<p id="notice"><%= notice %></p>
+<div style="padding:15px;" align="center">
+  <form action="<%= new_tyre_path %>">
+    <button class="btn btn-info" type="submit"><i class="fa fa-plus"></i> Add Tyre</button>
+  </form>
+</div>
 <style>
   .table {
       width: 90%;
@@ -103,7 +107,7 @@
   </tbody>
 </table>
 
-<%= link_to 'New Tyre', new_tyre_path %>
+<!-- <%= link_to 'New Tyre', new_tyre_path %> -->
 
 
 <script>

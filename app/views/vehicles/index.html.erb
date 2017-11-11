@@ -1,14 +1,20 @@
-<p id="notice"><%= notice %></p>
 
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<div style="padding:15px;" align="center">
+  <form action="<%= new_vehicle_path %>">
+    <button class="btn btn-info" type="submit"><i class="fa fa-plus"></i> Add Vehicle</button>
+  </form>
+</div>
 
 <table class="table my_table">
-  <thead>
+  <thead class="thead-light">
     <tr>
       <th>Plate</th>
       <th>Imei</th>
       <th>Distance</th>
       <th>Category</th>
-      <th colspan="3"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -19,7 +25,7 @@
         <td><%= vehicle.imei %></td>
         <td><%= vehicle.distance %></td>
         <td><button onclick="categoryModal(this)" id="<%= vehicle.id %>" type="button" class="my_btn" value="<%= vehicle.category %>"><%= vehicle.category %></button></td>
-        <td><%= link_to 'Show', vehicle %></td>
+        <!-- <td><%= link_to 'Show', vehicle %></td> -->
         <td><%= link_to 'Edit', edit_vehicle_path(vehicle) %></td>
         <td><%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
@@ -29,7 +35,7 @@
 
 <br>
 
-<%= link_to 'New Vehicle', new_vehicle_path %>
+<!-- <%= link_to 'New Vehicle', new_vehicle_path %> -->
 <style>
   .my_table {
       width: 85%;

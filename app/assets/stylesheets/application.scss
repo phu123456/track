@@ -38,9 +38,13 @@
    margin: 0px auto;
 }
 
-.table td {
+.mytable td {
    text-align: center;
    margin: 0px auto;
+   border-collapse: collapse;
+   border-bottom: 1px solid grey;
+  padding: 8px;
+  //  border-right: 1px solid #000;
 }
 
  @import "bootstrap";

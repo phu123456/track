@@ -1,6 +1,10 @@
-<p id="notice"><%= notice %></p>
+<div style="padding:15px;" align="center">
+  <form action="<%= new_maintenance_path %>">
+    <button class="btn btn-info" type="submit"><i class="fa fa-plus"></i> Add Maintenance</button>
+  </form>
+</div>
 <table class="my_table table" style="width: 85%" id="myTable">
-  <thead>
+  <thead class="thead-light">
     <tr>
       <th onclick="sortTable(0)">Vehicle <i class="fa fa-sort" style="font-size:17px;color"></i></th>
       <th onclick="sortTable(1)">Service <i class="fa fa-sort" style="font-size:17px;color"></i></th></th>
@@ -32,7 +36,7 @@
 
 <br>
 
-<%= link_to 'New Maintenance', new_maintenance_path %>
+<!-- <%= link_to 'New Maintenance', new_maintenance_path %> -->
 
 <script>
   $( document ).ready(function() {

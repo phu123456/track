@@ -96,7 +96,6 @@
 
             <div id="real-time" style="background-color: white; height: 84%;">
             <br>
-              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
               <table class="example-table">
                   <thead class="example-thead">
                       <tr align="center">
@@ -246,6 +245,7 @@ $( document ).ready(function() {
 
 
 var current_vehicle_marker_id;
+var current_vehicle_click;
 // document.getElementsByClassName("status").removeClass("stationary");
 // document.getElementsByClassName("status").classList.add("moving2");
 
@@ -293,6 +293,12 @@ function getMarkerInfo(vehicle_id) {
 }
 
 function getMarkerInfoNoZoom(vehicle_id) {
+  // info = $('.marker-info')
+  // for (i = 0; i < info.length; i++) {
+  //   info[i].innerHTML = ''
+  // }
+  // console.log($('.marker-info').length)
+
   $.ajax({
     type:"GET",
     url:"/positions/info",
@@ -304,7 +310,7 @@ function getMarkerInfoNoZoom(vehicle_id) {
       for (i = 0; i < markersArray.length; i++) {
         if (markersArray[i].name[0] == vehicle_id) {
             // console.log("two")
-            var contentString = '<div id="marker-info">Plate: ' + data[0] + '<br>Speed: ' +
+            contentString = '<div class ="marker-info" id="marker-info">Plate: ' + data[0] + '<br>Speed: ' +
                                         data[1] + '<br>Sub-district: ' +
                                         data[2][0] + '<br>District: ' +
                                         data[2][1] + '<br>Province: ' +
@@ -394,9 +400,10 @@ function showHistory(vehicle_id, start, end) {
     if(!isPaused) {
       time++;
       output.text("Seconds: " + time);
-      clearMarker()
+      clearMarker();
       markersArray.length = 0;
-      placeMarker()
+      placeMarker();
+      getMarkerInfoNoZoom(current_vehicle_click);
     }
   }, 16000 );
 
@@ -417,6 +424,11 @@ function showHistory(vehicle_id, start, end) {
               // label: {text: markers[i][0], color: "red"},
               map: map,
           });
+          google.maps.event.addListener(marker, 'click', function () {
+            id = this.name[0]
+            getMarkerInfoNoZoom(id)
+            current_vehicle_click = this.name[0]
+          });
           markersArray.push(marker);
         }
         $('#loader').removeClass('is-active');
@@ -427,6 +439,9 @@ function showHistory(vehicle_id, start, end) {
     });
   }
 
+  function test(a) {
+    console.log(a);
+  }
   function removeLine() {
 
      for (var i = 0; i < flightPathArray.length; i++ ) {
