@@ -1,0 +1,47 @@
+<%= form_with(model: history, local: true) do |form| %>
+  <% if history.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(history.errors.count, "error") %> prohibited this history from being saved:</h2>
+
+      <ul>
+      <% history.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :category %>
+    <%= form.text_field :category, id: :history_category %>
+  </div>
+
+  <div class="field">
+    <%= form.label :vehicle %>
+    <%= form.number_field :vehicle, id: :history_vehicle %>
+  </div>
+
+  <div class="field">
+    <%= form.label :before_value %>
+    <%= form.text_field :before_value, id: :history_before_value %>
+  </div>
+
+  <div class="field">
+    <%= form.label :after_value %>
+    <%= form.text_field :after_value, id: :history_after_value %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email, id: :history_email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :attribute_name %>
+    <%= form.text_field :attribute_name, id: :history_attribute_name %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

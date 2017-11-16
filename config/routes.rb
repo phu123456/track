@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :histories
   devise_for :users
   resources :services
   # resources :maintenances

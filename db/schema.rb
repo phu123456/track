@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171101160841) do
+ActiveRecord::Schema.define(version: 20171116224757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "histories", force: :cascade do |t|
+    t.string "category"
+    t.integer "vehicle"
+    t.string "before_value"
+    t.string "after_value"
+    t.string "email"
+    t.string "attribute_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "maintenances", force: :cascade do |t|
     t.integer "service_id"

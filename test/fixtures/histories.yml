@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  category: MyString
+  vehicle: 1
+  before_value: MyString
+  after_value: MyString
+  email: MyString
+  attribute_name: MyString
+
+two:
+  category: MyString
+  vehicle: 1
+  before_value: MyString
+  after_value: MyString
+  email: MyString
+  attribute_name: MyString
