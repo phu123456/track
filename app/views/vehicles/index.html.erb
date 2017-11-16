@@ -1,12 +1,7 @@
 
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-<div style="padding:15px;" align="center">
-  <form action="<%= new_vehicle_path %>">
-    <button class="btn btn-info" type="submit"><i class="fa fa-plus"></i> Add Vehicle</button>
-  </form>
-</div>
-
+<br>
 <table class="table my_table">
   <thead class="thead-light">
     <tr>
@@ -33,19 +28,22 @@
   </tbody>
 </table>
 
-<br>
+<div style="padding:15px;" align="center">
+  <form action="<%= new_vehicle_path %>">
+    <button class="btn btn-info" type="submit"><i class="fa fa-plus"></i> Add Vehicle</button>
+  </form>
+</div>
 
 <!-- <%= link_to 'New Vehicle', new_vehicle_path %> -->
 <style>
   .my_table {
       width: 85%;
+      height: 55vh !important;
   }
-</style>
+  .my_btn {
+        width: 55%;
+  }
 
-<style>
-.my_btn {
-      width: 55%;
-  }
 </style>
 
 
