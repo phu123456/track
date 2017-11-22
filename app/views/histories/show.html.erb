@@ -5,5 +5,30 @@
   <%= @history.category %>
 </p>
 
+<p>
+  <strong>Vehicle:</strong>
+  <%= @history.vehicle %>
+</p>
+
+<p>
+  <strong>Before value:</strong>
+  <%= @history.before_value %>
+</p>
+
+<p>
+  <strong>After value:</strong>
+  <%= @history.after_value %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @history.email %>
+</p>
+
+<p>
+  <strong>Attribute name:</strong>
+  <%= @history.attribute_name %>
+</p>
+
 <%= link_to 'Edit', edit_history_path(@history) %> |
 <%= link_to 'Back', histories_path %>

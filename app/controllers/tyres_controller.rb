@@ -18,20 +18,43 @@ class TyresController < ApplicationController
     @tyre.update_attribute(:vehicle_id, params[:vehicle_id])
     @tyre.update_attribute(:position, params[:position])
     @tyre.update_attribute(:status, "in used")
+    @history = History.new(category: "tyre",
+                           vehicle: @tyre.vehicle_id,
+                           before_value: "available",
+                           after_value: "in used",
+                           email: params[:email],
+                           attribute_name: "change status")
+    @history.save
   end
 
   def dettach
     @tyre = Tyre.find(params[:tyre_id])
-    @tyre.update_attribute(:vehicle_id, "")
-    @tyre.update_attribute(:position, "")
-    @tyre.update_attribute(:status, "available")
+    @history = History.new(category: "tyre",
+                           vehicle: @tyre.vehicle_id,
+                           before_value: "in used",
+                           after_value: "available",
+                           email: params[:email],
+                           attribute_name: "change status")
+    if @history.save
+      @tyre.update_attribute(:vehicle_id, "")
+      @tyre.update_attribute(:position, "")
+      @tyre.update_attribute(:status, "available")
+    end
   end
 
   def destroyed
     @tyre = Tyre.find(params[:tyre_id])
-    @tyre.update_attribute(:vehicle_id, "")
-    @tyre.update_attribute(:position, "")
-    @tyre.update_attribute(:status, "destroyed")
+    @history = History.new(category: "tyre",
+                           vehicle: @tyre.vehicle_id,
+                           before_value: "in used",
+                           after_value: "destroyed",
+                           email: params[:email],
+                           attribute_name: "change status")
+    if @history.save
+      @tyre.update_attribute(:vehicle_id, "")
+      @tyre.update_attribute(:position, "")
+      @tyre.update_attribute(:status, "destroyed")
+    end
   end
 
   #get all tyre position and display

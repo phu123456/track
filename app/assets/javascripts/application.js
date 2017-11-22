@@ -18,21 +18,6 @@
 //= require_tree .
 //= require bootstrap
 
-$(".reset").click(function() {
-  id = this.id
-  $.ajax({
-    type:"GET",
-    url:"/maintenances/reset",
-    data: {
-      id: id
-    },
-    dataType:"json",
-    success: function(data){
-      // console.log(data[1])
-      document.getElementById("progressBar"+id).innerHTML = '<div class="progress"><div class="'+ data[1] +' role="progressbar" style="width: '+ data[0] +'%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">'+ data[0] +'%</div></div>'
-    }
-  })
-});
 function sortTable(n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.getElementById("myTable");

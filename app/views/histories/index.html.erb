@@ -6,6 +6,12 @@
   <thead>
     <tr>
       <th>Category</th>
+      <th>Vehicle</th>
+      <th>...</th>
+      <th>Before</th>
+      <th>After</th>
+      <th>Changer</th>
+      <th>Date</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,6 +20,12 @@
     <% @histories.each do |history| %>
       <tr>
         <td><%= history.category %></td>
+        <td><%= Vehicle.find(history.vehicle).plate %></td>
+        <td><%= history.attribute_name %></td>
+        <td><%= history.before_value %></td>
+        <td><%= history.after_value %></td>
+        <td><%= history.email %></td>
+        <td><%= history.created_at %></td>
         <td><%= link_to 'Show', history %></td>
         <td><%= link_to 'Edit', edit_history_path(history) %></td>
         <td><%= link_to 'Destroy', history, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -25,3 +37,9 @@
 <br>
 
 <%= link_to 'New History', new_history_path %>
+
+<script>
+  $( document ).ready(function() {
+      $('.history').addClass('active');
+  });
+</script>
