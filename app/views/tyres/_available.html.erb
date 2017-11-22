@@ -82,9 +82,10 @@ $("#attach").click(function() {
     type:"GET",
     url:"/tyres/attach",
     data: {
-      tyre_id: <%= @tyre.id.to_json %>,
+      tyre_id: <%= @tyre.id %>,
       vehicle_id: current_vehicle_id,
-      position: current_selection
+      position: current_selection,
+      email: "<%= current_user.email %>"
     },
     dataType:"json",
     success: function(data){

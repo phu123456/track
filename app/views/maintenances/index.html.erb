@@ -25,7 +25,7 @@
             </div>
           </div>
         </td>
-        <td><button class="reset" id="<%= maintenance.id %>">Reset</button></td>
+        <td><button class="reset" id="<%= maintenance.id %>" name="<%= Service.find(maintenance.service_id).name %>" value="<%= maintenance.vehicle_id %>">Reset</button></td>
         <!-- <td><%= link_to 'Show', maintenance %></td> -->
         <td><%= link_to 'Edit', edit_maintenance_path(maintenance) %></td>
         <td><%= link_to 'Destroy', maintenance, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -41,5 +41,24 @@
 <script>
   $( document ).ready(function() {
       $('.maintenance').addClass('active');
+  });
+
+  $(".reset").click(function() {
+    id = this.id
+    $.ajax({
+      type:"GET",
+      url:"/maintenances/reset",
+      data: {
+        id: id,
+        attribute_name: this.name,
+        email: "<%= current_user.email %>",
+        vehicle: this.value
+      },
+      dataType:"json",
+      success: function(data){
+        // console.log(data[1])
+        document.getElementById("progressBar"+id).innerHTML = '<div class="progress"><div class="'+ data[1] +' role="progressbar" style="width: '+ data[0] +'%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">'+ data[0] +'%</div></div>'
+      }
+    })
   });
 </script>

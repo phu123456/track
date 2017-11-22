@@ -14,6 +14,13 @@ class MaintenancesController < ApplicationController
   end
 
   def reset
+    @history = History.new(category: "maintenance",
+                           vehicle: params[:vehicle],
+                           before_value: "not implement yet",
+                           after_value: "not implement yet",
+                           email: params[:email],
+                           attribute_name: params[:attribute_name])
+    @history.save
     Maintenance.update(params[:id], :start_distance => Maintenance.find(params[:id]).current_distance, :manually_distance => 0)
 
     respond_to do |format|
