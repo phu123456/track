@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+<!-- <%= Tyre.where(status: "destroyed").where(brand: "222222").pluck(:total_distance).to_json %> -->
 <h1>Histories</h1>
 
 <table>
@@ -42,4 +42,6 @@
   $( document ).ready(function() {
       $('.history').addClass('active');
   });
+
+
 </script>

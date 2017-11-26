@@ -4,7 +4,7 @@
     background-image:
       radial-gradient(
         circle,
-        #fd2c2c, #b41212 12px, transparent 12px
+        #fd2c2c, #b41212 10px, transparent 10px
       );
   }
 
@@ -131,7 +131,7 @@
         haha
       </div> -->
 
-      <div id="history" style="background-color: white; display:none; height: 84%;" align="center">
+      <div id="gps-history" style="background-color: white; display:none; height: 84%;" align="center">
 
         <div class="underline" >
           <br>
@@ -471,7 +471,7 @@ function showHistory(vehicle_id, start, end) {
       // $('#loader').addClass('is-active');
       placeMarker()
       isPaused = false;
-      $("#history").hide();
+      $("#gps-history").hide();
       $("#real-time").show();
     })
 
@@ -479,7 +479,7 @@ function showHistory(vehicle_id, start, end) {
       clearMarker()
       isPaused = true;
       $("#real-time").hide();
-      $("#history").show();
+      $("#gps-history").show();
     })
 
     $("#plate-search").keyup(function() {
