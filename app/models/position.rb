@@ -49,7 +49,7 @@ class Position < ApplicationRecord
       ary = Array.new
       if position.nil?
       else
-        ary.push(id, plate, position.latitude, position.longitude)
+        ary.push(id, plate, position.latitude, position.longitude, position.speed)
         allVehiclePos.push(ary)
       end
     end

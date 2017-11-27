@@ -1,4 +1,3 @@
-
 <style>
   .stationary {
     background-image:
@@ -12,15 +11,7 @@
     background-image:
       radial-gradient(
         circle,
-        #00ff00, green 12px, transparent 13px
-      );
-  }
-
-  .moving2 {
-    background-image:
-      radial-gradient(
-        circle,
-        #90ff58, #4ad205 12px, transparent 13px
+        #90ff58, #4ad205 10px, transparent 10px
       );
   }
 
@@ -120,7 +111,7 @@
                     <tr class="v-search" style="border-bottom: 1px solid black;" align="center" onclick="vehicleSearch(this)" id="<%= vehicle.id %>">
                       <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;"></i> <%= vehicle.plate %></td>
                       <td><%= Position.getTime(vehicle.imei) %></td>
-                      <td class="status stationary"></td>
+                      <td id="status-<%= vehicle.id %>" ></td>
                     </tr>
                   <% end %>
                 </tbody>
@@ -435,6 +426,17 @@ function showHistory(vehicle_id, start, end) {
         if (typeof current_vehicle_marker_id != 'undefined') {
           getMarkerInfoNoZoom(current_vehicle_marker_id)
         }
+        for( i = 0; i < data.length; i++ ) {
+          vehicle_id = data[i][0]
+          var element = document.getElementById("status-"+vehicle_id);
+          if (data[i][4] == 0) {
+            element.classList.remove("moving1");
+            element.classList.add("stationary");
+          } else {
+            element.classList.remove("stationary");
+            element.classList.add("moving1");
+          }
+        }
       }
     });
   }
@@ -499,35 +501,7 @@ function showHistory(vehicle_id, start, end) {
           $(this).toggle(id.indexOf(value) !== -1);
       });
     });
-
-
-
-    // function calDegree(x1, y1, x2, y2) {
-    //   var p1 = {
-    //   	x: x1,
-    //   	y: y1
-    //   };
-    //   var p2 = {
-    //   	x: x2,
-    //   	y: y2
-    //   };
-    //   var angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
-    //   if ((-22.5 < angleDeg) && (angleDeg < 22.5)) {
-    //     return "<%= image_path 'green0.png' %>"
-    //   } else if ((22.5 < angleDeg) && (angleDeg < 67.5)) {
-    //     return "<%= image_path 'green45.png' %>"
-    //   } else if ((67.5 < angleDeg) && (angleDeg < 112.5)) {
-    //     return "<%= image_path 'green90.png' %>"
-    //   } else if ((112.5 < angleDeg) && (angleDeg < 157.5)) {
-    //     return "<%= image_path 'green135.png' %>"
-    //   } else if ((-67.5 < angleDeg) && (angleDeg < -22.5)) {
-    //     return "<%= image_path 'green-45.png' %>"
-    //   } else if ((-112.5 < angleDeg) && (angleDeg < -67.5)) {
-    //     return "<%= image_path 'green-90.png' %>"
-    //   } else if ((-157.5 < angleDeg) && (angleDeg < -112.5)) {
-    //     return "<%= image_path 'green-135.png' %>"
-    //   } else return "<%= image_path 'green180.png' %>"
-    // }
+    
 </script>
 
 <!-- Placed at the end of the document so the pages load faster -->

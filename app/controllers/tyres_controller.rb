@@ -5,6 +5,15 @@ class TyresController < ApplicationController
   # GET /tyres.json
   def index
     @tyres = Tyre.all
+    all_tyre = Tyre.all.where(status: "in used")
+    len = all_tyre.length
+    for i in 0..len-1
+      @tyre_distance = Tyre.find(all_tyre[i].id)
+      current_vehicle_distance = Vehicle.find(all_tyre[i].vehicle_id).distance
+      new_tyre_distance = current_vehicle_distance - all_tyre[i].start_distance
+      total_distance = all_tyre[i].total_distance
+      @tyre_distance.update_attribute(:total_distance, new_tyre_distance + total_distance)
+    end
   end
 
   # GET /tyres/1
@@ -16,6 +25,7 @@ class TyresController < ApplicationController
   def attach
     @tyre = Tyre.find(params[:tyre_id])
     @tyre.update_attribute(:vehicle_id, params[:vehicle_id])
+    @tyre.update_attribute(:start_distance, Vehicle.find(params[:vehicle_id]).distance)
     @tyre.update_attribute(:position, params[:position])
     @tyre.update_attribute(:status, "in used")
     @history = History.new(category: "tyre",

@@ -11,5 +11,8 @@
 #
 
 class Vehicle < ApplicationRecord
+  validates :plate, :presence => true, :uniqueness => true
+  validates :imei, :presence => true, :uniqueness => true
+
   has_many :tyres
 end

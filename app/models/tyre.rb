@@ -15,6 +15,8 @@
 
 class Tyre < ApplicationRecord
   belongs_to :vehicle, optional: true
+  validates :serial, :presence => true, :uniqueness => true
+  validates :brand, :presence => true
 
   def self.isEmpty(id)
     if self.where(vehicle_id: id).nil?.!

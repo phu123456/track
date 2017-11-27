@@ -10,11 +10,14 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+
 //= require popper
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require jquery
 //= require jquery_ujs
+//= require Chart.bundle
+//= require chartkick
 //= require_tree .
 //= require bootstrap
 

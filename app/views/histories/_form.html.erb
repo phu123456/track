@@ -2,7 +2,6 @@
   <% if history.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(history.errors.count, "error") %> prohibited this history from being saved:</h2>
-
       <ul>
       <% history.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -16,8 +15,6 @@
     <%= form.text_field :category, id: :history_category %>
   </div>
 
-<<<<<<< HEAD
-=======
   <div class="field">
     <%= form.label :vehicle %>
     <%= form.number_field :vehicle, id: :history_vehicle %>
@@ -43,7 +40,6 @@
     <%= form.text_field :attribute_name, id: :history_attribute_name %>
   </div>
 
->>>>>>> history
   <div class="actions">
     <%= form.submit %>
   </div>
