@@ -344,16 +344,16 @@ function showHistory(vehicle_id, start, end) {
         flightPath = new google.maps.Polyline({
           path: pathCoordinates[0],
           geodesic: true,
-          strokeColor: 'black',
+          strokeColor: 'red',
           strokeOpacity: 1.0,
-          strokeWeight: 2,
-          icons: [{
-              icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                     strokeColor: 'red'
-              },
-              offset: '100%',
-              repeat: '20px'
-          }]
+          strokeWeight: 2
+          // icons: [{
+          //     icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          //            strokeColor: 'red'
+          //     },
+          //     offset: '100%',
+          //     repeat: '20px'
+          // }]
         });
         flightPath.setMap(map);
         flightPathArray.push(flightPath);

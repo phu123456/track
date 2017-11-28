@@ -19,9 +19,9 @@
        <%= submit_tag 'Search', name: nil %>
       <% end %> -->
     <div class="col-md-3">
-      <input type="text" class="fa fa-search form-control" id="plate-search" placeholder="Search for...">
+      <input type="text" class="fa fa-search form-control" id="plate-search" placeholder="Search for vehicle...">
     </div><br>
-    <table class="table table-hover my_table data-table" style="border-color: grey; border-spacing: 2px;" id="myTable">
+    <table class="table table-hover my_table" style="border-color: grey; border-spacing: 2px;" id="myTable">
       <thead class="thead-inverse">
         <tr>
           <th >Plate</i></th>
@@ -31,7 +31,7 @@
           <th colspan="3"></th>
         </tr>
       </thead>
-
+    
       <tbody style="color: #cfd2da; font-weight: 300; font-size: 0.9rem; font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;">
         <% @vehicles.each do |vehicle| %>
           <tr>
