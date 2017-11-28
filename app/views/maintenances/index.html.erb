@@ -1,42 +1,90 @@
-<br>
-<table class="my_table table" style="width: 85%" id="myTable">
-  <thead class="thead-light">
-    <tr>
-      <th onclick="sortTable(0)">Vehicle <i class="fa fa-sort" style="font-size:17px;color"></i></th>
-      <th onclick="sortTable(1)">Service <i class="fa fa-sort" style="font-size:17px;color"></i></th></th>
-      <th onclick="sortTable(2)">Maintenance Due <i class="fa fa-sort" style="font-size:17px;color"></i></th></th>
-      <th colspan="4">Option</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @maintenances.each do |maintenance| %>
-      <tr>
-        <td><%= Vehicle.find(maintenance.vehicle_id).plate %></td>
-        <td><%= Service.find(maintenance.service_id).name %></td>
-        <td width="45%" id="progressBar<%= maintenance.id %>">
-          <div class="progress <%= maintenance.percentage(maintenance.id)%>">
-            <div class="progress-bar <%=maintenance.getStatus(maintenance.id)%>" role="progressbar" style="width: <%= maintenance.percentage(maintenance.id)%>%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-              <font style="color:black;"> <%= maintenance.percentage(maintenance.id)%>% </font>
-            </div>
-          </div>
-        </td>
-        <td><button class="reset" id="<%= maintenance.id %>" name="<%= Service.find(maintenance.service_id).name %>" value="<%= maintenance.vehicle_id %>">Reset</button></td>
-        <!-- <td><%= link_to 'Show', maintenance %></td> -->
-        <td><%= link_to 'Edit', edit_maintenance_path(maintenance) %></td>
-        <td><%= link_to 'Destroy', maintenance, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<div style="padding:15px;" align="center">
-  <form action="<%= new_maintenance_path %>">
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<div class="container-fluid">
+  <div class="row" style="padding-top:50px;">
+<div class="col-md-3">
+<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="color:white;">
+  <a class="nav-item nav-link disabled" style="color:grey; letter-spacing: 1px; text-transform: uppercase;" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Maintenances Dashboard</a>
+  <a class="nav-link active" style="color:white;" id="v-pills-overview-tab" data-toggle="pill" href="#v-pills-overview" role="tab" aria-controls="v-pills-overview" aria-selected="false">Overview</a>
+  <!-- <form action="<%= new_maintenance_path %>">
     <button class="btn btn-info" type="submit"><i class="fa fa-plus"></i> Add Maintenance</button>
   </form>
+  <form action="<%= new_service_path %>">
+    <button class="btn btn-info" type="submit"><i class="fa fa-plus"></i> Add Service</button>
+  </form> -->
+
+  <a class="nav-link" style="color:white;" href="<%= new_maintenance_path %>"><i class="fa fa-plus"></i> New Maintenance</a>
+  <a class="nav-link" style="color:white;" href="<%= new_service_path %>"><i class="fa fa-plus"></i> New Service</a>
+
+</div>
+</div>
+<div class="col-md-9">
+<div class="tab-content" id="v-pills-tabContent">
+  <div class="tab-pane show active" id="v-pills-overview" role="tabpanel" aria-labelledby="v-pills-overview-tab">
+    <table class="my_table table table-hover"  id="myTable">
+      <thead class="thead-light">
+        <tr>
+          <th onclick="sortTable(0)">Vehicle <i class="fa fa-sort" style="font-size:17px;color"></i></th>
+          <th onclick="sortTable(1)">Service <i class="fa fa-sort" style="font-size:17px;color"></i></th></th>
+          <th onclick="sortTable(2)">Maintenance Due <i class="fa fa-sort" style="font-size:17px;color"></i></th></th>
+          <th colspan="4">Option</th>
+        </tr>
+      </thead>
+
+      <tbody style="color: #cfd2da;">
+        <% @maintenances.each do |maintenance| %>
+          <tr>
+            <td><%= Vehicle.find(maintenance.vehicle_id).plate %></td>
+            <td><%= Service.find(maintenance.service_id).name %></td>
+            <td width="45%" id="progressBar<%= maintenance.id %>">
+              <div class="progress <%= maintenance.percentage(maintenance.id)%>">
+                <div class="progress-bar <%=maintenance.getStatus(maintenance.id)%>" role="progressbar" style="width: <%= maintenance.percentage(maintenance.id)%>%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                  <font style="color:black;"> <%= maintenance.percentage(maintenance.id)%>% </font>
+                </div>
+              </div>
+            </td>
+            <td><button class="reset btn-sm btn-info" id="<%= maintenance.id %>" name="<%= Service.find(maintenance.service_id).name %>" value="<%= maintenance.vehicle_id %>">Reset</button></td>
+            <!-- <td><%= link_to 'Show', maintenance %></td> -->
+            <!-- <td><%= link_to 'Edit', edit_maintenance_path(maintenance), class: "btn-sm btn-warning" %></td> -->
+            <td><%= link_to 'Destroy', maintenance, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn-sm btn-danger" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
 </div>
 
-<!-- <%= link_to 'New Maintenance', new_maintenance_path %> -->
+</div>
+
+
+
+<style>
+
+.page-link {
+  color: #51586a;
+  background-color: #252830;
+  border: 1px solid #434857;
+}
+
+.page-item.disabled .page-link{
+  background-color: #51586a;
+  border: 1px solid #ddd;
+}
+
+.my_btn {
+      width: 55%;
+  }
+.nav-pills .nav-link.active {
+  color: #fff;
+  background-color: #1997c6;
+}
+
+.table th {
+  color: white;
+}
+</style>
 
 <script>
   $( document ).ready(function() {

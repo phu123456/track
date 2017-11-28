@@ -1,49 +1,89 @@
-
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-<br>
-<table class="table my_table">
-  <thead class="thead-light">
-    <tr>
-      <th>Plate</th>
-      <th>Imei</th>
-      <th>Distance</th>
-      <th>Category</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
+<div class="container-fluid">
+  <div class="row" style="padding-top:50px;">
+<div class="col-md-3">
+<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="color:white;">
+  <a class="nav-item nav-link disabled" style="color:grey; letter-spacing: 1px; text-transform: uppercase;" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Vehicles Dashboard</a>
+  <a class="nav-link active" style="color:white;" id="v-pills-overview-tab" data-toggle="pill" href="#v-pills-overview" role="tab" aria-controls="v-pills-overview" aria-selected="false">Overview</a>
+  <!-- <a class="nav-link" style="color:white;" id="v-pills-graphs-tab" data-toggle="pill" href="#v-pills-graphs" role="tab" aria-controls="v-pills-graphs" aria-selected="false">Graphs</a> -->
+  <a class="nav-link" style="color:white;" href="<%= new_vehicle_path %>"><i class="fa fa-plus"></i> New Vehicle</a>
 
-  <tbody>
-    <% @vehicles.each do |vehicle| %>
-      <tr>
-        <td><%= vehicle.plate %></td>
-        <td><%= vehicle.imei %></td>
-        <td><%= vehicle.distance %></td>
-        <td><button onclick="categoryModal(this)" id="<%= vehicle.id %>" type="button" class="my_btn" value="<%= vehicle.category %>"><%= vehicle.category %></button></td>
-        <!-- <td><%= link_to 'Show', vehicle %></td> -->
-        <td><%= link_to 'Edit', edit_vehicle_path(vehicle) %></td>
-        <td><%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+</div>
+</div>
+<div class="col-md-9">
+<div class="tab-content" id="v-pills-tabContent">
+  <div class="tab-pane show active" id="v-pills-overview" role="tabpanel" aria-labelledby="v-pills-overview-tab">
+      <!-- <%= form_tag(vehicles_path, method: :get) do %>
+       <%= text_field_tag :term, params[:term] %>
+       <%= submit_tag 'Search', name: nil %>
+      <% end %> -->
+    <div class="col-md-3">
+      <input type="text" class="fa fa-search form-control" id="plate-search" placeholder="Search for...">
+    </div><br>
+    <table class="table table-hover my_table data-table" style="border-color: grey; border-spacing: 2px;" id="myTable">
+      <thead class="thead-inverse">
+        <tr>
+          <th >Plate</i></th>
+          <th >Imei</i></th>
+          <th >Distance</i></th>
+          <th style="width: 35%;">Category</i></th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-<div style="padding:15px;" align="center">
-  <form action="<%= new_vehicle_path %>">
-    <button class="btn btn-info" type="submit"><i class="fa fa-plus"></i> Add Vehicle</button>
-  </form>
+      <tbody style="color: #cfd2da; font-weight: 300; font-size: 0.9rem; font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;">
+        <% @vehicles.each do |vehicle| %>
+          <tr>
+            <td><%= vehicle.plate %></td>
+            <td><%= vehicle.imei %></td>
+            <td><%= vehicle.distance %></td>
+            <td><button onclick="categoryModal(this)" id="<%= vehicle.id %>" type="button" class="my_btn btn-sm" data-toggle="modal" data-target="#myModal" value="<%= vehicle.category %>"><%= vehicle.category %></button></td>
+            <!-- <td><%= link_to 'Show', vehicle, class: "btn-sm btn-info" %></td> -->
+            <td><%= link_to 'Manage', edit_vehicle_path(vehicle), class: "btn-sm btn-warning" %></td>
+            <td><%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn-sm btn-danger" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab"></div>
+</div>
+</div>
+</div>
 </div>
 
-<!-- <%= link_to 'New Vehicle', new_vehicle_path %> -->
-<style>
-  .my_table {
-      width: 85%;
-      height: 55vh !important;
-  }
-  .my_btn {
-        width: 55%;
-  }
 
+
+<style>
+
+.page-link {
+  color: #51586a;
+  background-color: #252830;
+  border: 1px solid #434857;
+}
+
+.page-item.disabled .page-link{
+  background-color: #51586a;
+  border: 1px solid #ddd;
+}
+
+.my_btn {
+      width: 55%;
+  }
+.nav-pills .nav-link.active {
+  color: #fff;
+  background-color: #1997c6;
+}
+
+.table th {
+  color: white;
+  vertical-align: center;
+}
+
+.table th .table td {
+  vertical-align: center;
+}
 </style>
 
 
@@ -69,8 +109,19 @@
 
 <script>
 
+
+
 $( document ).ready(function() {
     $('.vehicle').addClass('active');
+});
+
+$("#plate-search").keyup(function() {
+  var value = this.value;
+  $(".data-table").find("tr").each(function(index) {
+      if (index === -1) return;
+      var id = $(this).find("td").first().text();
+      $(this).toggle(id.indexOf(value) !== -1);
+  });
 });
 
 category_dict={

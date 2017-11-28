@@ -16,8 +16,8 @@ class MaintenancesController < ApplicationController
   def reset
     @history = History.new(category: "maintenance",
                            vehicle: params[:vehicle],
-                           before_value: "not implement yet",
-                           after_value: "not implement yet",
+                           before_value: "need maintenance",
+                           after_value: "repaired",
                            email: params[:email],
                            attribute_name: params[:attribute_name])
     @history.save
