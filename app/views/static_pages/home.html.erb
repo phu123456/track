@@ -1,194 +1,193 @@
 <style>
-  .stationary {
-    background-image:
-      radial-gradient(
-        circle,
-        #fd2c2c, #b41212 10px, transparent 10px
-      );
+.stationary {
+  background-image:
+  radial-gradient(
+    circle,
+    #fd2c2c, #b41212 10px, transparent 10px
+    );
   }
 
   .moving1 {
     background-image:
-      radial-gradient(
-        circle,
-        #90ff58, #4ad205 10px, transparent 10px
+    radial-gradient(
+      circle,
+      #90ff58, #4ad205 10px, transparent 10px
       );
-  }
+    }
 
 
-  .example-table {
+    .example-table {
       border-collapse: collapse;
       margin: 0 auto;
       border: 2px solid black;
       width: auto;
 
-  }
-  .example-thead {
+    }
+    .example-thead {
       background-color: #333;
       color: #fff;
-  }
-  thead,tbody {
+    }
+    thead,tbody {
       display: block;
-  }
-  th,td {
+    }
+    th,td {
       padding: 3px;
       width: 110px;
       box-sizing: border-box;
-  }
-  .tbody {
-    overflow: auto;
-    height: 55vh;
-  }
-   .aaa {
-    height : 90vh;
-  }
+    }
+    .tbody {
+      overflow: auto;
+      height: 55vh;
+    }
+    .aaa {
+      height : 90vh;
+    }
 
-  .underline {
+    .underline {
       height: auto;
       color: #ccc;
       border-bottom: 1px solid black;
-  }
+    }
 
-  .btn-history {
+    .btn-history {
       padding: 6px 9px;
       font-size: 15px;
       border-radius: 5px;
       width:18%;
-  }
+    }
 
-  .btn-confirm {
+    .btn-confirm {
       padding: 6px 9px;
       font-size: 17px;
       border-radius: 5px;
       width:25%;
-  }
+    }
 
     .loader{color:#fff;position:fixed;box-sizing:border-box;left:-9999px;top:-9999px;width:0;height:0;overflow:hidden;z-index:999999}.loader:after,.loader:before{box-sizing:border-box;display:none}.loader.is-active{background-color:rgba(0,0,0,.85);width:100%;height:100%;left:0;top:0}.loader.is-active:after,.loader.is-active:before{display:block}@keyframes rotation{0%{transform:rotate(0)}to{transform:rotate(359deg)}}@keyframes blink{0%{opacity:.5}to{opacity:1}}.loader[data-text]:before{position:fixed;left:0;top:50%;color:currentColor;font-family:Helvetica,Arial,sans-serif;text-align:center;width:100%;font-size:14px}.loader[data-text=""]:before{content:"Loading"}.loader[data-text]:not([data-text=""]):before{content:attr(data-text)}.loader[data-text][data-blink]:before{animation:blink 1s linear infinite alternate}.loader-default[data-text]:before{top:calc(50% - 63px)}.loader-default:after{content:"";position:fixed;width:48px;height:48px;border:8px solid #fff;border-left-color:transparent;border-radius:50%;top:calc(50% - 24px);left:calc(50% - 24px);animation:rotation 1s linear infinite}.loader-default[data-half]:after{border-right-color:transparent}.loader-default[data-inverse]:after{animation-direction:reverse}
 </style>
-<html>
 
-
-<head>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-</head>
-<div class="loader loader-default is-active" data-text id="loader" ></div>
-<div class="container-fluid" style="margin-left: 7.5px">
+    <html>
+    <head>
+      <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    </head>
+    <div class="loader loader-default is-active" data-text id="loader" ></div>
+    <div class="container-fluid" style="margin-left: 7.5px">
       <div class="row pt-3 aaa">
         <nav class="col-sm-3 col-md-4 d-sm-block" style="background-color: #d0d3d8;">
           <br>
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active normal-mode" id="real-time-tab" onclick="removeLine();" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Real Time</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link clear-marker" id="history-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">History</a>
-              </li>
-            </ul>
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active normal-mode" id="real-time-tab" onclick="removeLine();" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Real Time</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link clear-marker" id="history-tab" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">History</a>
+            </li>
+          </ul>
 
-            <div id="real-time" style="background-color: white; height: 84%;">
+          <div id="real-time" style="background-color: white; height: 84%;">
             <br>
-              <table class="example-table">
-                  <thead class="example-thead">
-                      <tr align="center">
-                          <th> Plate </th>
-                          <th> Last Update </th>
-                          <th> Status </th>
-                      </tr>
-                      <tr align="center">
-                          <th><input type="text" id="plate-search" size="9" style="height:23px; "></th>
-                          <!-- <th><input type="text" id="province-search" size="13" style="height:23px;"></th> -->
-                          <th>
-                          <th><select id="selectBox" onchange="changeFunc();">
-                              <option selected value="saab">All</option>
-                              <option value="mercedes">Moving</option>
-                              <option value="audi">Stationary</option>
-                            </select>
-                          </th>
-                      </tr>
-                  </thead>
-                  <tbody class="data-table tbody">
-                    <% @vehicles.each do |vehicle| %>
-                    <tr class="v-search" style="border-bottom: 1px solid black;" align="center" onclick="vehicleSearch(this)" id="<%= vehicle.id %>">
-                      <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;"></i> <%= vehicle.plate %></td>
-                      <td><%= Position.getTime(vehicle.imei) %></td>
-                      <td id="status-<%= vehicle.id %>" ></td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </div>
+            <table class="example-table">
+              <thead class="example-thead">
+                <tr align="center">
+                  <th> Plate </th>
+                  <th> Last Update </th>
+                  <th> Status </th>
+                </tr>
+                <tr align="center">
+                  <th><input type="text" id="plate-search" size="9" style="height:23px; "></th>
+                  <!-- <th><input type="text" id="province-search" size="13" style="height:23px;"></th> -->
+                  <th>
+                    <th><select id="selectBox" onchange="changeFunc();">
+                      <option selected value="saab">All</option>
+                      <option value="mercedes">Moving</option>
+                      <option value="audi">Stationary</option>
+                    </select>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="data-table tbody">
+                <% @vehicles.each do |vehicle| %>
+                <tr class="v-search" style="border-bottom: 1px solid black;" align="center" onclick="vehicleSearch(this)" id="<%= vehicle.id %>">
+                  <td><i class="fa fa-search" style="color:blue;text-shadow:2px 2px 4px #000000;"></i> <%= vehicle.plate %></td>
+                  <td><%= Position.getTime(vehicle.imei) %></td>
+                  <td id="status-<%= vehicle.id %>" ></td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
 
-      <!-- <div class="history">
-        haha
-      </div> -->
+          <!-- <div class="history">
+          haha
+        </div> -->
 
-      <div id="gps-history" style="background-color: white; display:none; height: 84%;" align="center">
+        <div id="gps-history" style="background-color: white; display:none; height: 84%;" align="center">
 
-        <div class="underline" >
-          <br>
-          <font style="color:black">Choose Vehicle: </font>
-          <select id="plate" style="width:115px;" class="js-example-basic-single" name="state">
+          <div class="underline" >
+            <br>
+            <font style="color:black">Choose Vehicle: </font>
+            <select id="plate" style="width:115px;" class="js-example-basic-single" name="state">
               <% @vehicles.each do |vehicle| %>
-                <option value="<%= vehicle.id %>"> <%= vehicle.plate %> </option>
+              <option value="<%= vehicle.id %>"> <%= vehicle.plate %> </option>
               <% end %>
             </select>
-          <br><br>
-        </div>
-
-        <div>
-          <br>
-          <button class="btn btn-danger btn-history" id="6hrs" type="button">6hr</button>
-          <button class="btn btn-danger btn-history" id="12hrs" type="button">12hr</button>
-          <button class="btn btn-primary btn-history" id="1day" type="button">1day</button>
-          <button class="btn btn-danger btn-history" id="2days" type="button">2days</button>
-          <br><br>
-        </div>
-
-        <div class="underline" >
-          <div class="checkbox">
-            <label style="color:black"><input type="checkbox" id="checkbox-status"> Seclect interval</label>
-          </div>
-
-          <div class="interval" style="display:none;">
-            <font style="color:black">From: </font>
-            <input type="datetime-local" id="startDate" >
-            <br><br>
-            <font style="color:black">To: </font>
-            <input id="endDate" type="datetime-local" >
             <br><br>
           </div>
-        </div>
-              <!-- <button onclick="vehicleSearch()" class="search-button">Search</button> -->
-              <!-- <input type="datetime-local" id="startDate" > -->
-              <!-- <br>
-              <font align="center">ถึง</font>
-              <br>
-              <input id="endDate" type="datetime-local" > -->
+
+          <div>
             <br>
-            <button class="btn btn-success btn-confirm" type="button">Confirm</button>
+            <button class="btn btn-danger btn-history" id="6hrs" type="button">6hr</button>
+            <button class="btn btn-danger btn-history" id="12hrs" type="button">12hr</button>
+            <button class="btn btn-primary btn-history" id="1day" type="button">1day</button>
+            <button class="btn btn-danger btn-history" id="2days" type="button">2days</button>
+            <br><br>
+          </div>
+
+          <div class="underline" >
+            <div class="checkbox">
+              <label style="color:black"><input type="checkbox" id="checkbox-status"> Select interval</label>
+            </div>
+
+            <div class="interval" style="display:none;">
+              <font style="color:black">From: </font>
+              <input type="datetime-local" id="startDate" >
+              <br><br>
+              <font style="color:black">To: </font>
+              <input id="endDate" type="datetime-local" >
+              <br><br>
+            </div>
+          </div>
+          <!-- <button onclick="vehicleSearch()" class="search-button">Search</button> -->
+          <!-- <input type="datetime-local" id="startDate" > -->
+          <!-- <br>
+          <font align="center">ถึง</font>
+          <br>
+          <input id="endDate" type="datetime-local" > -->
+          <br>
+          <button class="btn btn-success btn-confirm" type="button">Confirm</button>
           <!-- <button class="search-button clear-marker" >Clear Markers</button>
-        <button class="search-button normal-mode" onclick="removeLine();" >Normal Mode</button> -->
-      </div>
+          <button class="search-button normal-mode" onclick="removeLine();" >Normal Mode</button> -->
+        </div>
 
 
 
-</nav>
-<main class="col-sm-6 ml-sm-auto col-md-8" role="main">
-  <div id="dvMap" style="width: 100%; height: 100%"></div>
-  </main>
-</div>
-</div>
+      </nav>
+      <main class="col-sm-6 ml-sm-auto col-md-8" role="main">
+        <div id="dvMap" style="width: 100%; height: 100%"></div>
+      </main>
+    </div>
+  </div>
 
-<script type="text/javascript">
-window.onload = function () {
-  LoadMap()
-  $('.v-search').css( 'cursor', 'pointer' );
-  $('.interval').hide();
-};
+  <script type="text/javascript">
+  window.onload = function () {
+    LoadMap()
+    $('.v-search').css( 'cursor', 'pointer' );
+    $('.interval').hide();
+  };
 
-$( document ).ready(function() {
+  $( document ).ready(function() {
     $('.root').addClass('active');
-});
+  });
 
   $('#checkbox-status').change(function() {
     if ($(this).is(':checked')) {
@@ -224,10 +223,10 @@ $( document ).ready(function() {
       showHistory(vehicle_id, startDate, endDate);
     } else {
       history_dict = {
-           "6hrs":"<%= 6.hours.ago %>",
-           "12hrs":"<%= 12.hours.ago %>",
-           "1day":"<%= 1.day.ago %>",
-           "2days":"<%= 1.days.ago %>",
+        "6hrs":"<%= 6.hours.ago %>",
+        "12hrs":"<%= 12.hours.ago %>",
+        "1day":"<%= 1.day.ago %>",
+        "2days":"<%= 1.days.ago %>",
       }
       time = history_dict[document.getElementsByClassName("btn-primary")[0].id]
       showHistory(vehicle_id, time,  "<%= Time.now %>");
@@ -235,98 +234,88 @@ $( document ).ready(function() {
   });
 
 
-var current_vehicle_marker_id;
-var current_vehicle_click;
-// document.getElementsByClassName("status").removeClass("stationary");
-// document.getElementsByClassName("status").classList.add("moving2");
+  var current_vehicle_marker_id;
+  var current_vehicle_click;
+  // document.getElementsByClassName("status").removeClass("stationary");
+  // document.getElementsByClassName("status").classList.add("moving2");
 
-function vehicleSearch(obj) {
-  vehicle_id = obj.id
-  current_vehicle_marker_id = vehicle_id
-  info_ary = getMarkerInfo(vehicle_id)
-  all_row = document.getElementsByClassName('v-search')
-  for (i = 0; i < all_row.length; i++) {
-    all_row[i].style = "border-bottom: 1px solid black;"
+  function vehicleSearch(obj) {
+    vehicle_id = obj.id
+    current_vehicle_marker_id = vehicle_id
+    info_ary = getMarkerInfo(vehicle_id)
+    all_row = document.getElementsByClassName('v-search')
+    for (i = 0; i < all_row.length; i++) {
+      all_row[i].style = "border-bottom: 1px solid black;"
+    }
+    document.getElementById(obj.id).setAttribute("style", "background-color: #10e209; border-bottom: 1px solid black;");
+    $('.v-search').css( 'cursor', 'pointer' );
   }
-  document.getElementById(obj.id).setAttribute("style", "background-color: #10e209; border-bottom: 1px solid black;");
-  $('.v-search').css( 'cursor', 'pointer' );
-}
-function getMarkerInfo(vehicle_id) {
-  $.ajax({
-    type:"GET",
-    url:"/positions/info",
-    data: {
-      vehicle_id: vehicle_id
-    },
-    dataType:"json",
-    success: function(data){
-      for (i = 0; i < markersArray.length; i++) {
-        if (markersArray[i].name[0] == vehicle_id) {
+  function getMarkerInfo(vehicle_id) {
+    $.ajax({
+      type:"GET",
+      url:"/positions/info",
+      data: {
+        vehicle_id: vehicle_id
+      },
+      dataType:"json",
+      success: function(data){
+        for (i = 0; i < markersArray.length; i++) {
+          if (markersArray[i].name[0] == vehicle_id) {
             map.setZoom(13);
             map.setCenter(markersArray[i].getPosition());
             // console.log("one")
             // document.getElementById('marker-info').innerHTML = ""
             var contentString = '<div id="marker-info">Plate: ' + data[0] + '<br>Speed: ' +
-                                        data[1] + '<br>Sub-district: ' +
-                                        data[2][0] + '<br>District: ' +
-                                        data[2][1] + '<br>Province: ' +
-                                        data[2][2] +
-                                '</div>'
+            data[1] + '<br>Sub-district: ' +
+            data[2][0] + '<br>District: ' +
+            data[2][1] + '<br>Province: ' +
+            data[2][2] +
+            '</div>'
             var infowindow = new google.maps.InfoWindow({
               content: contentString
             });
             infowindow.open(map, markersArray[i]);
             // console.log("<%= Position.getAddress(1) %>")
+          }
         }
       }
-    }
-  })
-}
+    })
+  }
 
-function getMarkerInfoNoZoom(vehicle_id) {
-  // info = $('.marker-info')
-  // for (i = 0; i < info.length; i++) {
-  //   info[i].innerHTML = ''
-  // }
-  // console.log($('.marker-info').length)
-
-  $.ajax({
-    type:"GET",
-    url:"/positions/info",
-    data: {
-      vehicle_id: vehicle_id
-    },
-    dataType:"json",
-    success: function(data){
-      for (i = 0; i < markersArray.length; i++) {
-        if (markersArray[i].name[0] == vehicle_id) {
-            // console.log("two")
+  function getMarkerInfoNoZoom(vehicle_id) {
+    $.ajax({
+      type:"GET",
+      url:"/positions/info",
+      data: {
+        vehicle_id: vehicle_id
+      },
+      dataType:"json",
+      success: function(data){
+        for (i = 0; i < markersArray.length; i++) {
+          if (markersArray[i].name[0] == vehicle_id) {
             contentString = '<div class ="marker-info" id="marker-info">Plate: ' + data[0] + '<br>Speed: ' +
-                                        data[1] + '<br>Sub-district: ' +
-                                        data[2][0] + '<br>District: ' +
-                                        data[2][1] + '<br>Province: ' +
-                                        data[2][2] +
-                                '</div>'
+            data[1] + '<br>Sub-district: ' +
+            data[2][0] + '<br>District: ' +
+            data[2][1] + '<br>Province: ' +
+            data[2][2] +
+            '</div>'
             var infowindow = new google.maps.InfoWindow({
               content: contentString
             });
             infowindow.open(map, markersArray[i]);
-            // console.log("<%= Position.getAddress(1) %>")
+          }
         }
       }
-    }
-  })
-}
+    })
+  }
 
-var output = $('#txt');
+  var output = $('#txt');
   var isPaused = false;
   var time = 0;
   var flightPath;
   var flightPathArray = [];
 
-function showHistory(vehicle_id, start, end) {
-    // e.preventDefault();
-    // console.log(vehicle_id, start, end)
+  function showHistory(vehicle_id, start, end) {
     isPaused = true;
     clearMarker()
     $.ajax({
@@ -339,7 +328,7 @@ function showHistory(vehicle_id, start, end) {
       },
       dataType:"json",
       success: function(data){
-        console.log(data)
+        // console.log(data[0][0].lat, data[0][0].lng)
         var pathCoordinates = data
         flightPath = new google.maps.Polyline({
           path: pathCoordinates[0],
@@ -354,6 +343,10 @@ function showHistory(vehicle_id, start, end) {
           //     offset: '100%',
           //     repeat: '20px'
           // }]
+        });
+        map = new google.maps.Map(document.getElementById('dvMap'), {
+          center: data[0][0],
+          zoom: 11
         });
         flightPath.setMap(map);
         flightPathArray.push(flightPath);
@@ -371,9 +364,9 @@ function showHistory(vehicle_id, start, end) {
   var map;
   function LoadMap() {
     var mapOptions = {
-        center: new google.maps.LatLng(14.5829178, 100.8755719),
-        zoom: 6,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+      center: new google.maps.LatLng(14.5829178, 100.8755719),
+      zoom: 6,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
     placeMarker()
@@ -409,11 +402,11 @@ function showHistory(vehicle_id, start, end) {
         for( i = 0; i < markers.length; i++ ) {
           var position = new google.maps.LatLng(markers[i][2], markers[i][3]);
           marker = new google.maps.Marker({
-              position: position,
-              name: [markers[i][0], markers[i][1]],
-              icon: "http://maps.google.com/mapfiles/kml/shapes/truck.png",
-              // label: {text: markers[i][0], color: "red"},
-              map: map,
+            position: position,
+            name: [markers[i][0], markers[i][1]],
+            icon: "http://maps.google.com/mapfiles/kml/shapes/truck.png",
+            // label: {text: markers[i][0], color: "red"},
+            map: map,
           });
           google.maps.event.addListener(marker, 'click', function () {
             id = this.name[0]
@@ -446,64 +439,57 @@ function showHistory(vehicle_id, start, end) {
   }
   function removeLine() {
 
-     for (var i = 0; i < flightPathArray.length; i++ ) {
-       flightPathArray[i].setMap(null);
-     }
-   }
-
-  //  var lineSymbol = {
-  //    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-  //    scale: 5,
-  //    strokeWeight:2,
-  //    strokeColor: '#393',
-  //  };
-
-   function animateCircle(line) {
-        var count = 0;
-        window.setInterval(function() {
-          count = (count + 1) % 200;
-
-          var icons = line.get('icons');
-          icons[0].offset = (count / 2) + '%';
-          line.set('icons', icons);
-      }, 20);
+    for (var i = 0; i < flightPathArray.length; i++ ) {
+      flightPathArray[i].setMap(null);
     }
+  }
 
-    $('#real-time-tab').click(function() {
-      // $('#loader').addClass('is-active');
-      placeMarker()
-      isPaused = false;
-      $("#gps-history").hide();
-      $("#real-time").show();
-    })
+  function animateCircle(line) {
+    var count = 0;
+    window.setInterval(function() {
+      count = (count + 1) % 200;
 
-    $('#history-tab').click(function() {
-      clearMarker()
-      isPaused = true;
-      $("#real-time").hide();
-      $("#gps-history").show();
-    })
+      var icons = line.get('icons');
+      icons[0].offset = (count / 2) + '%';
+      line.set('icons', icons);
+    }, 20);
+  }
 
-    $("#plate-search").keyup(function() {
-      var value = this.value;
-      $(".data-table").find("tr").each(function(index) {
-          if (index === -1) return;
-          var id = $(this).find("td").first().text();
-          $(this).toggle(id.indexOf(value) !== -1);
-      });
+  $('#real-time-tab').click(function() {
+    // $('#loader').addClass('is-active');
+    placeMarker()
+    isPaused = false;
+    $("#gps-history").hide();
+    $("#real-time").show();
+  })
+
+  $('#history-tab').click(function() {
+    clearMarker()
+    isPaused = true;
+    $("#real-time").hide();
+    $("#gps-history").show();
+  })
+
+  $("#plate-search").keyup(function() {
+    var value = this.value;
+    $(".data-table").find("tr").each(function(index) {
+      if (index === -1) return;
+      var id = $(this).find("td").first().text();
+      $(this).toggle(id.indexOf(value) !== -1);
     });
+  });
 
-    $("#province-search").keyup(function() {
-      var value = this.value;
-      $(".data-table").find("tr").each(function(index) {
-          if (index === -1) return;
-          var id = $(this).find("td")[1].innerText;
-          $(this).toggle(id.indexOf(value) !== -1);
-      });
+  $("#province-search").keyup(function() {
+    var value = this.value;
+    $(".data-table").find("tr").each(function(index) {
+      if (index === -1) return;
+      var id = $(this).find("td")[1].innerText;
+      $(this).toggle(id.indexOf(value) !== -1);
     });
+  });
 
-</script>
+  </script>
 
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery.min.js"><\/script>')</script>

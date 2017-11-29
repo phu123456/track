@@ -19,17 +19,10 @@
 
 
     <title>Dashboard for Logistics App</title>
-
-    <!-- Bootstrap core CSS -->
-    <!-- <link href="../../../../dist/css/bootstrap-material-design.min.css" rel="stylesheet"> -->
-
-    <!-- Custom styles for this template -->
-    <!-- <link href="dashboard.css" rel="stylesheet"> -->
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= render 'layouts/shim' %>
     <%= csrf_meta_tags %>
     <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
-    <!-- <%= yield :js_html %> -->
   </head>
   <%= render 'layouts/header' unless @user %>
   <body style="background-color: #252830;">
