@@ -1,7 +1,7 @@
 
 <br>
 <p align="center" style="font-size:160%;color:white;">Change Tyre Status</p>
-<div class="center-box bg-light">
+<div class="center-box bg-light" style="display:none;" id="all-content">
   <table class="table my_table">
     <tr>
       <th>Brand</th>
@@ -56,6 +56,7 @@ function showCurrent(tyre) {
             svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
        }
   })
+  $('#all-content').show()
 }
 
 $('#btn-available').click(function() {

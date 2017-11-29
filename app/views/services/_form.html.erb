@@ -11,17 +11,29 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :service_name %>
-  </div>
+  <div class="card text-center mx-auto" style="width:75%;">
+      <div class="card-header"><h1 style="color: black;">Service Form</h1>
+      </div>
+      <div class="card-body">
+      <form class="form-horizontal">
+        <fieldset>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputServiceName" class="form-control-label">Service Name</label>
+        <div class="form-control">
+            <%= form.text_field :name, id: :service_name %>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputServiceDueDistance" class="form-control-label">Due Service Distance</label>
+        <div class="form-control">
+            <%= form.number_field :distance_due, id: :service_distance_due %>
+        </div>
+      </div>
+    </div>
 
-  <div class="field">
-    <%= form.label :distance_due %>
-    <%= form.number_field :distance_due, id: :service_distance_due %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+    <div class="actions">
+      <%= link_to 'Back', maintenances_path, class: "btn btn-info" %>
+      <%= form.submit class: 'btn btn-success' %>
+    </div>
 <% end %>

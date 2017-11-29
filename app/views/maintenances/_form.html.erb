@@ -11,32 +11,39 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :service_id %>
-    <%= form.select(:service_id, Service.all.map{|service| [service.name, service.id]}) %>
-  </div>
-
-  <!-- <div class="field">
-    <%= form.label :start_distance %>
-    <%= form.number_field :start_distance, id: :maintenance_start_distance %>
-  </div>
-
-  <div class="field">
-    <%= form.label :current_distance %>
-    <%= form.number_field :current_distance, id: :maintenance_current_distance %>
-  </div> -->
-
-  <div class="field">
-    <%= form.label :manually_distance %>
-    <%= form.number_field :manually_distance, id: :maintenance_manually_distance %>
-  </div>
-
-  <div class="field">
-    <%= form.label :vehicle_id %>
-    <%= form.select(:vehicle_id, Vehicle.all.map{|vehicle| [vehicle.plate, vehicle.id]}) %>
-  </div>
+  <div class="card text-center mx-auto" style="width:75%;">
+      <div class="card-header"><h1 style="color: black;">Maintenance Form</h1>
+      </div>
+      <div class="card-body">
+      <form class="form-horizontal">
+        <fieldset>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputServiceType" class="form-control-label">Service Type</label>
+        <div class="form-control">
+            <%= form.select(:service_id, Service.all.map{|service| [service.name, service.id]}) %>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputServiceType" class="form-control-label">Vehicle Serviced</label>
+        <div class="form-control">
+            <%= form.select(:vehicle_id, Vehicle.all.map{|vehicle| [vehicle.plate, vehicle.id]}) %>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-4"></div>
+       <div class="form-group col-md-4">
+         <label for="inputStartDistance" class="form-control-label">Manual Distance</label>
+         <div class="form-control">
+             <%= form.number_field :manually_distance, id: :maintenance_manually_distance, placeholder: "0" %>
+         </div>
+       </div>
+     </div>
+   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= link_to 'Back', maintenances_path, class: "btn btn-info" %>
+    <%= form.submit class: 'btn btn-success' %>
   </div>
 <% end %>

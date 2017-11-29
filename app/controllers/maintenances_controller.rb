@@ -59,7 +59,7 @@ class MaintenancesController < ApplicationController
     if Maintenance.where(vehicle_id: @maintenance.vehicle_id).where(service_id: @maintenance.service_id).empty?
       respond_to do |format|
         if @maintenance.save
-          format.html { redirect_to @maintenance, notice: 'Maintenance was successfully created.' }
+          format.html { redirect_to maintenances_path, notice: 'Maintenance was successfully created.' }
           format.json { render :show, status: :created, location: @maintenance }
         else
           format.html { render :new }

@@ -10,19 +10,19 @@
             <a class="nav-link">Home<span class="sr-only"></span></a>
           </li>
           <li class="nav-item vehicle" id="vehicle">
-            <a class="nav-link">Vehicle</a>
+            <a class="nav-link">Vehicles</a>
           </li>
           <li class="nav-item tyre" id="tyre">
             <a class="nav-link">Tyres</a>
           </li>
           <li class="nav-item maintenance" id="maintenance">
-            <a class="nav-link">Maintenances</a>
+            <a class="nav-link" id="maintenance-link" >Maintenances</a>
           </li>
           <li class="nav-item history" id="history">
             <a class="nav-link">Histories</a>
           </li>
-
         </ul>
+
         <!-- <form class="form-inline mt-2 mt-md-0">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -46,6 +46,12 @@
     </nav>
 
     <script>
+    $( document ).ready(function() {
+      if (<%= Maintenance.getNoti %> == true) {
+        $('#maintenance-link').addClass('blink_me')
+      }
+    });
+
       $('#root').click(function() {
         window.location.assign('<%= root_path %>')
       })
@@ -81,5 +87,13 @@
           color: black;
       }
 
+      .blink_me {
+        animation: blinker 1s linear infinite;
+        color:red !important;
+      }
+
+      @keyframes blinker {
+        50% { opacity: 0; }
+      }
 
     </style>
