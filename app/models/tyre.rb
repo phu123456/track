@@ -26,4 +26,13 @@ class Tyre < ApplicationRecord
       return "null"
     end
   end
+
+  def self.getAverage
+    ret_ary = Array.new
+    self.all.where(status:"destroyed").group_by(&:brand).each do |key, array|
+      average = array.sum { |array| array.total_distance }/array.length
+      ret_ary.push([average,key])
+    end
+    ret_ary
+  end
 end

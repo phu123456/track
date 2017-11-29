@@ -5,8 +5,7 @@
   <a class="nav-item nav-link disabled" style="color:grey; letter-spacing: 1px; text-transform: uppercase;" >Tyres Dashboard</a>
   <a class="nav-link active" style="color:white;" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Tyres In Use</a>
   <a class="nav-link" style="color:white;" id="v-pills-available-tab" data-toggle="pill" href="#v-pills-available" role="tab" aria-controls="v-pills-available" aria-selected="false">Tyres Available</a>
-  <a class="nav-link" style="color:white;" id="v-pills-destroyed-tab" data-toggle="pill" href="#v-pills-destroyed" role="tab" aria-controls="v-pills-destroyed" aria-selected="false">Tyres Destroyed</a>
-  <a class="nav-link" style="color:white;" id="v-pills-graphs-tab" data-toggle="pill" href="#v-pills-graphs" role="tab" aria-controls="v-pills-graphs" aria-selected="false">Tyre on Average Failure</a>
+  <a class="nav-link" style="color:white;" id="v-pills-worn-out-tab" data-toggle="pill" href="#v-pills-worn-out" role="tab" aria-controls="v-pills-worn-out" aria-selected="false">Tyres Worn Out</a>
   <!-- <form action="<%= new_tyre_path %>"> -->
   <a class="nav-link" style="color:white;" href="<%= new_tyre_path %>"><i class="fa fa-plus"></i> New Tyre</a>
   <!-- </form> -->
@@ -73,45 +72,43 @@
       </tbody>
     </table>
   </div>
-  <div class="tab-pane fade" id="v-pills-destroyed" role="tabpanel" aria-labelledby="v-pills-destroyed-tab">
-    <table class="table my_table destroyed-table">
-      <thead>
-        <tr bgcolor="red">
-          <th>Brand</th>
-          <th>Serial</th>
-          <th>Status</th>
-          <th>Total Distance</th>
-          <th colspan="2"></th>
-        </tr>
-      </thead>
-
-      <tbody style="color: #cfd2da;">
-        <% @tyres.where(status: "destroyed").each do |tyre| %>
-          <tr>
-            <td><%= tyre.brand %></td>
-            <td><%= tyre.serial %></td>
-            <td><%= tyre.status %></td>
-            <td><%= tyre.total_distance %> km</td>
-            <td><%= link_to 'Destroy', tyre, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn-sm btn-danger" %></td>
+  <div class="tab-pane fade" id="v-pills-worn-out" role="tabpanel" aria-labelledby="v-pills-worn-out-tab">
+    <div align="center">
+      <button style="width:11%;" type="button" id="show-table" class="btn-sm btn-danger">Table</button>
+      <button style="width:11%;" type="button" id="show-graph" class="btn-sm btn-info">Graph</button>
+    </div>
+    <br>
+    <div>
+      <table class="table my_table worn-out-table" id="table-worn-out">
+        <thead>
+          <tr bgcolor="red">
+            <th>Brand</th>
+            <th>Serial</th>
+            <th>Status</th>
+            <th>Total Distance</th>
+            <th colspan="2"></th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-
+        </thead>
+        <tbody style="color: #cfd2da;">
+          <% @tyres.where(status: "destroyed").each do |tyre| %>
+            <tr>
+              <td><%= tyre.brand %></td>
+              <td><%= tyre.serial %></td>
+              <td><%= tyre.status %></td>
+              <td><%= tyre.total_distance %> km</td>
+              <td><%= link_to 'Destroy', tyre, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn-sm btn-danger" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div id="chartContainer" style="width:100%"></div>
   </div>
-  <div class="tab-pane fade" id="v-pills-graphs" role="tabpanel" aria-labelledby="v-pills-graphs-tab">
-     <select id="plate" style="width:115px;" class="js-example-basic-single" name="state">
-        <% @tyres.pluck(:brand).uniq.each do |brand| %>
-          <option value="<%= brand %>"> <%= brand %> </option>
-        <% end %>
-      </select>
-      <%= column_chart Tyre.group(:brand).where(status:"destroyed").average(:total_distance), id: 'chart-id', xtitle: "Distance Till Destroyed", ytitle: "Brand", class: "chartt" %>
-  </div>
+</div>
 </div>
 </div>
 </div>
 
-</div>
 
 <style >
 
@@ -154,3 +151,45 @@
        $(this).toggleClass('active');
    });
 </script>
+
+
+
+
+<script>
+$('#show-graph').click(function(){
+  $('#table-worn-out').hide()
+  var my_data = <%= raw Tyre.getAverage %>
+  var graph_data = []
+  for (i = 0; i < (my_data.length); i++) {
+    graph_data.push({y: my_data[i][0], label: my_data[i][1]})
+  }
+
+  var chart = new CanvasJS.Chart("chartContainer", {
+    animationEnabled: true,
+    theme: "light2", // "light1", "light2", "dark1", "dark2"
+    title:{
+      text: "Tyre Average Distance Worn Out"
+    },
+    axisY: {
+      title: "Distance(km)"
+    },
+    data: [{
+      type: "column",
+      showInLegend: true,
+      legendMarkerColor: "grey",
+      legendText: "Brand",
+      dataPoints: graph_data.reverse()
+    }]
+  });
+  chart.render();
+});
+
+$('#show-table').click(function(){
+  document.getElementById('chartContainer').innerHTML = null;
+  $('#table-worn-out').show()
+});
+</script>
+
+
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>

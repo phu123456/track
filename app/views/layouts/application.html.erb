@@ -26,9 +26,7 @@
   </head>
   <%= render 'layouts/header' unless @user %>
   <body style="background-color: #252830;">
-
     <%= yield %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-
   </body>
 </html>
