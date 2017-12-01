@@ -4,140 +4,140 @@
 <%= form_with(model: vehicle, local: true) do |form| %>
 <br>
 <div class="card text-center mx-auto" style="width:75%;">
-    <div class="card-header"><h1 style="color: black;">Vehicle Form</h1>
-    </div>
-    <div class="card-body">
+  <div class="card-header"><h1 style="color: black;">Vehicle Form</h1>
+  </div>
+  <div class="card-body">
     <form class="form-horizontal">
       <fieldset>
         <% if vehicle.errors.any? %>
-          <div class="col-md-12">
-            <% vehicle.errors.full_messages.each do |message| %>
-              <div class="alert alert-danger">
-                <strong>Error!</strong> <%= message %>
-              </div>
-            <% end %>
+        <div class="col-md-12">
+          <% vehicle.errors.full_messages.each do |message| %>
+          <div class="alert alert-danger">
+            <strong>Error!</strong> <%= message %>
           </div>
+          <% end %>
+        </div>
         <% end %>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="inputPlate" class="form-control-label">Plate Number</label>
-      <div class="form-control">
-        <input id="vehicle_plate" name="vehicle[plate]" class="form-control" placeholder="license plate" ></input>
-      </div>
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputPlate" class="form-control-label">Vehicle Imei</label>
-      <div class="form-control">
-        <input id="vehicle_imei" name="vehicle[imei]" class="form-control" placeholder="devise imei"></input>
-      </div>
-    </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputPlate" class="form-control-label">Plate Number</label>
+            <div class="form-control">
+              <input id="vehicle_plate" name="vehicle[plate]" class="form-control" placeholder="license plate" ></input>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPlate" class="form-control-label">Vehicle Imei</label>
+            <div class="form-control">
+              <input id="vehicle_imei" name="vehicle[imei]" class="form-control" placeholder="devise imei"></input>
+            </div>
+          </div>
 
-  </div>
-  <div class="form-row">
-    <div class="col-md-2"></div>
-    <div class="form-group col-md-8">
-      <label for="inputCategory" class="form-control-label">Vehicle Category</label>
-      <div class="form-control">
-        <button type="button" id="modalTog" class="btn btn-primary" data-toggle="modal">Select Category</button>
-        <div class="type-text" style="display:none;">
-          <br>
-          <font id="show-type" align"center"></font>
         </div>
-        <div id="selected-category"></div>
-        <div style="display:none;">
-          <%= form.text_area :category, id: :vehicle_category, id: "vehicle_category", :readonly => true %>
+        <div class="form-row">
+          <div class="col-md-2"></div>
+          <div class="form-group col-md-8">
+            <label for="inputCategory" class="form-control-label">Vehicle Category</label>
+            <div class="form-control">
+              <button type="button" id="modalTog" class="btn btn-primary" data-toggle="modal">Select Category</button>
+              <div class="type-text" style="display:none;">
+                <br>
+                <font id="show-type" align"center"></font>
+              </div>
+              <div id="selected-category"></div>
+              <div style="display:none;">
+                <%= form.text_area :category, id: :vehicle_category, id: "vehicle_category", :readonly => true %>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6" style="display:none;" >
+            <label for="inputDistance" class="form-control-label">Vehicle Distance</label>
+            <div class="form-control">
+              <%= form.text_area :distance, id: :vehicle_distance, :value => 0 %>
+            </div>
+          </div>
+        </div>
+        <div class="actions form-submit" align="center" style="display:none;" >
+          <%= link_to 'Back', vehicles_path, class: "btn btn-info" %>
+          <button class="btn btn-success" id="form-submit-btn" type="submit" name"theForm" value="Create Vehicle" data-disable-with="Create Vehicle">Confirm<button>
+          </div>
+          <% end %>
+
         </div>
       </div>
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputDistance" class="form-control-label">Vehicle Distance</label>
-      <div class="form-control">
-        <%= form.text_area :distance, id: :vehicle_distance, :value => 0 %>
-      </div>
-    </div>
-  </div>
-  <div class="actions form-submit" align="center" style="display:none;" >
-    <%= link_to 'Back', vehicles_path, class: "btn btn-info" %>
-    <button class="btn btn-success" id="form-submit-btn" type="submit" name"theForm" value="Create Vehicle" data-disable-with="Create Vehicle">Confirm<button>
-  </div>
-<% end %>
 
-</div>
-</div>
+      <div id="myModal" class="modal bd-example-modal-lg fade" role="dialog" aria-hidden="true" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <font align="center">Select Type</font>
+            <div>
+              <table style="margin: 0px auto;" border="1" width="80%">
+                <tr align="center">
+                  <td><br>
+                    <img src="<%= asset_path('4Wheels.svg') %>" height="65%" width="100%">
+                    <button id="4-Wheels" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="4Wheels">Select</button>
+                  </td>
+                  <td><br>
+                    <img src="<%= asset_path('6Wheels.svg') %>" height="65%" width="100%">
 
-<div id="myModal" class="modal bd-example-modal-lg fade" role="dialog" aria-hidden="true" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <font align="center">Select Type</font>
-      <div>
-        <table style="margin: 0px auto;" border="1" width="80%">
-          <tr align="center">
-            <td><br>
-              <img src="<%= asset_path('4Wheels.svg') %>" height="65%" width="100%">
-              <button id="4-Wheels" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="4Wheels">Select</button>
-            </td>
-            <td><br>
-              <img src="<%= asset_path('6Wheels.svg') %>" height="65%" width="100%">
+                    <button id="6-Wheels" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="6Wheels">Select</button>
+                  </td>
+                </tr>
+                <tr align="center">
+                  <td><br>
+                    <img src="<%= asset_path('8WheelsSemi.svg') %>" height="65%" width="100%">
 
-              <button id="6-Wheels" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="6Wheels">Select</button>
-            </td>
-          </tr>
-          <tr align="center">
-            <td><br>
-              <img src="<%= asset_path('8WheelsSemi.svg') %>" height="65%" width="100%">
+                    <button id="8-Wheels-Semi" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="8WheelsSemi">Select</button></td>
+                    <td><br>
+                      <img src="<%= asset_path('10Wheels.svg') %>" height="65%" width="100%">
 
-              <button id="8-Wheels-Semi" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="8WheelsSemi">Select</button></td>
-            <td><br>
-              <img src="<%= asset_path('10Wheels.svg') %>" height="65%" width="100%">
+                      <button id="10-Wheels" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="10Wheels">Select</button>
+                    </td>
+                  </tr>
+                  <tr align="center">
+                    <td><br>
+                      <img src="<%= asset_path('12WheelsTrailer.svg') %>" height="65%" width="100%">
+                      <button id="12-Wheels-Trailer" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="12WheelsTrailer">Select</button>
+                    </td>
+                    <td><br>
+                      <img src="<%= asset_path('12WheelsSemi.svg') %>" height="65%" width="100%">
+                      <button id="12-Wheels-Semi" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="12WheelsSemi">Select</button>
+                    </td>
+                  </tr>
+                </table><br>
+              </div>
+            </div>
+          </div>
+        </div>
 
-              <button id="10-Wheels" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="10Wheels">Select</button>
-            </td>
-          </tr>
-          <tr align="center">
-            <td><br>
-              <img src="<%= asset_path('12WheelsTrailer.svg') %>" height="65%" width="100%">
-              <button id="12-Wheels-Trailer" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="12WheelsTrailer">Select</button>
-            </td>
-            <td><br>
-              <img src="<%= asset_path('12WheelsSemi.svg') %>" height="65%" width="100%">
-              <button id="12-Wheels-Semi" type="button" data-dismiss="modal" class="btn btn-success" onclick="getCategory(this)" name="12WheelsSemi">Select</button>
-            </td>
-          </tr>
-        </table><br>
-      </div>
-    </div>
-  </div>
-</div>
+        <%= content_tag :div, class: "temp_vehicle_info", data: {plate: Vehicle.all.pluck(:plate), imei: Vehicle.all.pluck(:imei)} do %>
+        <% end %>
 
-<%= content_tag :div, class: "temp_vehicle_info", data: {plate: Vehicle.all.pluck(:plate), imei: Vehicle.all.pluck(:imei)} do %>
-<% end %>
-
-<script>
-$('#modalTog').click(function () {
-  $('#myModal').modal('show')
-})
+        <script>
+        $('#modalTog').click(function () {
+          $('#myModal').modal('show')
+        })
 
 
-// $('#myModal').modal('show')
-category_dict={
-     "4Wheels":"<%= asset_path('4Wheels.svg') %>",
-     "6Wheels":"<%= asset_path('6Wheels.svg') %>",
-     "8WheelsSemi":"<%= asset_path('8WheelsSemi.svg') %>",
-     "10Wheels":"<%= asset_path('10Wheels.svg') %>",
-     "12WheelsSemi":"<%= asset_path('12WheelsSemi.svg') %>",
-     "12WheelsTrailer":"<%= asset_path('12WheelsTrailer.svg') %>"
-};
-function getCategory(obj) {
-  document.getElementById('vehicle_category').value = obj.id
-  document.getElementById('selected-category').innerHTML = '<img src="' + category_dict[obj.name] + '"height="60%" width="75%">'
-  document.getElementById('show-type').innerHTML = obj.name.split(/(?=[A-Z])/).join(" ")
-  $(".type-text").show();
-  $(".form-submit").show();
-};
+        // $('#myModal').modal('show')
+        category_dict={
+          "4Wheels":"<%= asset_path('4Wheels.svg') %>",
+          "6Wheels":"<%= asset_path('6Wheels.svg') %>",
+          "8WheelsSemi":"<%= asset_path('8WheelsSemi.svg') %>",
+          "10Wheels":"<%= asset_path('10Wheels.svg') %>",
+          "12WheelsSemi":"<%= asset_path('12WheelsSemi.svg') %>",
+          "12WheelsTrailer":"<%= asset_path('12WheelsTrailer.svg') %>"
+        };
+        function getCategory(obj) {
+          document.getElementById('vehicle_category').value = obj.id
+          document.getElementById('selected-category').innerHTML = '<img src="' + category_dict[obj.name] + '"height="60%" width="75%">'
+          document.getElementById('show-type').innerHTML = obj.name.split(/(?=[A-Z])/).join(" ")
+          $(".type-text").show();
+          $(".form-submit").show();
+        };
 
-// $('#form-submit-btn').click(function () {
-//   document.form.submit();
-//   console.log("haha")
-// });
+        // $('#form-submit-btn').click(function () {
+        //   document.form.submit();
+        //   console.log("haha")
+        // });
 
-</script>
+        </script>

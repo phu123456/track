@@ -1,110 +1,126 @@
+<br>
+<div class="card text-center mx-auto" style="width:75%;">
+  <div class="card-header"><h1 style="color: black;">Insert Tyre</h1>
+  </div>
+  <div class="card-body">
+    <div class="center">
+      <div class="row">
+        <div class="col-md-4"></div>
+        <select id ="my_select" class="form-control col-md-4">
+          <option disabled selected value> - select vehicle - </option>
+          <%= Vehicle.where("vehicles.plate <> ''").each do |vehicle| %>
+          <option id="<%= vehicle.id %>" value="<%= vehicle.category %>"><%= vehicle.plate %> </option>
+          <% end %>
+        </select>
+      </div>
+      </div>
 
-<div class="center">
-  <select id ="my_select">
-    <option disabled selected value> -- select vehicle -- </option>
-    <%= Vehicle.where("vehicles.plate <> ''").each do |vehicle| %>
-        <option id="<%= vehicle.id %>" value="<%= vehicle.category %>"><%= vehicle.plate %> </option>
-    <% end %>
-  </select>
-  <button type="button" id="attach">Save</button
+      <div class="divSvg" id="svgImg" align="center" ></div>
+      <button type="button" class="btn-success btn btn-sm" id="attach" style="display:none;">Confirm</button>
+  </div>
 </div>
 
-<div class="divSvg" id="svgImg" align="center" ></div>
-
-<style>
-.center {
+  <style>
+  .center {
     margin: auto;
     text-align: center;
-}
-</style>
-<script>
+  }
+  </style>
+  <script>
 
-var category = "4Wheels.svg"
-var current_selection;
-var current_vehicle_id;
+  var category = "4Wheels.svg"
+  var current_selection;
+  var current_vehicle_id;
 
-category_dict={
-     "4Wheels":"<%= asset_path('4Wheels.svg') %>",
-     "6Wheels":"<%= asset_path('6Wheels.svg') %>",
-     "8WheelsSemi":"<%= asset_path('8WheelsSemi.svg') %>",
-     "10Wheels":"<%= asset_path('10Wheels.svg') %>",
-     "12WheelsSemi":"<%= asset_path('12WheelsSemi.svg') %>",
-     "12WheelsTrailer":"<%= asset_path('12WheelsTrailer.svg') %>"
-};
+  category_dict={
+    "4Wheels":"<%= asset_path('4Wheels.svg') %>",
+    "6Wheels":"<%= asset_path('6Wheels.svg') %>",
+    "8WheelsSemi":"<%= asset_path('8WheelsSemi.svg') %>",
+    "10Wheels":"<%= asset_path('10Wheels.svg') %>",
+    "12WheelsSemi":"<%= asset_path('12WheelsSemi.svg') %>",
+    "12WheelsTrailer":"<%= asset_path('12WheelsTrailer.svg') %>"
+  };
 
 
 
-$("#my_select").change(function() {
-      $(".divSvg").hide();
-      current_vehicle_id = $(this).children(":selected").attr("id");
-      var category = $(this).children(":selected").attr("value").replace(/[-\-]/g,"")
-      document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=600px; width=550px;  display: none;></object>'
-      getTyresPosition(current_vehicle_id)
-});
+  $("#my_select").change(function() {
+    $(".divSvg").hide();
+    $('#attach').hide();
+    current_vehicle_id = $(this).children(":selected").attr("id");
+    var category = $(this).children(":selected").attr("value").replace(/[-\-]/g,"")
+    document.getElementById('svgImg').innerHTML = '<object data="' + category_dict[category] + '" type="image/svg+xml" id="svg" height=250px; width=400px;  display: none;></object>'
+    getTyresPosition(current_vehicle_id)
+  });
 
-function addListener(data) {
-  var mySVG = document.getElementById("svg");
-  var svgDoc;
-  var new_delta = [];
-  mySVG.addEventListener("load",function() {
-       svgDoc = mySVG.contentDocument;
-       var delta = svgDoc.getElementsByClassName("wheel");
-       function selectedWheel() {
-         for (var i = 0; i < new_delta.length; i++) {
-           svgDoc.getElementById(new_delta[i].id).style.setProperty("fill", "white", "");
-         }
-         svgDoc.getElementById(this.id).style.setProperty("fill", "green", "");
-         current_selection = this.id
-         console.log(this.id)
-       }
+  function addListener(data) {
+    var mySVG = document.getElementById("svg");
+    var svgDoc;
+    var new_delta = [];
+    mySVG.addEventListener("load",function() {
+      svgDoc = mySVG.contentDocument;
+      var delta = svgDoc.getElementsByClassName("wheel");
+      function selectedWheel() {
+        for (var i = 0; i < new_delta.length; i++) {
+          svgDoc.getElementById(new_delta[i].id).style.setProperty("fill", "white", "");
+        }
+        svgDoc.getElementById(this.id).style.setProperty("fill", "green", "");
+        current_selection = this.id
+        console.log(this.id)
+      }
 
-       for (var i = 0; i < delta.length; i++) {
-         if (data.includes(svgDoc.getElementById(delta[i].id).id)) {
-           delta[i].addEventListener('click', takenWheel, false);
-         }
-         else {
-           svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
-           delta[i].addEventListener('click', selectedWheel, false);
-           new_delta.push(delta[i]);
-         }
-       }
-  }, false);
-  $(".divSvg").show();
-}
+      for (var i = 0; i < delta.length; i++) {
+        if (data.includes(svgDoc.getElementById(delta[i].id).id)) {
+          delta[i].addEventListener('click', takenWheel, false);
+        }
+        else {
+          svgDoc.getElementById(delta[i].id).style.setProperty("fill", "white", "");
+          delta[i].addEventListener('click', selectedWheel, false);
+          new_delta.push(delta[i]);
+        }
+      }
+    }, false);
+    $(".divSvg").show();
+  }
 
-function takenWheel() {
-  alert("this positon is not available")
-}
+  function takenWheel() {
+    alert("this positon is not available")
+  }
 
-$("#attach").click(function() {
-  $.ajax({
-    type:"GET",
-    url:"/tyres/attach",
-    data: {
-      tyre_id: <%= @tyre.id %>,
-      vehicle_id: current_vehicle_id,
-      position: current_selection,
-      email: "<%= current_user.email %>"
-    },
-    dataType:"json",
-    success: function(data){
-      window.location.assign('<%= tyres_path %>')
+  $("#attach").click(function() {
+    if (current_selection == null) {
+      alert("WARNING! Please select position")
     }
-  })
-});
-
-function getTyresPosition(vehicle_id) {
-  $.ajax({
-    type:"GET",
-    url:"/tyres/current",
-    data: {
-      current_vehicle_id: vehicle_id
-    },
-    dataType:"json",
-    success: function(data){
-      addListener(data)
+    else {
+      $.ajax({
+        type:"GET",
+        url:"/tyres/attach",
+        data: {
+          tyre_id: <%= @tyre.id %>,
+          vehicle_id: current_vehicle_id,
+          position: current_selection,
+          email: "<%= current_user.email %>"
+        },
+        dataType:"json",
+        success: function(data){
+          window.location.assign('<%= tyres_path %>')
+        }
+      })
     }
-  })
-};
+  });
 
-</script>
+  function getTyresPosition(vehicle_id) {
+    $.ajax({
+      type:"GET",
+      url:"/tyres/current",
+      data: {
+        current_vehicle_id: vehicle_id
+      },
+      dataType:"json",
+      success: function(data){
+        addListener(data)
+        $('#attach').show();
+      }
+    })
+  };
+
+  </script>
